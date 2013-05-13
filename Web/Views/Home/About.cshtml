@@ -1,34 +1,13 @@
-﻿@{
-    ViewBag.Title = "About";
-}
+﻿@model Web.Models.PageModels.AboutPage
 
-<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-    <h2>@ViewBag.Message</h2>
-</hgroup>
+<h1>@Model.PageTitle</h1>
+<div>
+    @using (Html.BeginForm("About", "Home", FormMethod.Post))
+    {
+        @Html.LabelFor(m => m.Form.Note)
+        @Html.TextBoxFor(m => m.Form.Note)
+        <br />
+        <input type="submit" value="submit" />
+    }
+</div>
 
-<article>
-    <p>
-        Use this area to provide additional information.
-    </p>
-
-    <p>
-        Use this area to provide additional information.
-    </p>
-
-    <p>
-        Use this area to provide additional information.
-    </p>
-</article>
-
-<aside>
-    <h3>Aside Title</h3>
-    <p>
-        Use this area to provide additional information.
-    </p>
-    <ul>
-        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-        <li>@Html.ActionLink("About", "About", "Home")</li>
-        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-    </ul>
-</aside>
