@@ -5,13 +5,13 @@
     @using( Html.BeginForm( "Create", "Blog", FormMethod.Post ) )
     {
         <div>@Html.LabelFor( x => x.Form.Author )</div>
-        <div>@Html.TextBoxFor( x => x.Form.Author )</div>
+        <div>@Html.TextBoxFor( x => x.Form.Author, new { @Required = true } )</div>
         <div>@Html.LabelFor( x => x.Form.Title )</div>
-        <div>@Html.TextBoxFor( x => x.Form.Title )</div>
+        <div>@Html.TextBoxFor( x => x.Form.Title, new { @Required = true }  )</div>
         <div>@Html.LabelFor( x => x.Form.Tags )</div>
-        <div>@Html.TextBoxFor( x => x.Form.Tags )</div>
+        <div>@Html.TextBoxFor( x => x.Form.Tags, new { @Required = true, placeholder = "comma separated list" }  )</div>
         <div>@Html.LabelFor( x => x.Form.Body )</div>
-        <div>@Html.TextAreaFor( x => x.Form.Body )</div>
+        <div>@Html.TextAreaFor( x => x.Form.Body, new { @Required = true }  )</div>
         <input type="submit" value="submit" />
     }
 </div>

@@ -78,3 +78,6 @@ UpgradeLog.XML
 
 # NUnit playlists - I am just playing with these for the moment
 *.playlist
+
+# my blog post directory
+posts/

@@ -1,7 +1,9 @@
 ﻿using Application.Interactors;
+using Application.Entities;
 using Data.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -29,6 +31,13 @@ namespace Web.Controllers
 
         public void Create()
         {
+            NameValueCollection formValues = Request.Form;
+            var post = new Post();
+            post.author = formValues["Form.Author"];
+            post.title = formValues["Form.Title"];
+            post.tags = new string[]{ formValues["Form.Tags"] };
+            post.body = formValues["Form.Body"];
+            postInteractor.CreatePost( post );
             Response.Redirect( "Index" );
         }
 
