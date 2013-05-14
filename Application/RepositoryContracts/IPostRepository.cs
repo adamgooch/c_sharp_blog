@@ -9,7 +9,8 @@ namespace Application.RepositoryContracts
 {
     public interface IPostRepository
     {
-        void CreatePost(string title, string body, DateTime date, string author);
-        IEnumerable<Post> GetAllPosts();
+        void SetRootDirectory( string directory );
+        void CreatePost( Post post );
+        IEnumerable<Post> GetAllPosts( string author );
     }
 }

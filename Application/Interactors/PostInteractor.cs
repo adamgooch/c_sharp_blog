@@ -11,25 +11,23 @@ namespace Application.Interactors
     public class PostInteractor : IPostInteractor
     {
         private readonly IPostRepository postRepository;
+        private readonly string rootDirectory = "C:\\Users\\Adam\\Documents\\Visual Studio 2012\\Projects\\Blog\\posts";
 
         public PostInteractor(IPostRepository postRepository)
         {
             this.postRepository = postRepository;
+            postRepository.SetRootDirectory( rootDirectory );
         }
 
-        public void CreatePost(string title, string body, string author)
+        public void CreatePost( Post post )
         {
-            postRepository.CreatePost(title, body, DateTime.Now, author);
+            post.date = DateTime.Now;
+            postRepository.CreatePost( post );
         }
 
-        public Post FindByTitle(string title)
+        public IEnumerable<Post> GetAllPosts( string author )
         {
-            return new Post();
-        }
-
-        public IEnumerable<Post> GetAllPosts()
-        {
-            return postRepository.GetAllPosts();
+            return postRepository.GetAllPosts( author );
         }
     }
 }

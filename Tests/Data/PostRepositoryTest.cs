@@ -1,7 +1,9 @@
-﻿using Data.Repositories;
+﻿using System.Collections.Generic;
+using Data.Repositories;
 using NUnit.Framework;
 using System;
 using System.IO;
+using Application.Entities;
 
 namespace Tests.Data
 {
@@ -9,39 +11,51 @@ namespace Tests.Data
     class PostRepositoryTest
     {
         private PostRepository sut;
-        private string rootDirectory;
-        private readonly string testAuthor = "Adam Gooch";
-        private readonly string testAuthorDirectory = "adam_gooch";
+        private int postNumber = 0;
+        private int authorNumber = 1;
+        private readonly string rootDirectory = "C:\\Users\\Adam\\Documents\\Visual Studio 2012\\Projects\\Blog\\Tests\\bin\\posts";
+        private readonly string testAuthor = "Test Author";
         private readonly DateTime testDate = DateTime.Parse( "April 10, 2013" );
-        private readonly string testTitle = "Test Post";
-        private readonly string testPost = "2013_04_10_Test_Post.html";
+        private readonly string testTitle = "Test Post ";
+        private readonly string testBody = "Lorem ipsum dolor sit amet";
+        private readonly string[] testTag = new string[]{ "Test Tag" };
+        private readonly string testPost = "2013_04_10_Test_Post_";
+        private readonly string testAuthorDirectory = "test_author";
         
         [SetUp]
         public void Setup()
         {
             sut = new PostRepository();
-            rootDirectory = "C:/Users/Adam/Documents/Visual Studio 2012/Projects/Blog/Tests/bin/posts";
             sut.SetRootDirectory( rootDirectory );
         }
 
         [TearDown]
         public void Teardown()
         {
-            var testAuthorPath = string.Format( "{0}/{1}", rootDirectory, testAuthorDirectory );
-            var testFilePath = string.Format( "{0}/{1}", testAuthorPath, testPost );
-            if( File.Exists( testFilePath ) )
-                File.Delete( testFilePath );
-            if( Directory.Exists( testAuthorPath ) )
-                Directory.Delete( testAuthorPath );
+            for( int author = 1; author <= authorNumber; author++ )
+            {
+                var testAuthorPath = string.Format( "{0}\\{1}", 
+                    rootDirectory, testAuthorDirectory + author );
+                for( int post = 1; post <= postNumber; post++ )
+                {
+                    var testFilePath = string.Format( "{0}\\{1}.html", testAuthorPath, testPost + post );
+                    if( File.Exists( testFilePath ) ) File.Delete( testFilePath );
+                }
+                if( Directory.Exists( testAuthorPath ) )
+                    Directory.Delete( testAuthorPath );
+            }
             if( Directory.Exists( rootDirectory ) )
                 Directory.Delete( rootDirectory );
+            postNumber = 0;
+            authorNumber = 1;
         }
 
         [Test]
         public void it_creates_a_directory_for_the_given_author()
         {
-            var expectedDirectory = string.Format( "{0}/{1}", rootDirectory, testAuthorDirectory );
-            sut.CreateAuthorDirectory( testAuthor );
+            var expectedDirectory = string.Format( "{0}\\{1}", 
+                rootDirectory, testAuthorDirectory + authorNumber );
+            sut.CreateAuthorDirectory( testAuthor + authorNumber );
             Assert.IsTrue( Directory.Exists( expectedDirectory ) );
         }
 
@@ -49,36 +63,54 @@ namespace Tests.Data
         public void it_converts_the_date_and_title_into_a_filename()
         {
             var result = sut.FileName( testDate, testTitle );
-            Assert.AreEqual( testPost, result );
+            Assert.AreEqual( testPost + ".html", result );
         }
 
         [Test]
         public void it_creates_a_post_with_the_correct_name()
         {
-            var body = "Test Body";
-            var expectedFile = string.Format( "{0}/{1}/{2}",
-                rootDirectory, testAuthorDirectory, testPost );
-            sut.CreatePost( testTitle, body, testDate, testAuthor );
+            sut.CreatePost( CreateTestPost( authorNumber ) );
+            var expectedFile = string.Format( "{0}\\{1}\\{2}.html",
+                rootDirectory, testAuthorDirectory + authorNumber, testPost + postNumber);
             Assert.IsTrue( File.Exists( expectedFile ) );
         }
 
         [Test]
-        public void it_creates_a_post_with_the_given_content()
+        public void it_maps_a_post_file_to_a_post_object()
         {
-            var body = "<h1>Lorem Ipsum</h1>";
-            var filePath = string.Format( "{0}/{1}/{2}",
-                rootDirectory, testAuthorDirectory, testPost );
-            sut.CreatePost( testTitle, body, testDate, testAuthor );
-            byte[] readBuffer = File.ReadAllBytes( filePath );
-            var fileContents = GetString( readBuffer );
-            Assert.AreEqual( body, fileContents );
+            sut.CreatePost( CreateTestPost( authorNumber ) );
+            var postPath = string.Format( "{0}\\{1}\\{2}.html",
+                rootDirectory, testAuthorDirectory + authorNumber, testPost + postNumber );
+            var result = sut.MapFileToPost( postPath );
+            Assert.AreEqual( testTitle + authorNumber, result.title );
+            Assert.AreEqual( testBody, result.body );
+            Assert.AreEqual( testAuthor + authorNumber, result.author );
+            Assert.AreEqual( testDate, result.date );
+            Assert.AreEqual( testTag, result.tags );
         }
 
-        private string GetString( byte[] bytes )
+        [Test]
+        public void it_gets_all_posts_by_author()
         {
-            char[] chars = new char[bytes.Length / sizeof( char )];
-            System.Buffer.BlockCopy( bytes, 0, chars, 0, bytes.Length );
-            return new string( chars );
+            sut.CreatePost( CreateTestPost( authorNumber ) );
+            sut.CreatePost( CreateTestPost( ++authorNumber ) );
+            sut.CreatePost( CreateTestPost( authorNumber ) );
+            var result = (List<Post>)sut.GetAllPosts( testAuthor + authorNumber );
+            Assert.AreEqual( 2, result.Count );
+        }
+
+        private Post CreateTestPost( int localAuthorNumber )
+        {
+            ++postNumber;
+            var post = new Post
+            {
+                author = testAuthor + localAuthorNumber,
+                date = testDate,
+                title = testTitle + postNumber,
+                body = testBody,
+                tags = testTag
+            };
+            return post;
         }
     }
 }

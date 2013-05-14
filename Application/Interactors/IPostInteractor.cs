@@ -9,8 +9,7 @@ namespace Application.Interactors
 {
     public interface IPostInteractor
     {
-        void CreatePost(string title, string body, string author);
-        Post FindByTitle(string title);
-        IEnumerable<Post> GetAllPosts();
+        void CreatePost( Post post );
+        IEnumerable<Post> GetAllPosts( string author );
     }
 }
