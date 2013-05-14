@@ -75,3 +75,6 @@ Generated_Code #added for RIA/Silverlight projects
 _UpgradeReport_Files/
 Backup/
 UpgradeLog.XML
+
+# NUnit playlists - I am just playing with these for the moment
+*.playlist

@@ -1,0 +1,17 @@
+﻿@model Web.Models.PageModels.NewPostPage
+
+<h1>@Model.PageTitle</h1>
+<div>
+    @using( Html.BeginForm( "Create", "Blog", FormMethod.Post ) )
+    {
+        <div>@Html.LabelFor( x => x.Form.Author )</div>
+        <div>@Html.TextBoxFor( x => x.Form.Author )</div>
+        <div>@Html.LabelFor( x => x.Form.Title )</div>
+        <div>@Html.TextBoxFor( x => x.Form.Title )</div>
+        <div>@Html.LabelFor( x => x.Form.Tags )</div>
+        <div>@Html.TextBoxFor( x => x.Form.Tags )</div>
+        <div>@Html.LabelFor( x => x.Form.Body )</div>
+        <div>@Html.TextAreaFor( x => x.Form.Body )</div>
+        <input type="submit" value="submit" />
+    }
+</div>
