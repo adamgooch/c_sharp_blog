@@ -31,7 +31,7 @@ namespace Web.Controllers
 
         public void Create()
         {
-            NameValueCollection formValues = Request.Form;
+            NameValueCollection formValues = Request.Unvalidated.Form;
             var post = new Post();
             post.author = formValues["Form.Author"];
             post.title = formValues["Form.Title"];

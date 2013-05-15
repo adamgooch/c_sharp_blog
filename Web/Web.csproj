@@ -196,6 +196,82 @@
   <ItemGroup>
     <Content Include="Assets\Scripts\jquery-1.9.1.min.js" />
     <Content Include="Assets\Scripts\modernizr.custom.min.js" />
+    <Content Include="Assets\Scripts\tinymce\license.txt" />
+    <Content Include="Assets\Scripts\tinymce\plugins\advlist\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\anchor\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\autolink\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\autoresize\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\autosave\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\bbcode\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\charmap\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\code\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\compat3x\editable_selects.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\compat3x\form_utils.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\compat3x\mctabs.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\compat3x\tiny_mce_popup.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\compat3x\validate.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\contextmenu\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\directionality\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-cool.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-cry.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-embarassed.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-foot-in-mouth.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-frown.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-innocent.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-kiss.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-laughing.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-money-mouth.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-sealed.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-smile.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-surprised.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-tongue-out.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-undecided.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-wink.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\img\smiley-yell.gif" />
+    <Content Include="Assets\Scripts\tinymce\plugins\emoticons\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\example\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\example_dependency\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\fullpage\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\fullscreen\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\hr\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\image\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\insertdatetime\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\layer\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\legacyoutput\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\link\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\lists\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\media\moxieplayer.swf" />
+    <Content Include="Assets\Scripts\tinymce\plugins\media\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\nonbreaking\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\noneditable\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\pagebreak\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\paste\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\preview\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\print\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\save\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\searchreplace\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\spellchecker\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\tabfocus\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\table\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\template\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\textcolor\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\visualblocks\css\visualblocks.css" />
+    <Content Include="Assets\Scripts\tinymce\plugins\visualblocks\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\visualchars\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\plugins\wordcount\plugin.min.js" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\content.min.css" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\icomoon-small.svg" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\icomoon.svg" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\img\anchor.gif" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\img\loader.gif" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\img\object.gif" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\img\trans.gif" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\img\wline.gif" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\skin.classic.min.css" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\skin.ie7.min.css" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\skin.min.css" />
+    <Content Include="Assets\Scripts\tinymce\themes\modern\theme.min.js" />
+    <Content Include="Assets\Scripts\tinymce\tinymce.min.js" />
     <Content Include="Assets\Styles\Main.css">
       <DependentUpon>Main.chirp.less</DependentUpon>
     </Content>
@@ -269,6 +345,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Blog\Show.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Scripts\tinymce\langs\readme.md" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\icomoon-small.eot" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\icomoon-small.ttf" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\icomoon-small.woff" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\icomoon.eot" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\icomoon.ttf" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\icomoon.woff" />
+    <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\readme.md" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
