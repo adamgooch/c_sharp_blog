@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Application.RepositoryContracts;
-using Application.Entities;
 using System.IO;
 using System.Text.RegularExpressions;
+using Application.Posts.RepositoryContracts;
+using Application.Posts.Entities;
 
 namespace Data.Repositories
 {

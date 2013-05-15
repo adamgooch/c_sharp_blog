@@ -21,7 +21,7 @@ namespace Web
 
             routes.MapRoute(
                 name: "ShowAuthorPosts",
-                url: "{controller}/{author}",
+                url: "Blogs/{author}",
                 defaults: new { controller = "Blog", action = "ShowAuthorPosts" }
             );
 

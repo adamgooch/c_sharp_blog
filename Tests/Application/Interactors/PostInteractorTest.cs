@@ -1,11 +1,11 @@
 ﻿using System;
-using Application.Interactors;
-using AutoMoq;
-using Application.RepositoryContracts;
-using Moq;
-using NUnit.Framework;
 using System.Linq;
-using Application.Entities;
+using Moq;
+using AutoMoq;
+using NUnit.Framework;
+using Application.Posts.Entities;
+using Application.Posts.Interactors;
+using Application.Posts.RepositoryContracts;
 
 namespace Tests.Application.Interactors
 {
@@ -26,7 +26,7 @@ namespace Tests.Application.Interactors
         public void it_sets_the_root_directory_for_posts_to_be_saved_in()
         {
             mocker.GetMock<IPostRepository>()
-                .Verify( x => x.SetRootDirectory( "C:\\Users\\Adam\\Documents\\Visual Studio 2012\\Projects\\Blog\\posts" ) );
+                .Verify( x => x.SetRootDirectory( "C:\\Users\\Adam\\Documents\\Visual Studio 2012\\Projects\\Blog\\site_posts" ) );
         }
 
         [Test]

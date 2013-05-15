@@ -1,13 +1,13 @@
-﻿using Application.Interactors;
-using Application.Entities;
-using Data.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Web.Models.PageModels;
+using Application.Posts.Interactors;
+using Application.Posts.Entities;
+using Data.Repositories;
 
 namespace Web.Controllers
 {

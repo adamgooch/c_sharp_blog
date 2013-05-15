@@ -1,11 +1,8 @@
-﻿using Application.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Application.Posts.Entities;
 
-namespace Application.Interactors
+namespace Application.Posts.Interactors
 {
     public interface IPostInteractor
     {

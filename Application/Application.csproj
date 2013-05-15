@@ -39,11 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\Post.cs" />
-    <Compile Include="Interactors\IPostInteractor.cs" />
-    <Compile Include="Interactors\PostInteractor.cs" />
+    <Compile Include="Posts\Entities\Post.cs" />
+    <Compile Include="Posts\Interactors\IPostInteractor.cs" />
+    <Compile Include="Posts\Interactors\PostInteractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryContracts\IPostRepository.cs" />
+    <Compile Include="Posts\RepositoryContracts\IPostRepository.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

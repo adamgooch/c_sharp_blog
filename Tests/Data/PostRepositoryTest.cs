@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using Data.Repositories;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.IO;
-using Application.Entities;
+using System.Collections.Generic;
+using NUnit.Framework;
+using Data.Repositories;
+using Application.Posts.Entities;
 
 namespace Tests.Data
 {

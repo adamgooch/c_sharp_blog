@@ -1,17 +1,16 @@
-﻿using Application.Entities;
-using Application.RepositoryContracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Application.Posts.Entities;
+using Application.Posts.RepositoryContracts;
 
-namespace Application.Interactors
+namespace Application.Posts.Interactors
 {
     public class PostInteractor : IPostInteractor
     {
         private readonly IPostRepository postRepository;
-        private readonly string rootDirectory = "C:\\Users\\Adam\\Documents\\Visual Studio 2012\\Projects\\Blog\\posts";
+        private readonly string rootDirectory = "C:\\Users\\Adam\\Documents\\Visual Studio 2012\\Projects\\Blog\\site_posts";
 
         public PostInteractor(IPostRepository postRepository)
         {
