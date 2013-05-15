@@ -190,6 +190,7 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\PageModels\NewPostPage.cs" />
     <Compile Include="Models\PageModels\PostIndexPage.cs" />
+    <Compile Include="Models\PageModels\ShowPostPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +266,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Blog\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Blog\Show.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

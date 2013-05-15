@@ -1,3 +1,15 @@
 ﻿@model Web.Models.PageModels.PostIndexPage
 
 <h1>@Model.PageTitle</h1>
+@foreach( var post in Model.Posts )
+{
+    <div>
+    @Html.ActionLink( 
+        string.Format( "{0} - {1} - {2}", @post.date.ToString( "MMM dd, yyyy" ), @post.author, @post.title ),
+        "ShowPost",
+        "Blog",
+        new { @author = @post.author, @blogTitle = @post.title },
+        new {}
+    );
+    </div>
+}

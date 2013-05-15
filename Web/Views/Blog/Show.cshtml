@@ -1,0 +1,6 @@
+﻿@model Web.Models.PageModels.ShowPostPage
+
+<h1>@Model.post.title</h1>
+<h4>By: @Model.post.author</h4>
+<div>@Model.post.date.ToString( "MMM dd, yyyy" )</div>
+<p>@Model.post.body</p>

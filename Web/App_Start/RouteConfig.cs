@@ -14,6 +14,18 @@ namespace Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "ShowPost",
+                url: "{controller}/{author}/{blogTitle}",
+                defaults: new { controller = "Blog", action = "ShowPost" }
+            );
+
+            routes.MapRoute(
+                name: "ShowAuthorPosts",
+                url: "{controller}/{author}",
+                defaults: new { controller = "Blog", action = "ShowAuthorPosts" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
