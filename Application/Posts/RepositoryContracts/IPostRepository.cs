@@ -10,5 +10,6 @@ namespace Application.Posts.RepositoryContracts
         void CreatePost( Post post );
         IEnumerable<Post> GetAllPosts( string author );
         IEnumerable<Post> GetAllPosts();
+        void DeletePost( string author, DateTime date, string title );
     }
 }

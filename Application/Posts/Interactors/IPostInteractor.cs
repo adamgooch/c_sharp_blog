@@ -10,5 +10,6 @@ namespace Application.Posts.Interactors
         IEnumerable<Post> GetAllPosts( string author );
         IEnumerable<Post> GetAllPosts();
         Post GetLatestPost();
+        void DeletePost( string author, DateTime date, string title );
     }
 }

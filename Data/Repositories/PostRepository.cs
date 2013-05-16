@@ -25,6 +25,13 @@ namespace Data.Repositories
             WriteToFile( fullFilePath, post.tags, post.body );
         }
 
+        public void DeletePost( string author, DateTime date, string title )
+        {
+            var fullFilePath = string.Format( "{0}\\{1}\\{2}",
+                rootDirectory, AuthorDirectory( author ), FileName( date, title ) );
+            File.Delete( fullFilePath );
+        }
+
         public void CreateAuthorDirectory( string author )
         {
             var directory = string.Format( "{0}\\{1}", rootDirectory, AuthorDirectory( author ) );

@@ -24,6 +24,11 @@ namespace Application.Posts.Interactors
             postRepository.CreatePost( post );
         }
 
+        public void DeletePost( string author, DateTime date, string title )
+        {
+            postRepository.DeletePost( author, date, title );
+        }
+
         public IEnumerable<Post> GetAllPosts( string author )
         {
             return postRepository.GetAllPosts( author );

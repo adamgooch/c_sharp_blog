@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using Data.Repositories;
 using Application.Posts.Entities;
+using System.Linq;
 
 namespace Tests.Data
 {
@@ -107,6 +108,15 @@ namespace Tests.Data
             sut.CreatePost( CreateTestPost( authorNumber ) );
             var result = (List<Post>)sut.GetAllPosts();
             Assert.AreEqual( 3, result.Count );
+        }
+
+        [Test]
+        public void it_deletes_posts()
+        {
+            sut.CreatePost( CreateTestPost( authorNumber ) );
+            sut.DeletePost( testAuthor + authorNumber, testDate, testTitle + postNumber );
+            var posts = sut.GetAllPosts();
+            Assert.AreEqual( 0, Enumerable.Count( posts ) );
         }
 
         private Post CreateTestPost( int localAuthorNumber )

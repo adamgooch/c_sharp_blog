@@ -69,7 +69,14 @@ namespace Web.Controllers
 
         public void DeletePost()
         {
-            //postInteractor.DeletePost( RouteData.Values["author"], RouteData.Values["title"] );
+            var author = Request.QueryString["author"];
+            var title = Request.QueryString["blogTitle"];
+            var date = DateTime.Parse( Request.QueryString["date"] );
+            postInteractor.DeletePost(
+                author.ToString(),
+                date, 
+                title.ToString()
+            );
             Response.Redirect( "Manage" );
         }
 
