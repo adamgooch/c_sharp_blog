@@ -8,3 +8,6 @@ ul{list-style-type:none}
 #push,#footer{height:40px}
 #footer{background-color:#f0f0f0;text-align:center}
 p.footer{padding:10px}
+.post-section{float:left;width:10em}
+.right-bar{padding-right:10px;margin-right:5px;border-right-width:thin;border-right-style:solid;border-color:#808080}
+.bottom-space{margin-bottom:15px}

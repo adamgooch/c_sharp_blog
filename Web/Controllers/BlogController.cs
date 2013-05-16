@@ -67,6 +67,12 @@ namespace Web.Controllers
             return View( "Index", postIndexPage );
         }
 
+        public void DeletePost()
+        {
+            //postInteractor.DeletePost( RouteData.Values["author"], RouteData.Values["title"] );
+            Response.Redirect( "Manage" );
+        }
+
         public ActionResult Manage()
         {
             @ViewBag.Title = "Manage Blog";
