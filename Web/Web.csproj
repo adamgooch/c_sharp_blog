@@ -194,6 +194,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\glyphicons-halflings-white.png" />
+    <Content Include="Assets\Images\glyphicons-halflings.png" />
+    <Content Include="Assets\Scripts\bootstrap.min.js" />
     <Content Include="Assets\Scripts\jquery-1.9.1.min.js" />
     <Content Include="Assets\Scripts\modernizr.custom.min.js" />
     <Content Include="Assets\Scripts\tinymce\license.txt" />
@@ -272,6 +275,8 @@
     <Content Include="Assets\Scripts\tinymce\skins\lightgray\skin.min.css" />
     <Content Include="Assets\Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Assets\Scripts\tinymce\tinymce.min.js" />
+    <Content Include="Assets\Styles\bootstrap-responsive.min.css" />
+    <Content Include="Assets\Styles\bootstrap.min.css" />
     <Content Include="Assets\Styles\Main.css">
       <DependentUpon>Main.chirp.less</DependentUpon>
     </Content>
@@ -318,7 +323,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Assets\Images\" />
     <Folder Include="Views\Templates\" />
   </ItemGroup>
   <ItemGroup>
