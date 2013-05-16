@@ -29,6 +29,11 @@ namespace Application.Posts.Interactors
             postRepository.DeletePost( author, date, title );
         }
 
+        public void EditPost( Post post )
+        {
+            postRepository.CreatePost( post );
+        }
+
         public IEnumerable<Post> GetAllPosts( string author )
         {
             return postRepository.GetAllPosts( author );
@@ -44,6 +49,12 @@ namespace Application.Posts.Interactors
             var allPosts = postRepository.GetAllPosts();
             var latestPostDate = allPosts.Max( x => x.date );
             return allPosts.First( x => x.date == latestPostDate );
+        }
+
+        public Post GetPost( string author, string title )
+        {
+            var authorPosts = GetAllPosts( author );
+            return authorPosts.First( x => x.title == title );
         }
     }
 }

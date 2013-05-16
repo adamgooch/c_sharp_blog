@@ -188,6 +188,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\PageModels\EditPostPage.cs" />
     <Compile Include="Models\PageModels\HomePage.cs" />
     <Compile Include="Models\PageModels\ManageBlogPage.cs" />
     <Compile Include="Models\PageModels\NewPostPage.cs" />
@@ -364,6 +365,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Blog\Manage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Blog\Edit.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -87,5 +87,27 @@ namespace Web.Controllers
             manageBlogPage.PageTitle = "Manage";
             return View( "Manage", manageBlogPage );
         }
+
+        public ActionResult EditPost()
+        {
+            @ViewBag.Title = "Edit Post";
+            var author = Request.QueryString["author"];
+            var title = Request.QueryString["blogTitle"];
+            var editPostPage = new EditPostPage( postInteractor, author.ToString(), title.ToString() );
+            editPostPage.PageTitle = "New Post";
+            return View( "Edit", editPostPage );
+        }
+
+        [HttpPost]
+        public void Edit()
+        {
+            NameValueCollection formValues = Request.Unvalidated.Form;
+            var post = postInteractor.GetPost( formValues["Form.Author"], formValues["Form.Title"] );
+            post.title = formValues["Form.Title"];
+            post.tags = new string[] { formValues["Form.Tags"] };
+            post.body = formValues["Form.Body"];
+            postInteractor.EditPost( post );
+            Response.Redirect( "Index" );
+        }
     }
 }

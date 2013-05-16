@@ -1,8 +1,8 @@
-﻿@model Web.Models.PageModels.NewPostPage
+﻿@model Web.Models.PageModels.EditPostPage
 
 <h1>@Model.PageTitle</h1>
 <div>
-    @using( Html.BeginForm( "Create", "Blog", FormMethod.Post ) )
+    @using( Html.BeginForm( "Edit", "Blog", FormMethod.Post ) )
     {
         <div>@Html.LabelFor( x => x.Form.Author )</div>
         <div>@Html.TextBoxFor( x => x.Form.Author, new { @Required = true } )</div>
