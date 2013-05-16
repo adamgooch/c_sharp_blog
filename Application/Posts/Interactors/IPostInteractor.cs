@@ -8,5 +8,7 @@ namespace Application.Posts.Interactors
     {
         void CreatePost( Post post );
         IEnumerable<Post> GetAllPosts( string author );
+        IEnumerable<Post> GetAllPosts();
+        Post GetLatestPost();
     }
 }

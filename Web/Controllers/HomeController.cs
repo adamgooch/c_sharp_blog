@@ -5,20 +5,25 @@ using System.Web;
 using System.Web.Mvc;
 using Web.Models.PageModels;
 using Data.Repositories;
+using Application.Posts.Interactors;
 
 namespace Web.Controllers
 {
     public class HomeController : Controller
     {
-        
+        private IPostInteractor postInteractor;
+
         public HomeController()
         {
-            
+            var postRepository = new PostRepository();
+            postInteractor = new PostInteractor( postRepository );
         }
         
         public ActionResult Index()
         {
-            return View();
+            var homePage = new HomePage( postInteractor );
+            homePage.PageTitle = "Adam Gooch";
+            return View( "Index", homePage );
         }
 
         public ActionResult Post(int id)

@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Application.Posts.Entities;
 using Application.Posts.Interactors;
 using Application.Posts.RepositoryContracts;
+using System.Collections.Generic;
 
 namespace Tests.Application.Interactors
 {
@@ -53,17 +54,30 @@ namespace Tests.Application.Interactors
             var post1 = new Post();
             var post2 = new Post();
             var post3 = new Post();
-            var allPosts = new Post[]
-            {
-                post1,
-                post3
-            };
+            var allPosts = new List<Post> { post1, post3 };
             mocker.GetMock<IPostRepository>()
                 .Setup( x => x.GetAllPosts( author ) )
                 .Returns( allPosts );
 
             var result = sut.GetAllPosts( author );
+
             Assert.AreEqual( 2, result.Count() );
+        }
+
+        [Test]
+        public void it_gets_the_latest_post()
+        {
+            var post1 = new Post { date = DateTime.Parse( "April 4, 2013" ) };
+            var post2 = new Post { date = DateTime.Parse( "April 2, 2013" ) };
+            var post3 = new Post { date = DateTime.Parse( "April 3, 2013" ) };
+            var allPosts = new List<Post> { post1, post2, post3 };
+            mocker.GetMock<IPostRepository>()
+                .Setup( x => x.GetAllPosts() )
+                .Returns( allPosts );
+
+            var result = sut.GetLatestPost();
+
+            Assert.AreEqual( post1, result );
         }
     }
 }

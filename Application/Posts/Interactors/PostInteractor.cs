@@ -28,5 +28,17 @@ namespace Application.Posts.Interactors
         {
             return postRepository.GetAllPosts( author );
         }
+
+        public IEnumerable<Post> GetAllPosts()
+        {
+            return postRepository.GetAllPosts();
+        }
+
+        public Post GetLatestPost()
+        {
+            var allPosts = postRepository.GetAllPosts();
+            var latestPostDate = allPosts.Max( x => x.date );
+            return allPosts.First( x => x.date == latestPostDate );
+        }
     }
 }

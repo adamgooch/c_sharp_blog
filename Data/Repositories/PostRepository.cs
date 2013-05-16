@@ -87,7 +87,30 @@ namespace Data.Repositories
             }
             return posts;
         }
-        
+
+        public IEnumerable<Post> GetAllPosts()
+        {
+            var allPosts = new List<Post>();
+            foreach( var postPath in GetAllFiles() )
+            {
+                allPosts.Add( MapFileToPost( postPath ) );
+            }
+            return allPosts;
+        }
+
+        private List<string> GetAllFiles()
+        {
+            var files = new List<string>();
+            foreach( string authors in Directory.GetDirectories( rootDirectory ) )
+            {
+                foreach( string file in Directory.GetFiles( authors ) )
+                {
+                    files.Add( file );
+                }
+            }
+            return files;
+        }
+
         public Post MapFileToPost( string filePath )
         {
             byte[] readBuffer = File.ReadAllBytes( filePath );

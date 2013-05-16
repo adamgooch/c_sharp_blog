@@ -21,10 +21,5 @@ namespace Web.Models.PageModels
         {
             Posts = (List<Post>)postInteractor.GetAllPosts( author );
         }
-
-        public string FormatDate( DateTime date )
-        {
-            return date.ToString( "MMMM dd, yyyy" );
-        }
     }
 }

@@ -9,5 +9,6 @@ namespace Application.Posts.RepositoryContracts
         void SetRootDirectory( string directory );
         void CreatePost( Post post );
         IEnumerable<Post> GetAllPosts( string author );
+        IEnumerable<Post> GetAllPosts();
     }
 }

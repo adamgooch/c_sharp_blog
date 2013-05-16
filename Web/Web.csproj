@@ -188,6 +188,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\PageModels\HomePage.cs" />
+    <Compile Include="Models\PageModels\ManageBlogPage.cs" />
     <Compile Include="Models\PageModels\NewPostPage.cs" />
     <Compile Include="Models\PageModels\PostIndexPage.cs" />
     <Compile Include="Models\PageModels\ShowPostPage.cs" />
@@ -359,6 +361,9 @@
     <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\icomoon.ttf" />
     <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\icomoon.woff" />
     <Content Include="Assets\Scripts\tinymce\skins\lightgray\fonts\readme.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Blog\Manage.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

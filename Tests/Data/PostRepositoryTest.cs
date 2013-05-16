@@ -99,6 +99,16 @@ namespace Tests.Data
             Assert.AreEqual( 2, result.Count );
         }
 
+        [Test]
+        public void it_gets_all_posts()
+        {
+            sut.CreatePost( CreateTestPost( authorNumber ) );
+            sut.CreatePost( CreateTestPost( ++authorNumber ) );
+            sut.CreatePost( CreateTestPost( authorNumber ) );
+            var result = (List<Post>)sut.GetAllPosts();
+            Assert.AreEqual( 3, result.Count );
+        }
+
         private Post CreateTestPost( int localAuthorNumber )
         {
             ++postNumber;

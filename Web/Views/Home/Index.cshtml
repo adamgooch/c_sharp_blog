@@ -1,15 +1,17 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿@model Web.Models.PageModels.HomePage
+
 @section featured {
     <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-            </hgroup>
-            <p>
-                Hey there, why don't you check out the blog!
-            </p>
-        </div>
+        @if( @Model.LatestPost != null )
+        {
+          <h1>@Model.LatestPost.title</h1>
+          <h4>By: @Model.LatestPost.author</h4>
+          <div>@Model.LatestPost.date.ToString( "MMM dd, yyyy" )</div>
+          @Html.Raw( @Model.LatestPost.body )
+        }
+        else
+        {
+          <h1>What Happened?</h1>
+        }
     </section>
 }

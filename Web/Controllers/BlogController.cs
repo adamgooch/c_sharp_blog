@@ -66,5 +66,13 @@ namespace Web.Controllers
             postIndexPage.PageTitle = string.Format( "{0} Posts", author );
             return View( "Index", postIndexPage );
         }
+
+        public ActionResult Manage()
+        {
+            @ViewBag.Title = "Manage Blog";
+            var manageBlogPage = new ManageBlogPage( postInteractor );
+            manageBlogPage.PageTitle = "Manage";
+            return View( "Manage", manageBlogPage );
+        }
     }
 }
