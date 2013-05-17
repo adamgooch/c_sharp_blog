@@ -1,17 +1,15 @@
 ﻿@model Web.Models.PageModels.HomePage
 
-@section featured {
-    <section class="featured">
-        @if( @Model.LatestPost != null )
-        {
-          <h1>@Model.LatestPost.title</h1>
-          <h4>By: @Model.LatestPost.author</h4>
-          <div>@Model.LatestPost.date.ToString( "MMM dd, yyyy" )</div>
-          @Html.Raw( @Model.LatestPost.body )
-        }
-        else
-        {
-          <h1>What Happened?</h1>
-        }
-    </section>
-}
+<section class="featured">
+  @if( @Model.LatestPost != null )
+  {
+    <h1>@Model.LatestPost.title</h1>
+    <h4>By: @Model.LatestPost.author</h4>
+    <div>@Model.LatestPost.date.ToString( "MMM dd, yyyy" )</div>
+    @Html.Raw( @Model.LatestPost.body )
+  }
+  else
+  {
+    <h1>No Blogs Here!</h1>
+  }
+</section>

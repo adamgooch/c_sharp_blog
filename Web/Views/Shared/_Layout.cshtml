@@ -36,10 +36,14 @@
         </header>
 
         <div id="content" class="container-fluid">
-          @RenderSection("featured", required: false)
-          <section class="main-content">
-            @RenderBody()
-          </section>
+          <div class="row-fluid">
+            <div class="main-content span8">
+              @RenderBody()
+            </div>
+            <div class="side-bar span4">
+              @Html.Partial( "_SidebarPartial" )
+            </div>
+          </div>
         </div>
       </div>
       <div id="push"></div>
