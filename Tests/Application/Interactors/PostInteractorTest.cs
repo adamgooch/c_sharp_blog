@@ -7,6 +7,7 @@ using Application.Posts.Entities;
 using Application.Posts.Interactors;
 using Application.Posts.RepositoryContracts;
 using System.Collections.Generic;
+using SimpleCrypto;
 
 namespace Tests.Application.Interactors
 {
@@ -78,6 +79,23 @@ namespace Tests.Application.Interactors
             var result = sut.GetLatestPost();
 
             Assert.AreEqual( post1, result );
+        }
+
+        [Test]
+        public void nice()
+        {
+            var rawr = new PBKDF2();
+            var salt = "100000.WbcQTNKsUv1bTXP+iwYKma/JUKSI6g9rxpLcBd2Mnh2ftg==";
+            // 7$eWn9TB7W59pQdb
+            // hashed	"EcUA+aypFGs4WUKHy/zPqExG4Ju8zD9SNCATSA3tC6aZ37Ei2eczzt1/37z0plWdRuAsMJZdG1EC4ASwENPS/w=="	string
+
+            // salt	    "100000.WbcQTNKsUv1bTXP+iwYKma/JUKSI6g9rxpLcBd2Mnh2ftg=="	string
+
+
+            var hashed = "SxV!dHsB!b!z!BE2!Aq2FsKUn!QkZPNbGG*&b$46sFBcCVVnE6EMY%HZFdSe32a";
+            var result = rawr.Compute( hashed, salt );
+            var result2 = rawr.Compute( hashed, salt );
+            Assert.AreEqual( result, result2 );
         }
     }
 }

@@ -23,10 +23,18 @@ namespace Web.Controllers
 
         public ActionResult New()
         {
-            @ViewBag.Title = "New Post";
-            var newPostPage = new NewPostPage();
-            newPostPage.PageTitle = "New Post";
-            return View( "New", newPostPage );
+            if( LoggedIn() )
+            {
+                @ViewBag.Title = "New Post";
+                var newPostPage = new NewPostPage();
+                newPostPage.PageTitle = "New Post";
+                return View( "New", newPostPage );
+            }
+            else
+            {
+                var loginPage = new LoginPage { ReturnUrl = "Blog/New" };
+                return View( "Login", loginPage );
+            }
         }
 
         public void Create()
@@ -108,6 +116,13 @@ namespace Web.Controllers
             post.body = formValues["Form.Body"];
             postInteractor.EditPost( post );
             Response.Redirect( "Index" );
+        }
+
+        private bool LoggedIn()
+        {
+            return Session["id_1"] == System.Configuration.ConfigurationManager.AppSettings["SessionValue1"] &&
+                Session["id_2"] == System.Configuration.ConfigurationManager.AppSettings["SessionValue2"] &&
+                Session["id_3"] == System.Configuration.ConfigurationManager.AppSettings["SessionValue3"];
         }
     }
 }

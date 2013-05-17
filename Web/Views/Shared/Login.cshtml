@@ -1,0 +1,13 @@
+﻿@model Web.Models.PageModels.LoginPage
+<h2>Login</h2>
+<div>
+  @using( Html.BeginForm( "Login", "Account", FormMethod.Post, new { ReturnUrl = "Blog/New" } ) )
+  {
+    @Html.AntiForgeryToken()
+    <div>@Html.LabelFor( x => x.UserName )</div>
+    <div>@Html.TextBoxFor( x => x.UserName, new { @Required = true } )</div>
+    <div>@Html.LabelFor( x => x.Password )</div>
+    <div>@Html.TextBoxFor( x => x.Password, new { @Required = true } )</div>
+    <input type="submit" value="Login" />
+  }
+</div>
