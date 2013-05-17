@@ -49,14 +49,6 @@ namespace Web.Controllers
             Response.Redirect( "Index" );
         }
 
-        public ActionResult Index()
-        {
-            @ViewBag.Title = "All Posts";
-            var postIndexPage = new PostIndexPage( postInteractor );
-            postIndexPage.PageTitle = "All Posts";
-            return View( "Index", postIndexPage );
-        }
-
         public ActionResult ShowPost()
         {
             var author = RouteData.Values["author"];
@@ -64,15 +56,6 @@ namespace Web.Controllers
             @ViewBag.Title = title;
             var showPostPage = new ShowPostPage( postInteractor, author.ToString(), title.ToString() );
             return View( "Show", showPostPage );
-        }
-
-        public ActionResult ShowAuthorPosts()
-        {
-            var author = RouteData.Values["author"].ToString().Replace( '_', ' ' );
-            @ViewBag.Title = string.Format( "{0} Posts", author );
-            var postIndexPage = new PostIndexPage( postInteractor, author );
-            postIndexPage.PageTitle = string.Format( "{0} Posts", author );
-            return View( "Index", postIndexPage );
         }
 
         public void DeletePost()

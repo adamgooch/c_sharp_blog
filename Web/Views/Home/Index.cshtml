@@ -1,10 +1,9 @@
 ﻿@model Web.Models.PageModels.HomePage
 
-<section class="featured">
+<div class="main-content span8">
   @if( @Model.LatestPost != null )
   {
     <h1>@Model.LatestPost.title</h1>
-    <h4>By: @Model.LatestPost.author</h4>
     <div>@Model.LatestPost.date.ToString( "MMM dd, yyyy" )</div>
     @Html.Raw( @Model.LatestPost.body )
   }
@@ -12,4 +11,7 @@
   {
     <h1>No Blogs Here!</h1>
   }
-</section>
+</div>
+<div class="side-bar span3 offset1">
+  @Html.Partial( "_SidebarPartial" )
+</div>

@@ -1,1 +1,33 @@
-﻿<h2>_SidebarPartial</h2>
+﻿<img src="/assets/images/Profile.jpg" alt="Adam" id="profile-pic"/>
+<h4>About Me</h4>
+<p>
+  I am a software craftsman at <a href="8thlight.com">8th Light</a> where I get to work in many
+  different technologies. As most progammers do, I love software and technology in general. I
+  used to program in the Audio Visual industry and enjoyed that too.
+</p>
+<p>
+  I typically write about security on the 8th Light blog because it is a subject I am thoroughly
+  interested in. However, I enjoy writing about many topics. Which explains my desire to write
+  here.
+</p>
+<p>
+  I have many hobbies, and like many others, have the challenge of choosing between them. Music,
+  technology, theme parks, gaming, and spending time with my family are just a few of the things
+  I enjoy spending my time on.
+</p>
+<h4>Older Posts</h4>
+@if( Model.AllPosts != null )
+{
+  foreach( var post in Model.AllPosts )
+  {
+    <div>
+      @Html.ActionLink( 
+        string.Format( "{0} - {1}", (string)@post.date.ToString( "MM/dd/yyyy" ), (string)@post.title ),
+        "ShowPost",
+        "Blog",
+        new { @author = (string)@post.author, @blogTitle = (string)@post.title },
+        new {}
+      )
+    </div>
+  }
+}

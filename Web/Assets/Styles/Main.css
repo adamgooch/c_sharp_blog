@@ -1,5 +1,6 @@
 ﻿html, body {
   height: 100%;
+  max-width: 1300px;
 }
 header {
   padding: 15px;
@@ -44,4 +45,17 @@ p.footer {
 }
 .bottom-space {
   margin-bottom: 15px;
+}
+#site-title-link {
+  font-size: 40px;
+  line-height: 2em;
+  color: #000000;
+}
+#site-title-link:hover {
+  color: #000000;
+  text-decoration: none;
+}
+#profile-pic {
+  margin: 0 auto;
+  display: block;
 }
