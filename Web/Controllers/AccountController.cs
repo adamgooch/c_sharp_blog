@@ -34,7 +34,7 @@ namespace Web.Controllers
             {
                 return Redirect( returnUrl );
             }
-            return RedirectToAction( "Index", "Home" );
+            return RedirectToAction( "Manage", "Blog" );
         }
 
         private bool Validated( string username, string password )

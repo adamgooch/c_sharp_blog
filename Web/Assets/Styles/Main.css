@@ -1,6 +1,9 @@
 ﻿html, body {
   height: 100%;
+}
+body {
   max-width: 1300px;
+  margin: 0 auto;
 }
 header {
   padding: 15px;

@@ -39,14 +39,21 @@ namespace Web.Controllers
 
         public void Create()
         {
-            NameValueCollection formValues = Request.Unvalidated.Form;
-            var post = new Post();
-            post.author = formValues["Form.Author"];
-            post.title = formValues["Form.Title"];
-            post.tags = new string[]{ formValues["Form.Tags"] };
-            post.body = formValues["Form.Body"];
-            postInteractor.CreatePost( post );
-            Response.Redirect( "Index" );
+            if( LoggedIn() )
+            {
+                NameValueCollection formValues = Request.Unvalidated.Form;
+                var post = new Post();
+                post.author = formValues["Form.Author"];
+                post.title = formValues["Form.Title"];
+                post.tags = new string[] { formValues["Form.Tags"] };
+                post.body = formValues["Form.Body"];
+                postInteractor.CreatePost( post );
+                Response.Redirect( "Index" );
+            }
+            else
+            {
+                Response.Redirect( "/" );
+            }
         }
 
         public ActionResult ShowPost()
@@ -73,32 +80,55 @@ namespace Web.Controllers
 
         public ActionResult Manage()
         {
-            @ViewBag.Title = "Manage Blog";
-            var manageBlogPage = new ManageBlogPage( postInteractor );
-            manageBlogPage.PageTitle = "Manage";
-            return View( "Manage", manageBlogPage );
+            if( LoggedIn() )
+            {
+                @ViewBag.Title = "Manage Blog";
+                var manageBlogPage = new ManageBlogPage( postInteractor );
+                manageBlogPage.PageTitle = "Manage";
+                return View( "Manage", manageBlogPage );
+            }
+            else
+            {
+                var loginPage = new LoginPage { ReturnUrl = "Blog/New" };
+                return View( "Login", loginPage );
+            }
         }
 
         public ActionResult EditPost()
         {
-            @ViewBag.Title = "Edit Post";
-            var author = Request.QueryString["author"];
-            var title = Request.QueryString["blogTitle"];
-            var editPostPage = new EditPostPage( postInteractor, author.ToString(), title.ToString() );
-            editPostPage.PageTitle = "New Post";
-            return View( "Edit", editPostPage );
+            if( LoggedIn() )
+            {
+                @ViewBag.Title = "Edit Post";
+                var author = Request.QueryString["author"];
+                var title = Request.QueryString["blogTitle"];
+                var editPostPage = new EditPostPage( postInteractor, author.ToString(), title.ToString() );
+                editPostPage.PageTitle = "New Post";
+                return View( "Edit", editPostPage );
+            }
+            else
+            {
+                var loginPage = new LoginPage { ReturnUrl = "Blog/New" };
+                return View( "Login", loginPage );
+            }
         }
 
         [HttpPost]
         public void Edit()
         {
-            NameValueCollection formValues = Request.Unvalidated.Form;
-            var post = postInteractor.GetPost( formValues["Form.Author"], formValues["Form.Title"] );
-            post.title = formValues["Form.Title"];
-            post.tags = new string[] { formValues["Form.Tags"] };
-            post.body = formValues["Form.Body"];
-            postInteractor.EditPost( post );
-            Response.Redirect( "Index" );
+            if( LoggedIn() )
+            {
+                NameValueCollection formValues = Request.Unvalidated.Form;
+                var post = postInteractor.GetPost( formValues["Form.Author"], formValues["Form.Title"] );
+                post.title = formValues["Form.Title"];
+                post.tags = new string[] { formValues["Form.Tags"] };
+                post.body = formValues["Form.Body"];
+                postInteractor.EditPost( post );
+                Response.Redirect( "Manage" );
+            }
+            else
+            {
+                Response.Redirect( "/" );
+            }
         }
 
         private bool LoggedIn()
