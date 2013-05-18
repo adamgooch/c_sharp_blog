@@ -17,10 +17,10 @@ namespace Tests.Data
         private readonly string rootDirectory = "C:\\Users\\Adam\\Documents\\Visual Studio 2012\\Projects\\Blog\\Tests\\bin\\posts";
         private readonly string testAuthor = "Test Author";
         private readonly DateTime testDate = DateTime.Parse( "April 10, 2013" );
-        private readonly string testTitle = "Test Post ";
+        private readonly string testTitle = "Test... Post ";
         private readonly string testBody = "Lorem ipsum dolor sit amet";
         private readonly string[] testTag = new string[]{ "Test Tag" };
-        private readonly string testPost = "2013_04_10_Test_Post_";
+        private readonly string testPost = "2013_04_10_Test..._Post_";
         private readonly string testAuthorDirectory = "test_author";
         
         [SetUp]

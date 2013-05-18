@@ -43,12 +43,12 @@ namespace Web.Controllers
             {
                 NameValueCollection formValues = Request.Unvalidated.Form;
                 var post = new Post();
-                post.author = formValues["Form.Author"];
+                post.author = "Adam Gooch";
                 post.title = formValues["Form.Title"];
                 post.tags = new string[] { formValues["Form.Tags"] };
                 post.body = formValues["Form.Body"];
                 postInteractor.CreatePost( post );
-                Response.Redirect( "Index" );
+                Response.Redirect( "/" );
             }
             else
             {
@@ -118,7 +118,7 @@ namespace Web.Controllers
             if( LoggedIn() )
             {
                 NameValueCollection formValues = Request.Unvalidated.Form;
-                var post = postInteractor.GetPost( formValues["Form.Author"], formValues["Form.Title"] );
+                var post = postInteractor.GetPost( "Adam Gooch", formValues["Form.Title"] );
                 post.title = formValues["Form.Title"];
                 post.tags = new string[] { formValues["Form.Tags"] };
                 post.body = formValues["Form.Body"];

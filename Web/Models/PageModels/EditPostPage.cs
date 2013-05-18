@@ -17,7 +17,6 @@ namespace Web.Models.PageModels
             Form = new EditPostPageForm();
             var posts = (List<Post>)postInteractor.GetAllPosts( author );
             var post = posts.Find( p => p.title == title.Replace( '_', ' ' ) );
-            Form.Author = post.author;
             Form.Title = post.title;
             Form.Body = post.body;
             Form.Tags = ( ParseTags( post.tags ) );
@@ -37,7 +36,6 @@ namespace Web.Models.PageModels
 
     public class EditPostPageForm
     {
-        public string Author { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
         public string Tags { get; set; }

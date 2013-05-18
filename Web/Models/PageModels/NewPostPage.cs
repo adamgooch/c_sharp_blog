@@ -18,7 +18,6 @@ namespace Web.Models.PageModels
 
     public class NewPostPageForm
     {
-        public string Author { get; set; }
         public string Title { get; set; }
         public string Body { get; set; }
         public string Tags { get; set; }

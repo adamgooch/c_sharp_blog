@@ -4,8 +4,6 @@
 <div>
     @using( Html.BeginForm( "Create", "Blog", FormMethod.Post ) )
     {
-        <div>@Html.LabelFor( x => x.Form.Author )</div>
-        <div>@Html.TextBoxFor( x => x.Form.Author, new { @Required = true } )</div>
         <div>@Html.LabelFor( x => x.Form.Title )</div>
         <div>@Html.TextBoxFor( x => x.Form.Title, new { @Required = true }  )</div>
         <div>@Html.LabelFor( x => x.Form.Tags )</div>

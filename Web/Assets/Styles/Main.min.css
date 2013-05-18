@@ -1,5 +1,5 @@
 ﻿html,body{height:100%}
-body{max-width:1300px;margin:0 auto}
+body{max-width:1024px;margin:0 auto}
 header{padding:15px}
 header .login{padding-top:6px}
 header .row-fluid{margin-right:20em}

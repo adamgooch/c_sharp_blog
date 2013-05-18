@@ -160,7 +160,8 @@ namespace Data.Repositories
         private string GetTitle( string path )
         {
             var directories = path.Split( '\\' );
-            var fileNameWithoutExtension = directories.Last().Split( '.' ).First();
+            var fileName = directories.Last();
+            var fileNameWithoutExtension = fileName.Remove( fileName.Length - ".html".Length );
             var exampleDate = DateTime.Now.ToString( "yyyy_MM_dd" );
             var title = fileNameWithoutExtension.Substring( exampleDate.Length + 1 );
             return title.Replace( "_", " " );
