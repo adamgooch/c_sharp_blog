@@ -76,7 +76,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Application\Interactors\PostInteractorTest.cs" />
-    <Compile Include="Data\PostRepositoryTest.cs" />
+    <Compile Include="Data\FlatFilePostRepositoryTest.cs" />
+    <Compile Include="Data\SQLServerPostRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

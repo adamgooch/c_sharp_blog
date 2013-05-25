@@ -11,7 +11,8 @@ namespace Data.Repositories
 {
     public class FlatFilePostRepository : IPostRepository
     {
-        private string rootDirectory = ConfigurationManager.AppSettings["PostRootDirectory"];
+        private string rootDirectory = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + 
+            ConfigurationManager.AppSettings["PostRootDirectory"];
 
         public void CreatePost( Post post )
         {
