@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Configuration;
 using Application.Posts.RepositoryContracts;
 using Application.Posts.Entities;
 
 namespace Data.Repositories
 {
-    public class PostRepository : IPostRepository
+    public class FlatFilePostRepository : IPostRepository
     {
-        private string rootDirectory;
-
-        public void SetRootDirectory( string directory )
-        {
-            rootDirectory = directory;
-        }
+        private string rootDirectory = ConfigurationManager.AppSettings["PostRootDirectory"];
 
         public void CreatePost( Post post )
         {

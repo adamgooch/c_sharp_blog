@@ -5,16 +5,17 @@ using NUnit.Framework;
 using Data.Repositories;
 using Application.Posts.Entities;
 using System.Linq;
+using System.Configuration;
 
 namespace Tests.Data
 {
     [TestFixture]
     class PostRepositoryTest
     {
-        private PostRepository sut;
+        private FlatFilePostRepository sut;
         private int postNumber = 0;
         private int authorNumber = 1;
-        private readonly string rootDirectory = "C:\\Users\\Adam\\Documents\\Visual Studio 2012\\Projects\\Blog\\Tests\\bin\\posts";
+        private readonly string rootDirectory = ConfigurationManager.AppSettings["PostRootDirectory"];
         private readonly string testAuthor = "Test Author";
         private readonly DateTime testDate = DateTime.Parse( "April 10, 2013" );
         private readonly string testTitle = "Test... Post ";
@@ -26,8 +27,7 @@ namespace Tests.Data
         [SetUp]
         public void Setup()
         {
-            sut = new PostRepository();
-            sut.SetRootDirectory( rootDirectory );
+            sut = new FlatFilePostRepository();
         }
 
         [TearDown]

@@ -25,13 +25,6 @@ namespace Tests.Application.Interactors
         }
 
         [Test]
-        public void it_sets_the_root_directory_for_posts_to_be_saved_in()
-        {
-            mocker.GetMock<IPostRepository>()
-                .Verify( x => x.SetRootDirectory( "C:\\Users\\Adam\\Documents\\Visual Studio 2012\\Projects\\Blog\\site_posts" ) );
-        }
-
-        [Test]
         public void it_creates_a_post_with_todays_date()
         {
             var post = new Post

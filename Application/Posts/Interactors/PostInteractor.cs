@@ -10,12 +10,10 @@ namespace Application.Posts.Interactors
     public class PostInteractor : IPostInteractor
     {
         private readonly IPostRepository postRepository;
-        private readonly string rootDirectory = "C:\\Users\\Adam\\Documents\\Visual Studio 2012\\Projects\\Blog\\site_posts";
-
+        
         public PostInteractor(IPostRepository postRepository)
         {
             this.postRepository = postRepository;
-            postRepository.SetRootDirectory( rootDirectory );
         }
 
         public void CreatePost( Post post )

@@ -6,7 +6,6 @@ namespace Application.Posts.RepositoryContracts
 {
     public interface IPostRepository
     {
-        void SetRootDirectory( string directory );
         void CreatePost( Post post );
         IEnumerable<Post> GetAllPosts( string author );
         IEnumerable<Post> GetAllPosts();

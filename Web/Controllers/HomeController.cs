@@ -15,7 +15,7 @@ namespace Web.Controllers
 
         public HomeController()
         {
-            var postRepository = new PostRepository();
+            var postRepository = new FlatFilePostRepository();
             postInteractor = new PostInteractor( postRepository );
         }
         

@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 using Web.Models.PageModels;
 using Application.Posts.Interactors;
 using Application.Posts.Entities;
@@ -17,7 +18,7 @@ namespace Web.Controllers
 
         public BlogController()
         {
-            var postRepository = new PostRepository();
+            var postRepository = new FlatFilePostRepository();
             postInteractor = new PostInteractor( postRepository );
         }
 
@@ -133,9 +134,9 @@ namespace Web.Controllers
 
         private bool LoggedIn()
         {
-            return Session["id_1"] == System.Configuration.ConfigurationManager.AppSettings["SessionValue1"] &&
-                Session["id_2"] == System.Configuration.ConfigurationManager.AppSettings["SessionValue2"] &&
-                Session["id_3"] == System.Configuration.ConfigurationManager.AppSettings["SessionValue3"];
+            return Session["id_1"] == ConfigurationManager.AppSettings["SessionValue1"] &&
+                Session["id_2"] == ConfigurationManager.AppSettings["SessionValue2"] &&
+                Session["id_3"] == ConfigurationManager.AppSettings["SessionValue3"];
         }
     }
 }
