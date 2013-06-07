@@ -134,9 +134,9 @@ namespace Web.Controllers
 
         private bool LoggedIn()
         {
-            return Session["id_1"] == ConfigurationManager.AppSettings["SessionValue1"] &&
-                Session["id_2"] == ConfigurationManager.AppSettings["SessionValue2"] &&
-                Session["id_3"] == ConfigurationManager.AppSettings["SessionValue3"];
+            return (string)Session["id_1"] == ConfigurationManager.AppSettings["SessionValue1"] &&
+                (string)Session["id_2"] == ConfigurationManager.AppSettings["SessionValue2"] &&
+                (string)Session["id_3"] == ConfigurationManager.AppSettings["SessionValue3"];
         }
     }
 }

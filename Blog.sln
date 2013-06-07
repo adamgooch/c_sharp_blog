@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BlogEngineDb", "BlogEngineDb\BlogEngineDb.sqlproj", "{6895A409-2A96-4E1D-9349-2DAF527E1A4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,12 @@ Global
 		{7597660A-463E-433B-A420-7541A81AAE4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7597660A-463E-433B-A420-7541A81AAE4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7597660A-463E-433B-A420-7541A81AAE4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6895A409-2A96-4E1D-9349-2DAF527E1A4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6895A409-2A96-4E1D-9349-2DAF527E1A4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6895A409-2A96-4E1D-9349-2DAF527E1A4B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6895A409-2A96-4E1D-9349-2DAF527E1A4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6895A409-2A96-4E1D-9349-2DAF527E1A4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6895A409-2A96-4E1D-9349-2DAF527E1A4B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
