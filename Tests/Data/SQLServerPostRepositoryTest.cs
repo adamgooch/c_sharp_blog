@@ -43,9 +43,15 @@ namespace Tests.Data
         [Test]
         public void it_creates_a_post_with_the_correct_name()
         {
-            sut.CreatePost( CreateTestPost( authorNumber ) );
+            var testPost = CreateTestPost( authorNumber );
+            sut.CreatePost( testPost );
             var posts = sut.GetAllPosts();
-            Assert.AreEqual( 1, posts.Count() );
+            Assert.AreEqual( 1, posts.Count(), "Wrong number of posts" );
+            Assert.AreEqual( testPost.title, posts.First().title, "Wrong title" );
+            Assert.AreEqual( testPost.body, posts.First().body, "Wrong body" );
+            Assert.AreEqual( testPost.author, posts.First().author, "Wrong author" );
+            Assert.AreEqual( testPost.date, posts.First().date, "Wrong date" );
+            Assert.AreEqual( testPost.tags, posts.First().tags, "Wrong tags" );
         }
 
         private Post CreateTestPost( int localAuthorNumber )

@@ -60,5 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="GetAllPosts.sql" />
+    <Build Include="CreatePost.sql" />
   </ItemGroup>
 </Project>

@@ -15,7 +15,7 @@ namespace Data.Repositories
         private static readonly string tableName = "Posts";
         private readonly string connection = ConfigurationManager.ConnectionStrings["testBlog"].ConnectionString;
         private readonly string sqlCreateTable = "CREATE TABLE [dbo].[" + tableName  + "]( "
-                    + "[ID] [int] IDENTITY(1,1) NOT NULL, "
+                    + "[Id] [uniqueidentifier] NOT NULL, "
                     + "[CreatedDateTime] [date] NOT NULL, "
                     + "[ModifiedDateTime] [date] NOT NULL, "
                     + "[Title] [nvarchar](max) NOT NULL, "
@@ -37,8 +37,8 @@ namespace Data.Repositories
 
         public void CreatePost( Post post )
         {
-            var sql = string.Format( "INSERT INTO dbo.{0} (CreatedDateTime, ModifiedDateTime, Title, Body, Tags, Author) " +
-                "VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}')", tableName, post.date, post.date, post.title, post.body, post.tags[0], post.author );
+            var sql = string.Format( "INSERT INTO dbo.{0} (Id, CreatedDateTime, ModifiedDateTime, Title, Body, Tags, Author) " +
+                "VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", tableName, Guid.NewGuid(), post.date, post.date, post.title, post.body, post.tags[0], post.author );
             SendCommand( sql );
         }
 
@@ -49,7 +49,41 @@ namespace Data.Repositories
 
         public IEnumerable<Post> GetAllPosts()
         {
-            throw new NotImplementedException();
+
+            var posts = new List<Post>();
+            using( SqlConnection conn = new SqlConnection( connection ) )
+            {
+                try
+                {
+                    conn.Open();
+                    SqlCommand sqlCommand = new SqlCommand( "dbo.GetAllPosts", conn );
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    posts = (List<Post>)MapToPost( sqlCommand.ExecuteReader() );
+                }
+                catch( Exception e )
+                {
+                    Console.WriteLine( e.ToString() );
+                }
+            }
+            return posts;
+        }
+
+        private IEnumerable<Post> MapToPost( SqlDataReader reader )
+        {
+            var posts = new List<Post>();
+            while( reader.Read() )
+            {
+                var post = new Post
+                {
+                    title = reader["Title"].ToString(),
+                    body = reader["Body"].ToString(),
+                    author = reader["Author"].ToString(),
+                    date = (DateTime)reader["CreatedDateTime"],
+                    tags = new string[] { reader["Tags"].ToString() }
+                };
+                posts.Add( post );
+            }
+            return posts;
         }
 
         public void DeletePost( string author, DateTime date, string title )
