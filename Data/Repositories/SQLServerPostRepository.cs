@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+using System.Data;
 using System.Configuration;
 using Application.Posts.Entities;
 
@@ -14,31 +15,16 @@ namespace Data.Repositories
     {
         private static readonly string tableName = "Posts";
         private readonly string connection = ConfigurationManager.ConnectionStrings["testBlog"].ConnectionString;
-        private readonly string sqlCreateTable = "CREATE TABLE [dbo].[" + tableName  + "]( "
-                    + "[Id] [uniqueidentifier] NOT NULL, "
-                    + "[CreatedDateTime] [date] NOT NULL, "
-                    + "[ModifiedDateTime] [date] NOT NULL, "
-                    + "[Title] [nvarchar](max) NOT NULL, "
-                    + "[Body] [nvarchar](max) NOT NULL, "
-                    + "[Tags] [nvarchar](max) NOT NULL, "
-                    + "[Author] [nvarchar](max) NOT NULL "
-                    + "PRIMARY KEY (ID) "
-                    + ")";
-        private readonly string sqlCheckTableExists = "IF NOT EXISTS "
-                    + "(SELECT * "
-                    + "FROM sys.objects "
-                    + "WHERE object_id = OBJECT_ID(N'[dbo].[" + tableName + "]') "
-                    + "AND type IN (N'U'))";
 
         public SQLServerPostRepository()
         {
-            SendCommand( sqlCheckTableExists + " BEGIN " + sqlCreateTable + " END" );
         }
 
         public void CreatePost( Post post )
         {
             var sql = string.Format( "INSERT INTO dbo.{0} (Id, CreatedDateTime, ModifiedDateTime, Title, Body, Tags, Author) " +
-                "VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", tableName, Guid.NewGuid(), post.date, post.date, post.title, post.body, post.tags[0], post.author );
+                "VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", tableName, Guid.NewGuid(),
+                post.date, post.date, post.title, post.body, post.tags[0], post.author );
             SendCommand( sql );
         }
 
@@ -57,7 +43,7 @@ namespace Data.Repositories
                 {
                     conn.Open();
                     SqlCommand sqlCommand = new SqlCommand( "dbo.GetAllPosts", conn );
-                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
                     posts = (List<Post>)MapToPost( sqlCommand.ExecuteReader() );
                 }
                 catch( Exception e )
@@ -88,7 +74,23 @@ namespace Data.Repositories
 
         public void DeletePost( string author, DateTime date, string title )
         {
-            throw new NotImplementedException();
+            using( SqlConnection conn = new SqlConnection( connection ) )
+            {
+                try
+                {
+                    SqlCommand sqlCommand = new SqlCommand( "dbo.DeletePostByAuthorDateTitle", conn );
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.Add( "@Author", SqlDbType.NVarChar ).Value = author;
+                    sqlCommand.Parameters.Add( "@Date", SqlDbType.Date ).Value = date.ToString();
+                    sqlCommand.Parameters.Add( "@Title", SqlDbType.NVarChar ).Value = title;
+                    conn.Open();
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch( Exception e )
+                {
+                    Console.WriteLine( e.ToString() );
+                }
+            }
         }
 
         private int SendCommand( string command )

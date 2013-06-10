@@ -81,3 +81,6 @@ UpgradeLog.XML
 
 # my blog post directory
 site_posts/
+
+# Database project publish profiles
+*.publish.xml

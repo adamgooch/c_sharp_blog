@@ -61,5 +61,10 @@
   <ItemGroup>
     <Build Include="GetAllPosts.sql" />
     <Build Include="CreatePost.sql" />
+    <Build Include="DeletePostByAuthorDateTitle.sql" />
+    <Build Include="Posts.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BlogEngineDb.publish.xml" />
   </ItemGroup>
 </Project>

@@ -41,7 +41,7 @@ namespace Tests.Data
         }
 
         [Test]
-        public void it_creates_a_post_with_the_correct_name()
+        public void it_creates_a_post()
         {
             var testPost = CreateTestPost( authorNumber );
             sut.CreatePost( testPost );
@@ -52,6 +52,8 @@ namespace Tests.Data
             Assert.AreEqual( testPost.author, posts.First().author, "Wrong author" );
             Assert.AreEqual( testPost.date, posts.First().date, "Wrong date" );
             Assert.AreEqual( testPost.tags, posts.First().tags, "Wrong tags" );
+            sut.DeletePost( testAuthor + authorNumber, testDate, testTitle + postNumber );
+            Assert.AreEqual( 0, sut.GetAllPosts().Count(), "Post was not deleted" );
         }
 
         private Post CreateTestPost( int localAuthorNumber )
