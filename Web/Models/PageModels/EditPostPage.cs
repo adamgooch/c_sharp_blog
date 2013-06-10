@@ -16,10 +16,10 @@ namespace Web.Models.PageModels
         {
             Form = new EditPostPageForm();
             var posts = (List<Post>)postInteractor.GetAllPosts( author );
-            var post = posts.Find( p => p.title == title.Replace( '_', ' ' ) );
-            Form.Title = post.title;
-            Form.Body = post.body;
-            Form.Tags = ( ParseTags( post.tags ) );
+            var post = posts.Find( p => p.Title == title.Replace( '_', ' ' ) );
+            Form.Title = post.Title;
+            Form.Body = post.Body;
+            Form.Tags = ( ParseTags( post.Tags ) );
         }
 
         private string ParseTags( string[] tags )

@@ -1,9 +1,9 @@
 ﻿@model Web.Models.PageModels.ShowPostPage
 
 <div class="main-content span8">
-  <h1>@Model.post.title</h1>
-  <div>@Model.post.date.ToString( "MMM dd, yyyy" )</div>
-  @Html.Raw( @Model.post.body )
+  <h1>@Model.post.Title</h1>
+  <div>@Model.post.Date.ToString( "MMM dd, yyyy" )</div>
+  @Html.Raw( @Model.post.Body )
 </div>
 <div class="side-bar span3 offset1">
   @Html.Partial( "_SidebarPartial" )

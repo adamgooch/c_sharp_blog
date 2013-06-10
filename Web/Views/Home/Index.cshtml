@@ -3,9 +3,9 @@
 <div class="main-content span8">
   @if( @Model.LatestPost != null )
   {
-    <h1>@Model.LatestPost.title</h1>
-    <div>@Model.LatestPost.date.ToString( "MMM dd, yyyy" )</div>
-    @Html.Raw( @Model.LatestPost.body )
+    <h1>@Model.LatestPost.Title</h1>
+    <div>@Model.LatestPost.Date.ToString( "MMM dd, yyyy" )</div>
+    @Html.Raw( @Model.LatestPost.Body )
   }
   else
   {

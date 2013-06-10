@@ -18,7 +18,7 @@ namespace Application.Posts.Interactors
 
         public void CreatePost( Post post )
         {
-            post.date = DateTime.Now;
+            post.Date = DateTime.Now;
             postRepository.CreatePost( post );
         }
 
@@ -45,14 +45,14 @@ namespace Application.Posts.Interactors
         public Post GetLatestPost()
         {
             var allPosts = postRepository.GetAllPosts();
-            var latestPostDate = allPosts.Max( x => x.date );
-            return allPosts.First( x => x.date == latestPostDate );
+            var latestPostDate = allPosts.Max( x => x.Date );
+            return allPosts.First( x => x.Date == latestPostDate );
         }
 
         public Post GetPost( string author, string title )
         {
             var authorPosts = GetAllPosts( author );
-            return authorPosts.First( x => x.title == title );
+            return authorPosts.First( x => x.Title == title );
         }
     }
 }

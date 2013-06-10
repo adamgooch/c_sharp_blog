@@ -41,17 +41,17 @@ namespace Tests.Data
         }
 
         [Test]
-        public void it_creates_a_post()
+        public void it_creates_and_deletes_a_post()
         {
             var testPost = CreateTestPost( authorNumber );
             sut.CreatePost( testPost );
             var posts = sut.GetAllPosts();
             Assert.AreEqual( 1, posts.Count(), "Wrong number of posts" );
-            Assert.AreEqual( testPost.title, posts.First().title, "Wrong title" );
-            Assert.AreEqual( testPost.body, posts.First().body, "Wrong body" );
-            Assert.AreEqual( testPost.author, posts.First().author, "Wrong author" );
-            Assert.AreEqual( testPost.date, posts.First().date, "Wrong date" );
-            Assert.AreEqual( testPost.tags, posts.First().tags, "Wrong tags" );
+            Assert.AreEqual( testPost.Title, posts.First().Title, "Wrong title" );
+            Assert.AreEqual( testPost.Body, posts.First().Body, "Wrong body" );
+            Assert.AreEqual( testPost.Author, posts.First().Author, "Wrong author" );
+            Assert.AreEqual( testPost.Date, posts.First().Date, "Wrong date" );
+            Assert.AreEqual( testPost.Tags, posts.First().Tags, "Wrong tags" );
             sut.DeletePost( testAuthor + authorNumber, testDate, testTitle + postNumber );
             Assert.AreEqual( 0, sut.GetAllPosts().Count(), "Post was not deleted" );
         }
@@ -64,7 +64,7 @@ namespace Tests.Data
             sut.CreatePost( CreateTestPost( authorNumber ) );
             var result = sut.GetAllPosts( testAuthor + authorNumber );
             Assert.AreEqual( 2, result.Count(), "Wrong number of posts returned" );
-            Assert.AreEqual( testAuthor + authorNumber, result.First().author, "Wrong author" );
+            Assert.AreEqual( testAuthor + authorNumber, result.First().Author, "Wrong author" );
         }
 
         private Post CreateTestPost( int localAuthorNumber )
@@ -72,11 +72,11 @@ namespace Tests.Data
             ++postNumber;
             var post = new Post
             {
-                author = testAuthor + localAuthorNumber,
-                date = testDate,
-                title = testTitle + postNumber,
-                body = testBody,
-                tags = testTag
+                Author = testAuthor + localAuthorNumber,
+                Date = testDate,
+                Title = testTitle + postNumber,
+                Body = testBody,
+                Tags = testTag
             };
             return post;
         }

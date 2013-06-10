@@ -24,7 +24,7 @@ namespace Data.Repositories
         {
             var sql = string.Format( "INSERT INTO dbo.{0} (Id, CreatedDateTime, ModifiedDateTime, Title, Body, Tags, Author) " +
                 "VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", tableName, Guid.NewGuid(),
-                post.date, post.date, post.title, post.body, post.tags[0], post.author );
+                post.Date, post.Date, post.Title, post.Body, post.Tags[0], post.Author );
             SendCommand( sql );
         }
 
@@ -77,11 +77,11 @@ namespace Data.Repositories
             {
                 var post = new Post
                 {
-                    title = reader["Title"].ToString(),
-                    body = reader["Body"].ToString(),
-                    author = reader["Author"].ToString(),
-                    date = (DateTime)reader["CreatedDateTime"],
-                    tags = new string[] { reader["Tags"].ToString() }
+                    Title = reader["Title"].ToString(),
+                    Body = reader["Body"].ToString(),
+                    Author = reader["Author"].ToString(),
+                    Date = (DateTime)reader["CreatedDateTime"],
+                    Tags = new string[] { reader["Tags"].ToString() }
                 };
                 posts.Add( post );
             }

@@ -83,11 +83,11 @@ namespace Tests.Data
             var postPath = string.Format( "{0}\\{1}\\{2}.html",
                 rootDirectory, testAuthorDirectory + authorNumber, testPost + postNumber );
             var result = sut.MapFileToPost( postPath );
-            Assert.AreEqual( testTitle + authorNumber, result.title );
-            Assert.AreEqual( testBody, result.body );
-            Assert.AreEqual( testAuthor + authorNumber, result.author );
-            Assert.AreEqual( testDate, result.date );
-            Assert.AreEqual( testTag, result.tags );
+            Assert.AreEqual( testTitle + authorNumber, result.Title );
+            Assert.AreEqual( testBody, result.Body );
+            Assert.AreEqual( testAuthor + authorNumber, result.Author );
+            Assert.AreEqual( testDate, result.Date );
+            Assert.AreEqual( testTag, result.Tags );
         }
 
         [Test]
@@ -124,11 +124,11 @@ namespace Tests.Data
             ++postNumber;
             var post = new Post
             {
-                author = testAuthor + localAuthorNumber,
-                date = testDate,
-                title = testTitle + postNumber,
-                body = testBody,
-                tags = testTag
+                Author = testAuthor + localAuthorNumber,
+                Date = testDate,
+                Title = testTitle + postNumber,
+                Body = testBody,
+                Tags = testTag
             };
             return post;
         }

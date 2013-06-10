@@ -29,16 +29,16 @@ namespace Tests.Application.Interactors
         {
             var post = new Post
             {
-                title = "Title",
-                body = "Body",
-                author = "Adam Gooch",
-                tags = new string[] { "Tag 1", "Tag 2" }
+                Title = "Title",
+                Body = "Body",
+                Author = "Adam Gooch",
+                Tags = new string[] { "Tag 1", "Tag 2" }
             };
             sut.CreatePost( post );
 
             mocker.GetMock<IPostRepository>()
                 .Verify( x => x.CreatePost( post ), Times.Once() );
-            Assert.AreEqual( DateTime.Now.ToString( "yyyy_MM_dd" ), post.date.ToString( "yyyy_MM_dd" ) );
+            Assert.AreEqual( DateTime.Now.ToString( "yyyy_MM_dd" ), post.Date.ToString( "yyyy_MM_dd" ) );
         }
 
         [Test]
@@ -61,9 +61,9 @@ namespace Tests.Application.Interactors
         [Test]
         public void it_gets_the_latest_post()
         {
-            var post1 = new Post { date = DateTime.Parse( "April 4, 2013" ) };
-            var post2 = new Post { date = DateTime.Parse( "April 2, 2013" ) };
-            var post3 = new Post { date = DateTime.Parse( "April 3, 2013" ) };
+            var post1 = new Post { Date = DateTime.Parse( "April 4, 2013" ) };
+            var post2 = new Post { Date = DateTime.Parse( "April 2, 2013" ) };
+            var post3 = new Post { Date = DateTime.Parse( "April 3, 2013" ) };
             var allPosts = new List<Post> { post1, post2, post3 };
             mocker.GetMock<IPostRepository>()
                 .Setup( x => x.GetAllPosts() )

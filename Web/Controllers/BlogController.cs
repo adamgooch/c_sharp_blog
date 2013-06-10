@@ -44,10 +44,10 @@ namespace Web.Controllers
             {
                 NameValueCollection formValues = Request.Unvalidated.Form;
                 var post = new Post();
-                post.author = "Adam Gooch";
-                post.title = formValues["Form.Title"];
-                post.tags = new string[] { formValues["Form.Tags"] };
-                post.body = formValues["Form.Body"];
+                post.Author = "Adam Gooch";
+                post.Title = formValues["Form.Title"];
+                post.Tags = new string[] { formValues["Form.Tags"] };
+                post.Body = formValues["Form.Body"];
                 postInteractor.CreatePost( post );
                 Response.Redirect( "/" );
             }
@@ -120,9 +120,9 @@ namespace Web.Controllers
             {
                 NameValueCollection formValues = Request.Unvalidated.Form;
                 var post = postInteractor.GetPost( "Adam Gooch", formValues["Form.Title"] );
-                post.title = formValues["Form.Title"];
-                post.tags = new string[] { formValues["Form.Tags"] };
-                post.body = formValues["Form.Body"];
+                post.Title = formValues["Form.Title"];
+                post.Tags = new string[] { formValues["Form.Tags"] };
+                post.Body = formValues["Form.Body"];
                 postInteractor.EditPost( post );
                 Response.Redirect( "Manage" );
             }

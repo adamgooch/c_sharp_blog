@@ -16,10 +16,10 @@ namespace Data.Repositories
 
         public void CreatePost( Post post )
         {
-            CreateAuthorDirectory( post.author );
+            CreateAuthorDirectory( post.Author );
             var fullFilePath = string.Format( "{0}\\{1}\\{2}",
-                rootDirectory, AuthorDirectory( post.author ), FileName( post.date, post.title ) );
-            WriteToFile( fullFilePath, post.tags, post.body );
+                rootDirectory, AuthorDirectory( post.Author ), FileName( post.Date, post.Title ) );
+            WriteToFile( fullFilePath, post.Tags, post.Body );
         }
 
         public void DeletePost( string author, DateTime date, string title )
@@ -121,11 +121,11 @@ namespace Data.Repositories
             var fileContents = GetString( readBuffer );
             var post = new Post
             {
-                author = GetAuthor( filePath ),
-                date = GetDate( filePath ),
-                title = GetTitle( filePath ),
-                body = GetBody( fileContents ),
-                tags = GetTags( fileContents )
+                Author = GetAuthor( filePath ),
+                Date = GetDate( filePath ),
+                Title = GetTitle( filePath ),
+                Body = GetBody( fileContents ),
+                Tags = GetTags( fileContents )
             };
             return post;
         }

@@ -22,10 +22,10 @@
   {
     <div>
       @Html.ActionLink( 
-        string.Format( "{0} - {1}", (string)@post.date.ToString( "MM/dd/yyyy" ), (string)@post.title ),
+        string.Format( "{0} - {1}", (string)@post.Date.ToString( "MM/dd/yyyy" ), (string)@post.Title ),
         "ShowPost",
         "Blog",
-        new { @author = (string)@post.author, @blogTitle = (string)@post.title },
+        new { @author = (string)@post.Author, @blogTitle = (string)@post.Title },
         new {}
       )
     </div>

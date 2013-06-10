@@ -16,7 +16,7 @@ namespace Web.Models.PageModels
         public HomePage( IPostInteractor postInteractor )
         {
             LatestPost = postInteractor.GetLatestPost();
-            AllPosts = postInteractor.GetAllPosts().OrderByDescending( x => x.date );
+            AllPosts = postInteractor.GetAllPosts().OrderByDescending( x => x.Date );
         }
     }
 }
