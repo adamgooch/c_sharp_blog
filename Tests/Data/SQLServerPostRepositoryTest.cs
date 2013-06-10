@@ -56,6 +56,17 @@ namespace Tests.Data
             Assert.AreEqual( 0, sut.GetAllPosts().Count(), "Post was not deleted" );
         }
 
+        [Test]
+        public void it_gets_all_posts_by_author()
+        {
+            sut.CreatePost( CreateTestPost( authorNumber ) );
+            sut.CreatePost( CreateTestPost( ++authorNumber ) );
+            sut.CreatePost( CreateTestPost( authorNumber ) );
+            var result = sut.GetAllPosts( testAuthor + authorNumber );
+            Assert.AreEqual( 2, result.Count(), "Wrong number of posts returned" );
+            Assert.AreEqual( testAuthor + authorNumber, result.First().author, "Wrong author" );
+        }
+
         private Post CreateTestPost( int localAuthorNumber )
         {
             ++postNumber;

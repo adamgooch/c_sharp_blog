@@ -30,7 +30,23 @@ namespace Data.Repositories
 
         public IEnumerable<Post> GetAllPosts( string author )
         {
-            throw new NotImplementedException();
+            var posts = new List<Post>();
+            using( SqlConnection conn = new SqlConnection( connection ) )
+            {
+                try
+                {
+                    conn.Open();
+                    SqlCommand sqlCommand = new SqlCommand( "dbo.GetAllPostsByAuthor", conn );
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.Add( "@Author", SqlDbType.NVarChar ).Value = author;
+                    posts = (List<Post>)MapToPost( sqlCommand.ExecuteReader() );
+                }
+                catch( Exception e )
+                {
+                    Console.WriteLine( e.ToString() );
+                }
+            }
+            return posts;
         }
 
         public IEnumerable<Post> GetAllPosts()
