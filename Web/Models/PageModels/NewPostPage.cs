@@ -7,12 +7,12 @@ namespace Web.Models.PageModels
 {
     public class NewPostPage
     {
-        public string PageTitle { get; set; }
-        public NewPostPageForm Form { get; set; }
+        public string PageHeader = "New Post";
+        public NewPostPageForm Post;
 
         public NewPostPage()
         {
-            Form = new NewPostPageForm();
+            Post = new NewPostPageForm();
         }
     }
 
@@ -20,6 +20,8 @@ namespace Web.Models.PageModels
     {
         public string Title { get; set; }
         public string Body { get; set; }
-        public string Tags { get; set; }
+        public string[] Tags { get; set; }
+        public string Author = "Adam Gooch";
+        public DateTime Date = DateTime.Now;
     }
 }

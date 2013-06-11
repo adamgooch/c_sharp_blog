@@ -1,5 +1,7 @@
 ﻿@model Web.Models.PageModels.EditPostPage
 
+@{ ViewBag.Title = "Edit Post"; }
+                
 <h1>@Model.PageTitle</h1>
 <div>
     @using( Html.BeginForm( "Edit", "Blog", FormMethod.Post ) )
