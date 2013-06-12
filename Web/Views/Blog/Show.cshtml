@@ -1,5 +1,7 @@
 ﻿@model Web.Models.PageModels.ShowPostPage
 
+@{ ViewBag.Title = @Model.post.Title; }
+
 <div class="main-content span8">
   <h1>@Model.post.Title</h1>
   <div>@Model.post.Date.ToString( "MMM dd, yyyy" )</div>

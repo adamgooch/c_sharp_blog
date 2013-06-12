@@ -2,7 +2,7 @@
 
 @{ ViewBag.Title = "Manage Blog"; }
                 
-<h2>@Model.PageTitle</h2>
+<h2>@Model.PageHeader</h2>
 @Html.ActionLink( "New Post", "New", "Blog", new { }, new { @class = "btn bottom-space" } )
 <div class="bottom-space">
   @foreach( var post in Model.AllPosts )

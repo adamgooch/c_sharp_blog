@@ -9,7 +9,7 @@ namespace Web.Models.PageModels
 {
     public class EditPostPage
     {
-        public string PageTitle { get; set; }
+        public string PageHeader = "Edit Post";
         public EditPostPageForm Form { get; set; }
 
         public EditPostPage( IPostInteractor postInteractor, string author, string title )

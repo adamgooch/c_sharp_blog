@@ -42,7 +42,7 @@ namespace Web.Controllers
             if( LoggedIn() && ModelState.IsValid )
             {
                 postInteractor.CreatePost( post );
-                Response.Redirect( "Blog/Manage" );
+                Response.Redirect( "Manage" );
             }
             else
             {
@@ -50,25 +50,15 @@ namespace Web.Controllers
             }
         }
 
-        public ActionResult ShowPost()
+        public ActionResult ShowPost(string author, string blogTitle)
         {
-            var author = RouteData.Values["author"];
-            var title = RouteData.Values["blogTitle"];
-            @ViewBag.Title = title;
-            var showPostPage = new ShowPostPage( postInteractor, author.ToString(), title.ToString() );
+            var showPostPage = new ShowPostPage( postInteractor, author, blogTitle );
             return View( "Show", showPostPage );
         }
 
-        public void DeletePost()
+        public void DeletePost(string author, string blogTitle, DateTime date)
         {
-            var author = Request.QueryString["author"];
-            var title = Request.QueryString["blogTitle"];
-            var date = DateTime.Parse( Request.QueryString["date"] );
-            postInteractor.DeletePost(
-                author.ToString(),
-                date, 
-                title.ToString()
-            );
+            postInteractor.DeletePost( author, date, blogTitle );
             Response.Redirect( "Manage" );
         }
 
@@ -77,7 +67,6 @@ namespace Web.Controllers
             if( LoggedIn() )
             {
                 var manageBlogPage = new ManageBlogPage( postInteractor );
-                manageBlogPage.PageTitle = "Manage";
                 return View( "Manage", manageBlogPage );
             }
             else
@@ -87,14 +76,11 @@ namespace Web.Controllers
             }
         }
 
-        public ActionResult EditPost()
+        public ActionResult EditPost(string author, string blogTitle)
         {
             if( LoggedIn() )
             {
-                var author = Request.QueryString["author"];
-                var title = Request.QueryString["blogTitle"];
-                var editPostPage = new EditPostPage( postInteractor, author.ToString(), title.ToString() );
-                editPostPage.PageTitle = "New Post";
+                var editPostPage = new EditPostPage( postInteractor, author, blogTitle );
                 return View( "Edit", editPostPage );
             }
             else
@@ -125,7 +111,6 @@ namespace Web.Controllers
 
         private bool LoggedIn()
         {
-            //return true;
             return (string)Session["id_1"] == ConfigurationManager.AppSettings["SessionValue1"] &&
                 (string)Session["id_2"] == ConfigurationManager.AppSettings["SessionValue2"] &&
                 (string)Session["id_3"] == ConfigurationManager.AppSettings["SessionValue3"];
