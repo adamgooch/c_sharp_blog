@@ -91,15 +91,11 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public void Edit()
+        [ValidateInput( false )]
+        public void Edit( Post post )
         {
             if( LoggedIn() )
             {
-                NameValueCollection formValues = Request.Unvalidated.Form;
-                var post = postInteractor.GetPost( "Adam Gooch", formValues["Form.Title"] );
-                post.Title = formValues["Form.Title"];
-                post.Tags = new string[] { formValues["Form.Tags"] };
-                post.Body = formValues["Form.Body"];
                 postInteractor.EditPost( post );
                 Response.Redirect( "Manage" );
             }

@@ -10,16 +10,18 @@ namespace Web.Models.PageModels
     public class EditPostPage
     {
         public string PageHeader = "Edit Post";
-        public EditPostPageForm Form { get; set; }
+        public EditPostPageForm Post;
 
         public EditPostPage( IPostInteractor postInteractor, string author, string title )
         {
-            Form = new EditPostPageForm();
+            Post = new EditPostPageForm();
             var posts = (List<Post>)postInteractor.GetAllPosts( author );
             var post = posts.Find( p => p.Title == title.Replace( '_', ' ' ) );
-            Form.Title = post.Title;
-            Form.Body = post.Body;
-            Form.Tags = ( ParseTags( post.Tags ) );
+            Post.Title = post.Title;
+            Post.Body = post.Body;
+            Post.Tags = ( ParseTags( post.Tags ) );
+            Post.Author = post.Author;
+            Post.Date = post.Date;
         }
 
         private string ParseTags( string[] tags )
@@ -39,5 +41,7 @@ namespace Web.Models.PageModels
         public string Title { get; set; }
         public string Body { get; set; }
         public string Tags { get; set; }
+        public string Author { get; set; }
+        public DateTime Date { get; set; }
     }
 }

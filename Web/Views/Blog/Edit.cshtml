@@ -6,12 +6,14 @@
 <div>
     @using( Html.BeginForm( "Edit", "Blog", FormMethod.Post ) )
     {
-        <div>@Html.LabelFor( x => x.Form.Title )</div>
-        <div>@Html.TextBoxFor( x => x.Form.Title, new { @Required = true }  )</div>
-        <div>@Html.LabelFor( x => x.Form.Tags )</div>
-        <div>@Html.TextBoxFor( x => x.Form.Tags, new { @Required = true, placeholder = "comma separated list" }  )</div>
-        <div>@Html.LabelFor( x => x.Form.Body )</div>
-        <div>@Html.TextAreaFor( x => x.Form.Body, new { @Required = true }  )</div>
+        @Html.HiddenFor( x => x.Post.Author )
+        @Html.HiddenFor( x => x.Post.Date )
+        <div>@Html.LabelFor( x => x.Post.Title )</div>
+        <div>@Html.TextBoxFor( x => x.Post.Title, new { @Required = true }  )</div>
+        <div>@Html.LabelFor( x => x.Post.Tags )</div>
+        <div>@Html.TextBoxFor( x => x.Post.Tags, new { @Required = true, placeholder = "comma separated list" }  )</div>
+        <div>@Html.LabelFor( x => x.Post.Body )</div>
+        <div>@Html.TextAreaFor( x => x.Post.Body, new { @Required = true }  )</div>
         <input type="submit" value="submit" />
     }
 </div>
