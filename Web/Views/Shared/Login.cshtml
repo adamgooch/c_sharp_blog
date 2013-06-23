@@ -1,6 +1,7 @@
 ﻿@model Web.Models.PageModels.LoginPage
 
 @{ ViewBag.Title = "Login"; }
+@{ Model.ReturnUrl = "/"; }
                 
 <h2>Login</h2>
 <div>
@@ -11,6 +12,6 @@
     <div>@Html.TextBoxFor( x => x.UserName, new { @Required = true } )</div>
     <div>@Html.LabelFor( x => x.Password )</div>
     <div>@Html.Password( "Password", null, new { @Required = true } )</div>
-    <input type="submit" value="Login" />
+    <input type="submit" />
   }
 </div>

@@ -14,8 +14,6 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login( LoginPage model, string ReturnUrl )
         {
-            System.Configuration.Configuration rootWebConfig1 =
-                System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration( null );
             NameValueCollection formValues = Request.Form;
             if( Validated( formValues["username"], formValues["password"] ) )
             {
