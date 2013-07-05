@@ -11,6 +11,23 @@ namespace Web.Controllers
 {
     public class AccountController : Controller
     {
+        public ActionResult Register()
+        {
+            var registerPage = new RegisterPage();
+            return View( registerPage );
+        }
+
+        [HttpPost]
+        public ActionResult Register(RegisterPage model)
+        {
+            NameValueCollection formValues = Request.Form;
+            if( !ModelState.IsValid )
+            {
+                return View( model );
+            }
+            return RedirectToAction( "Index", "Home" );
+        }
+        
         [ValidateAntiForgeryToken]
         public ActionResult Login( LoginPage model, string ReturnUrl )
         {

@@ -14,6 +14,12 @@ namespace Web
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "Register",
+                url: "register",
+                defaults: new { controller = "Account", action = "Register" }
+            );
+
+            routes.MapRoute(
                 name: "ShowPost",
                 url: "Blog/{author}/{blogTitle}",
                 defaults: new { controller = "Blog", action = "ShowPost" }

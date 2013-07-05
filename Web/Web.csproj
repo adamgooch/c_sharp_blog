@@ -204,6 +204,7 @@
     <Compile Include="Models\PageModels\LoginPage.cs" />
     <Compile Include="Models\PageModels\ManageBlogPage.cs" />
     <Compile Include="Models\PageModels\NewPostPage.cs" />
+    <Compile Include="Models\PageModels\RegisterPage.cs" />
     <Compile Include="Models\PageModels\ShowPostPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -383,6 +384,7 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\GoDaddy.pubxml" />
     <None Include="Properties\PublishProfiles\LocalFile.pubxml" />
+    <Content Include="Views\Shared\Register.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
