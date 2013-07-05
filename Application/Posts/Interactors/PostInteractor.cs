@@ -45,6 +45,7 @@ namespace Application.Posts.Interactors
         public Post GetLatestPost()
         {
             var allPosts = postRepository.GetAllPosts();
+            if( allPosts.Count() == 0 ) return new Post();
             var latestPostDate = allPosts.Max( x => x.Date );
             return allPosts.First( x => x.Date == latestPostDate );
         }

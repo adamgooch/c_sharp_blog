@@ -105,6 +105,7 @@ namespace Data.Repositories
         private List<string> GetAllFiles()
         {
             var files = new List<string>();
+            if( !Directory.Exists( rootDirectory ) ) Directory.CreateDirectory( rootDirectory );
             foreach( string authors in Directory.GetDirectories( rootDirectory ) )
             {
                 foreach( string file in Directory.GetFiles( authors ) )

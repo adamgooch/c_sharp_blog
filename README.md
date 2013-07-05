@@ -5,7 +5,7 @@ This is a multi-author blog engine
 
 Tests
 -----
-Be sure to deploy the BlogEngineDb before running the SQL Server Post Repository Tests.
+Be sure to publish the BlogEngineDb before running the SQL Server Post Repository Tests.
 
 Goal
 ----
