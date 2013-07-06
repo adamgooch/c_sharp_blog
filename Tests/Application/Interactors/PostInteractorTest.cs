@@ -7,7 +7,6 @@ using Application.Posts.Entities;
 using Application.Posts.Interactors;
 using Application.Posts.RepositoryContracts;
 using System.Collections.Generic;
-using SimpleCrypto;
 
 namespace Tests.Application.Interactors
 {

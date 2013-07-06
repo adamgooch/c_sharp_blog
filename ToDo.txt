@@ -1,0 +1,3 @@
+To Do:
+
+User.Role - should this be a Role object as opposed to an int?
