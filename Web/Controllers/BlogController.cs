@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Configuration;
 using Web.Models.PageModels;
@@ -14,7 +10,7 @@ namespace Web.Controllers
 {
     public class BlogController : Controller
     {
-        private IPostInteractor postInteractor;
+        private readonly IPostInteractor postInteractor;
 
         public BlogController()
         {
