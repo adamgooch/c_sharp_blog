@@ -3,6 +3,6 @@
     public interface IAuthenticator
     {
         byte[] GenerateSalt();
-        string GeneratePasswordDigest( string password, byte[] salt, int iterations );
+        byte[] GeneratePasswordDigest( string password, byte[] salt, int iterations );
     }
 }

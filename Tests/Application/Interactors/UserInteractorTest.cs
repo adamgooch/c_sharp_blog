@@ -66,7 +66,7 @@ namespace Tests.Application.Interactors
                   .Returns( generatedSalt );
             mocker.GetMock<IAuthenticator>()
                   .Setup( x => x.GeneratePasswordDigest( It.IsAny<string>(), It.IsAny<byte[]>(), It.IsAny<int>() ) )
-                  .Returns( "Anything" );
+                  .Returns( new byte[16] );
             sut.CreateUser( "test@example.com", "testPassword" );
             Assert.NotNull( createdUser.PasswordDigest );
             mocker.GetMock<IAuthenticator>()

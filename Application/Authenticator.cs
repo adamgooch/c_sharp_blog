@@ -1,15 +1,26 @@
-﻿namespace Application
+﻿using System.Security.Cryptography;
+
+namespace Application
 {
-    class Authenticator : IAuthenticator
+    public class Authenticator : IAuthenticator
     {
+        private const int SALT_BYTE_LENGTH = 16;
+        private const int DIGEST_BYTE_LENGTH = 32;
+
         public byte[] GenerateSalt()
         {
-            return new byte[16];
+            var salt = new byte[SALT_BYTE_LENGTH];
+            using( var rngCsp = new RNGCryptoServiceProvider() )
+            {
+                rngCsp.GetBytes( salt );
+            }
+            return salt;
         }
 
-        public string GeneratePasswordDigest(string password, byte[] salt, int iterations)
+        public byte[] GeneratePasswordDigest(string password, byte[] salt, int iterations)
         {
-            return "whatever";
+            var key = new Rfc2898DeriveBytes(password, salt, iterations);
+            return key.GetBytes( DIGEST_BYTE_LENGTH );
         }
     }
 }

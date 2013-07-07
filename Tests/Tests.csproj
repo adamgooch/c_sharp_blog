@@ -89,6 +89,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Application\AuthenticatorTest.cs" />
     <Compile Include="Application\Interactors\PostInteractorTest.cs" />
     <Compile Include="Application\Interactors\UserInteractorTest.cs" />
     <Compile Include="Data\FlatFilePostRepositoryTest.cs" />

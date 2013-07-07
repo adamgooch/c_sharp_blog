@@ -64,6 +64,7 @@
     <Build Include="DeletePostByAuthorDateTitle.sql" />
     <Build Include="Posts.sql" />
     <Build Include="GetAllPostsByAuthor.sql" />
+    <Build Include="Users.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BlogEngineDb.publish.xml" />

@@ -20,7 +20,7 @@ namespace Application.Users
             var user = new User
                 {
                     Email = email,
-                    Salt = Convert.ToString(salt),
+                    Salt = salt,
                     PasswordDigest = authenticator.GeneratePasswordDigest( password, salt, ITERATIONS ),
                     CreatedDate = DateTime.Today,
                     Role = Roles.Default(),
