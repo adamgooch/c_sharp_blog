@@ -49,6 +49,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\FlatFilePostRepository.cs" />
     <Compile Include="Repositories\SQLServerPostRepository.cs" />
+    <Compile Include="Repositories\SQLServerUserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj">

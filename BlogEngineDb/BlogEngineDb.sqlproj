@@ -65,8 +65,14 @@
     <Build Include="Posts.sql" />
     <Build Include="GetAllPostsByAuthor.sql" />
     <Build Include="Users.sql" />
+    <Build Include="CreateUser.sql" />
+    <Build Include="GetAllUsers.sql" />
+    <Build Include="DeleteUserByEmail.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BlogEngineDb.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="BlogEngineDb.refactorlog" />
   </ItemGroup>
 </Project>

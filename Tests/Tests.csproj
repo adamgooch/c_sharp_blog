@@ -94,6 +94,7 @@
     <Compile Include="Application\Interactors\UserInteractorTest.cs" />
     <Compile Include="Data\FlatFilePostRepositoryTest.cs" />
     <Compile Include="Data\SQLServerPostRepositoryTest.cs" />
+    <Compile Include="Data\SQLServerUserRepositoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

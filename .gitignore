@@ -84,3 +84,5 @@ site_posts/
 
 # Database project publish profiles
 *.publish.xml
+
+*.refactorlog
