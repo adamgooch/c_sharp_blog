@@ -9,5 +9,6 @@ namespace Application.Users
         public string PasswordDigest { get; set; }
         public DateTime CreatedDate { get; set; }
         public int Role { get; set; }
+        public Guid VerifiedToken { get; set; }
     }
 }

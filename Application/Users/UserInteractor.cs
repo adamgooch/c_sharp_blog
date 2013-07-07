@@ -23,7 +23,8 @@ namespace Application.Users
                     Salt = Convert.ToString(salt),
                     PasswordDigest = authenticator.GeneratePasswordDigest( password, salt, ITERATIONS ),
                     CreatedDate = DateTime.Today,
-                    Role = Roles.Default()
+                    Role = Roles.Default(),
+                    VerifiedToken = Guid.NewGuid()
                 };
             repository.CreateUser( user );
         }
