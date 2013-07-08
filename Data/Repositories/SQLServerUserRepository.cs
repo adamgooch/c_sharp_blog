@@ -7,7 +7,7 @@ using Application.Users;
 
 namespace Data.Repositories
 {
-    public class SQLServerUserRepository
+    public class SQLServerUserRepository : IUserRepository
     {
         private readonly string connection = ConfigurationManager.ConnectionStrings["testBlog"].ConnectionString;
 

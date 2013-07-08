@@ -1,4 +1,7 @@
-﻿using SimpleCrypto;
+﻿using Application;
+using Application.Users;
+using Data.Repositories;
+using SimpleCrypto;
 using System.Collections.Specialized;
 using System.Web.Mvc;
 using Web.Models.PageModels;
@@ -7,6 +10,16 @@ namespace Web.Controllers
 {
     public class AccountController : Controller
     {
+        private Authenticator authenticator;
+        private IUserInteractor userInteractor;
+
+        public AccountController()
+        {
+            authenticator = new Authenticator();
+            var userRepository = new SQLServerUserRepository();
+            userInteractor = new UserInteractor( userRepository, authenticator );
+        }
+
         public ActionResult Register()
         {
             var registerPage = new RegisterPage();
@@ -14,16 +27,14 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(RegisterPage model)
+        public ActionResult Register( RegisterPage model )
         {
             NameValueCollection formValues = Request.Form;
-            if( !ModelState.IsValid )
-            {
-                return View( model );
-            }
+            if( !ModelState.IsValid ) return View( model );
+            userInteractor.CreateUser( formValues["email"], formValues["password"] );
             return RedirectToAction( "Index", "Home" );
         }
-        
+
         [ValidateAntiForgeryToken]
         public ActionResult Login( LoginPage model, string ReturnUrl )
         {

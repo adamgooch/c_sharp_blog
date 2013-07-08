@@ -2,7 +2,7 @@
 
 namespace Application.Users
 {
-    public class UserInteractor
+    public class UserInteractor : IUserInteractor
     {
         private readonly IUserRepository repository;
         private readonly IAuthenticator authenticator;
@@ -27,6 +27,7 @@ namespace Application.Users
                     VerifiedToken = Guid.NewGuid()
                 };
             repository.CreateUser( user );
+            authenticator.SendNewUserVerificationEmail( user );
         }
     }
 }

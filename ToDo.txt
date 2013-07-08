@@ -1,3 +1,6 @@
 To Do:
 
 User.Role - should this be a Role object as opposed to an int?
+Force unique email on User
+
+Port 25 is allowed in Medium Trust environment. It is blocked by Fios, however.
