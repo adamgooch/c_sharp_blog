@@ -82,7 +82,12 @@ namespace Data.Repositories
             {
                 var user = new User
                 {
-                    Email = reader["Email"].ToString()
+                    Email = reader["Email"].ToString(),
+                    CreatedDate = (DateTime)reader["CreatedDateTime"],
+                    PasswordDigest = (byte[])reader["PasswordDigest"],
+                    Salt = (byte[])reader["Salt"],
+                    VerifiedToken = new Guid( reader["VerifiedToken"].ToString() ),
+                    Role = (int)reader["UserRole"]
                 };
                 users.Add( user );
             }
