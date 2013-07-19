@@ -34,8 +34,9 @@ namespace Application.Users
         {
             var users = repository.GetAllUsers();
             var user = from u in users where u.VerifiedToken == token select u;
-            user.First().VerifiedToken = Guid.Empty;
-            repository.SaveUser( user.First() );
+            var theUser = user.First();
+            theUser.VerifiedToken = Guid.Empty;
+            repository.SaveUser( theUser );
         }
     }
 }
