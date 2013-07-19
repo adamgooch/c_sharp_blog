@@ -29,11 +29,11 @@ namespace Application
 
         public void SendNewUserVerificationEmail( User user )
         {
-            var fromAddress = new MailAddress( "fromEmail", "AdamGooch.me" );
+            var fromAddress = new MailAddress( "adamgooch@outlook.com", "Adam Gooch" );
             var toAddress = new MailAddress( user.Email, user.Email );
-            const string fromPassword = "secret";
+            const string fromPassword = "@nw7jrUHr7Nf*2CV";
             const string subject = "AdamGooch.me New User Verification";
-            string body = String.Format( "Here is your token: {0}", user.VerifiedToken );
+            string body = String.Format( "Follow this link to complete your registration: http://localhost:50508/verify_user/{0}", user.VerifiedToken );
             var smtp = new SmtpClient
                 {
                     Host = "smtp.live.com",

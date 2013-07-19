@@ -68,6 +68,7 @@
     <Build Include="CreateUser.sql" />
     <Build Include="GetAllUsers.sql" />
     <Build Include="DeleteUserByEmail.sql" />
+    <Build Include="EditUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BlogEngineDb.publish.xml" />

@@ -1,9 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using Data.Repositories;
 using Application.Posts.Entities;
@@ -21,7 +18,7 @@ namespace Tests.Data
         private readonly string testTitle = "Test... Post ";
         private readonly string testBody = "Lorem ipsum dolor sit amet";
         private readonly string[] testTag = new string[] { "Test Tag" };
-        private readonly string connection = ConfigurationManager.ConnectionStrings["testBlog"].ConnectionString;
+        private readonly string connection = ConfigurationManager.ConnectionStrings["blog"].ConnectionString;
 
         private SQLServerPostRepository sut;
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Application.Users
 {
@@ -28,6 +29,14 @@ namespace Application.Users
                 };
             repository.CreateUser( user );
             authenticator.SendNewUserVerificationEmail( user );
+        }
+
+        public void VerifyUser( Guid token )
+        {
+            var users = repository.GetAllUsers();
+            var user = from u in users where u.VerifiedToken == token select u;
+            user.First().VerifiedToken = Guid.Empty;
+            repository.SaveUser( user.First() );
         }
     }
 }

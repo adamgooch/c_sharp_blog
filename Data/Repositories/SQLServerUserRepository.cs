@@ -9,11 +9,10 @@ namespace Data.Repositories
 {
     public class SQLServerUserRepository : IUserRepository
     {
-        private readonly string connection = ConfigurationManager.ConnectionStrings["testBlog"].ConnectionString;
+        private readonly string connection = ConfigurationManager.ConnectionStrings["blog"].ConnectionString;
 
         public void CreateUser( User user )
         {
-            var id = Guid.Empty;
             using( var conn = new SqlConnection( connection ) )
             {
                 try
@@ -24,7 +23,7 @@ namespace Data.Repositories
                     sqlCommand.Parameters.Add( "@Email", SqlDbType.NVarChar ).Value = user.Email;
                     sqlCommand.Parameters.Add( "@Salt", SqlDbType.VarBinary ).Value = user.Salt;
                     sqlCommand.Parameters.Add( "@PasswordDigest", SqlDbType.VarBinary ).Value = user.PasswordDigest;
-                    sqlCommand.Parameters.Add( "@CreatedDateTime", SqlDbType.DateTime ).Value = user.CreatedDate;
+                    sqlCommand.Parameters.Add( "@CreatedDateTime", SqlDbType.DateTime ).Value = DateTime.Now;
                     sqlCommand.Parameters.Add( "@Role", SqlDbType.Int ).Value = user.Role;
                     sqlCommand.Parameters.Add( "@VerifiedToken", SqlDbType.UniqueIdentifier ).Value = user.VerifiedToken;
                     sqlCommand.ExecuteNonQuery();
@@ -39,24 +38,49 @@ namespace Data.Repositories
         public IEnumerable<User> GetAllUsers()
         {
             var users = new List<User>();
-            using (var conn = new SqlConnection(connection))
+            using( var conn = new SqlConnection( connection ) )
             {
                 try
                 {
                     conn.Open();
-                    var sqlCommand = new SqlCommand("dbo.GetAllUsers", conn);
+                    var sqlCommand = new SqlCommand( "dbo.GetAllUsers", conn );
                     sqlCommand.CommandType = CommandType.StoredProcedure;
-                    users = (List<User>)MapToUsers(sqlCommand.ExecuteReader());
+                    users = (List<User>) MapToUsers( sqlCommand.ExecuteReader() );
                 }
-                catch (Exception e)
+                catch( Exception e )
                 {
-                    Console.WriteLine(e.ToString());
+                    Console.WriteLine( e.ToString() );
                 }
             }
             return users;
         }
 
-        public void DeleteByEmail(string email)
+        public void SaveUser( User user )
+        {
+            using( var conn = new SqlConnection( connection ) )
+            {
+                try
+                {
+                    conn.Open();
+                    var sqlCommand = new SqlCommand( "dbo.EditUser", conn );
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.Add( "@Id", SqlDbType.UniqueIdentifier ).Value = user.Id;
+                    sqlCommand.Parameters.Add( "@Email", SqlDbType.NVarChar ).Value = user.Email;
+                    sqlCommand.Parameters.Add( "@Salt", SqlDbType.VarBinary ).Value = user.Salt;
+                    sqlCommand.Parameters.Add( "@PasswordDigest", SqlDbType.VarBinary ).Value = user.PasswordDigest;
+                    sqlCommand.Parameters.Add( "@ModifiedDateTime", SqlDbType.DateTime ).Value = DateTime.Now;
+                    sqlCommand.Parameters.Add( "@Role", SqlDbType.Int ).Value = user.Role;
+                    sqlCommand.Parameters.Add( "@VerifiedToken", SqlDbType.UniqueIdentifier ).Value = user.VerifiedToken;
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch( Exception e )
+                {
+                    Console.WriteLine( e.ToString() );
+                }
+            }
+        }
+
+        public void DeleteByEmail( string email )
         {
             using( var conn = new SqlConnection( connection ) )
             {
@@ -82,12 +106,13 @@ namespace Data.Repositories
             {
                 var user = new User
                 {
+                    Id = new Guid( reader["Id"].ToString() ),
                     Email = reader["Email"].ToString(),
-                    CreatedDate = (DateTime)reader["CreatedDateTime"],
-                    PasswordDigest = (byte[])reader["PasswordDigest"],
-                    Salt = (byte[])reader["Salt"],
+                    CreatedDate = (DateTime) reader["CreatedDateTime"],
+                    PasswordDigest = (byte[]) reader["PasswordDigest"],
+                    Salt = (byte[]) reader["Salt"],
                     VerifiedToken = new Guid( reader["VerifiedToken"].ToString() ),
-                    Role = (int)reader["UserRole"]
+                    Role = (int) reader["UserRole"]
                 };
                 users.Add( user );
             }

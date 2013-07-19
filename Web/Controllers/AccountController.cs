@@ -1,4 +1,5 @@
-﻿using Application;
+﻿using System;
+using Application;
 using Application.Users;
 using Data.Repositories;
 using SimpleCrypto;
@@ -24,6 +25,12 @@ namespace Web.Controllers
         {
             var registerPage = new RegisterPage();
             return View( registerPage );
+        }
+
+        public ActionResult VerifyUser( Guid token )
+        {
+            userInteractor.VerifyUser( token );
+            return RedirectToAction( "Index", "Home" );
         }
 
         [HttpPost]

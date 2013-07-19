@@ -25,7 +25,6 @@ namespace Tests.Data
                 Email = email,
                 Salt = salt,
                 PasswordDigest = authenticator.GeneratePasswordDigest( "password", salt, 5000 ),
-                CreatedDate = DateTime.Today,
                 VerifiedToken = Guid.NewGuid(),
                 Role = Roles.Default()
             };
@@ -53,9 +52,24 @@ namespace Tests.Data
             Assert.AreEqual( user.Email, mappedUser.Email, "Email was not mapped correctly" );
             Assert.AreEqual( user.Salt, mappedUser.Salt, "Salt was not mapped correctly" );
             Assert.AreEqual( user.PasswordDigest, mappedUser.PasswordDigest, "PasswordDigest was not mapped correctly" );
-            Assert.AreEqual( user.CreatedDate, mappedUser.CreatedDate, "CreatedDate was not mapped correctly" );
             Assert.AreEqual( user.VerifiedToken, mappedUser.VerifiedToken, "VerifiedToken was not mapped correctly" );
             Assert.AreEqual( user.Role, mappedUser.Role, "Role was not mapped correctly" );
+        }
+
+        [Test]
+        public void it_saves_a_current_user()
+        {
+            sut.CreateUser( user );
+            var createdUser = sut.GetAllUsers().First();
+            createdUser.VerifiedToken = Guid.Empty;
+
+            sut.SaveUser( createdUser );
+            var allUsers = sut.GetAllUsers();
+            var savedUser = allUsers.First();
+
+            Assert.AreEqual( 1, allUsers.Count() );
+            Assert.AreEqual( createdUser.Id, savedUser.Id );
+            Assert.AreEqual( createdUser.VerifiedToken, savedUser.VerifiedToken );
         }
     }
 }

@@ -20,14 +20,20 @@ namespace Web
             );
 
             routes.MapRoute(
+                name: "Verify",
+                url: "verify_user/{token}",
+                defaults: new { controller = "Account", action = "VerifyUser" }
+            );
+
+            routes.MapRoute(
                 name: "ShowPost",
-                url: "Blog/{author}/{blogTitle}",
+                url: "blog/{author}/{blogTitle}",
                 defaults: new { controller = "Blog", action = "ShowPost" }
             );
 
             routes.MapRoute(
                 name: "ShowAuthorPosts",
-                url: "Blogs/{author}",
+                url: "blogs/{author}",
                 defaults: new { controller = "Blog", action = "ShowAuthorPosts" }
             );
 
