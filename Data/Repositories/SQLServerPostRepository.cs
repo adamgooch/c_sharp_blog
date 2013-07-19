@@ -1,9 +1,6 @@
 ﻿using Application.Posts.RepositoryContracts;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
@@ -14,7 +11,7 @@ namespace Data.Repositories
     public class SQLServerPostRepository : IPostRepository
     {
         private static readonly string tableName = "Posts";
-        private readonly string connection = ConfigurationManager.ConnectionStrings["testBlog"].ConnectionString;
+        private readonly string connection = ConfigurationManager.ConnectionStrings["blog"].ConnectionString;
 
         public SQLServerPostRepository()
         {

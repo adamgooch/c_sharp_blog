@@ -74,18 +74,6 @@ namespace Tests.Application.Interactors
         }
 
         [Test]
-        public void it_creates_a_user_with_todays_date()
-        {
-            var createdUser = new User();
-            var today = DateTime.Today;
-            mocker.GetMock<IUserRepository>()
-                  .Setup( x => x.CreateUser( It.IsAny<User>() ) )
-                  .Callback( ( User user ) => createdUser = user );
-            sut.CreateUser( "test@example.com", "testPassword" );
-            Assert.AreEqual( today, createdUser.CreatedDate );
-        }
-
-        [Test]
         public void it_creates_a_user_with_the_default_role()
         {
             var createdUser = new User();

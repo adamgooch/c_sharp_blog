@@ -23,7 +23,6 @@ namespace Application.Users
                     Email = email,
                     Salt = salt,
                     PasswordDigest = authenticator.GeneratePasswordDigest( password, salt, ITERATIONS ),
-                    CreatedDate = DateTime.Today,
                     Role = Roles.Default(),
                     VerifiedToken = Guid.NewGuid()
                 };
