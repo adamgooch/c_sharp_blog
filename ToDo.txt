@@ -2,5 +2,6 @@ To Do:
 
 User.Role - should this be a Role object as opposed to an int?
 Force unique email on User
+Do something better with the iteration count in the authenticator. Maybe some sort of struct for password, salt, and iteration count?
 
 Port 25 is allowed in Medium Trust environment. It is blocked by Fios, however.

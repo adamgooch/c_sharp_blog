@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using Application;
 using Application.Users;
 using Data.Repositories;
@@ -11,7 +12,7 @@ namespace Web.Controllers
 {
     public class AccountController : Controller
     {
-        private Authenticator authenticator;
+        private IAuthenticator authenticator;
         private IUserInteractor userInteractor;
 
         public AccountController()
@@ -21,6 +22,7 @@ namespace Web.Controllers
             userInteractor = new UserInteractor( userRepository, authenticator );
         }
 
+        [HttpGet]
         public ActionResult Register()
         {
             var registerPage = new RegisterPage();
@@ -46,11 +48,10 @@ namespace Web.Controllers
         public ActionResult Login( LoginPage model, string ReturnUrl )
         {
             NameValueCollection formValues = Request.Form;
-            if( Validated( formValues["username"], formValues["password"] ) )
+            var user = userInteractor.GetUserByUsername( formValues["username"] );
+            if( authenticator.Authenticate( formValues["password"], user.Salt, user.PasswordDigest, 5000 ) )
             {
-                Session["id_1"] = System.Configuration.ConfigurationManager.AppSettings["SessionValue1"];
-                Session["id_2"] = System.Configuration.ConfigurationManager.AppSettings["SessionValue2"];
-                Session["id_3"] = System.Configuration.ConfigurationManager.AppSettings["SessionValue3"];
+                Response.Cookies.Add( authenticator.GenerateAuthenticationCookie( user.Id, user.Salt, Session ));
                 return RedirectToLocal( model.ReturnUrl );
             }
             else
@@ -64,14 +65,6 @@ namespace Web.Controllers
                 return Redirect( returnUrl );
             }
             return RedirectToAction( "Manage", "Blog" );
-        }
-
-        private bool Validated( string username, string password )
-        {
-            var crypto = new PBKDF2();
-            var hashedPass = crypto.Compute( password, System.Configuration.ConfigurationManager.AppSettings["ManageSalt"] );
-            return username == System.Configuration.ConfigurationManager.AppSettings["ManageUser"] &&
-                 hashedPass == System.Configuration.ConfigurationManager.AppSettings["ManagePass"];
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Application;
 using Application.Users;
@@ -101,7 +102,23 @@ namespace Tests.Application.Interactors
             mocker.GetMock<IUserRepository>()
                   .Setup( x => x.CreateUser( It.IsAny<User>() ) )
                   .Throws( new IOException() );
-            var ex = Assert.Throws<IOException>(() => sut.CreateUser( "test@example.com", "testPassword" ) );
+            var ex = Assert.Throws<IOException>( () => sut.CreateUser( "test@example.com", "testPassword" ) );
+        }
+
+        [Test]
+        public void it_gets_a_user_by_username()
+        {
+            var allUsers = new List<User>();
+            var generatedSalt = new byte[16];
+            var user1 = new User();
+            user1.Salt = generatedSalt;
+            user1.Email = "test@example.com";
+            allUsers.Add( user1 );
+            mocker.GetMock<IUserRepository>()
+                  .Setup( x => x.GetAllUsers() )
+                  .Returns( allUsers );
+            var returnedUser = sut.GetUserByUsername( "test@example.com" );
+            Assert.AreEqual( generatedSalt, returnedUser.Salt );
         }
     }
 }

@@ -33,10 +33,17 @@ namespace Application.Users
         public void VerifyUser( Guid token )
         {
             var users = repository.GetAllUsers();
-            var user = from u in users where u.VerifiedToken == token select u;
+            var user = users.Where( u => u.VerifiedToken == token );
             var theUser = user.First();
             theUser.VerifiedToken = Guid.Empty;
             repository.SaveUser( theUser );
+        }
+
+        public User GetUserByUsername(string username)
+        {
+            var users = repository.GetAllUsers();
+            var user = users.Where( x => x.Email == username );
+            return user.First();
         }
     }
 }

@@ -6,5 +6,6 @@ namespace Application.Users
     {
         void CreateUser( string email, string password );
         void VerifyUser( Guid token );
+        User GetUserByUsername( string username );
     }
 }
