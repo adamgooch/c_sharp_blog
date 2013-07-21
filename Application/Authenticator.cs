@@ -91,6 +91,7 @@ namespace Application
             byte[] encrypted;
             using( var aesAlg = new AesCryptoServiceProvider() )
             {
+                GenerateAesKeyIfNoneExists( aesAlg );
                 var encryptor = aesAlg.CreateEncryptor( GetKey(), GetIV() );
                 aesAlg.Padding = PaddingMode.PKCS7;
 
@@ -148,10 +149,12 @@ namespace Application
             return iv;
         }
 
-        private static void GenerateAESKey( AesCryptoServiceProvider aesAlg )
+        private static void GenerateAesKeyIfNoneExists( AesCryptoServiceProvider aesAlg )
         {
-            File.WriteAllBytes(ConfigurationManager.AppSettings["AESIV"], aesAlg.IV );
-            File.WriteAllBytes(ConfigurationManager.AppSettings["AESKey"], aesAlg.Key);
+            var keyFile = ConfigurationManager.AppSettings["AESKey"];
+            if( File.Exists( keyFile ) ) return;
+            File.WriteAllBytes( ConfigurationManager.AppSettings["AESIV"], aesAlg.IV );
+            File.WriteAllBytes( ConfigurationManager.AppSettings["AESKey"], aesAlg.Key );
         }
     }
 }
