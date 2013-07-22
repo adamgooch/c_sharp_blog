@@ -26,8 +26,15 @@ namespace Application.Users
                     Role = Roles.Default(),
                     VerifiedToken = Guid.NewGuid()
                 };
-            repository.CreateUser( user );
-            authenticator.SendNewUserVerificationEmail( user );
+            try
+            {
+                authenticator.SendNewUserVerificationEmail( user );
+                repository.CreateUser( user );
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public void VerifyUser( Guid token )

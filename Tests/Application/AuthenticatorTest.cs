@@ -78,9 +78,8 @@ namespace Tests.Application
         {
             var id = Guid.NewGuid();
             var salt = sut.GenerateSalt();
-            var session = new HttpSessionMock();
-            var cookie = sut.GenerateAuthenticationCookie( id, salt, session );
-            Assert.AreNotEqual( cookie.Values["Id"], id.ToString() );
+            var cookie = sut.GenerateAuthenticationCookie( id, salt );
+            Assert.AreNotEqual( cookie.Value, id.ToString() );
         }
 
         [Test]
@@ -88,13 +87,19 @@ namespace Tests.Application
         {
             var id = Guid.NewGuid();
             var salt = sut.GenerateSalt();
-            var session = new HttpSessionMock();
-            var cookie = sut.GenerateAuthenticationCookie( id, salt, session );
+            var cookie = sut.GenerateAuthenticationCookie( id, salt );
             var decryptedCookie = sut.DecryptAuthenticationCookie( cookie );
-            var returnedId = new Guid( decryptedCookie.Values["Id"] );
             Assert.AreEqual( id.ToString(), decryptedCookie.Values["Id"] );
-            Assert.AreEqual( id, returnedId );
-            Assert.AreEqual( System.Text.Encoding.Default.GetString( salt ), decryptedCookie.Values["Salt"] );
+            Assert.AreEqual( salt, System.Text.Encoding.Default.GetBytes( decryptedCookie.Values["Salt"] ) );
+        }
+
+        [Test]
+        public void it_creates_an_http_only_authentication_cookie()
+        {
+            var id = Guid.NewGuid();
+            var salt = sut.GenerateSalt();
+            var cookie = sut.GenerateAuthenticationCookie( id, salt );
+            Assert.IsTrue( cookie.HttpOnly );
         }
     }
 

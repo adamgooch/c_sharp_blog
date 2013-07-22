@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Web;
 using Application;
 using Application.Users;
 using Data.Repositories;
-using SimpleCrypto;
 using System.Collections.Specialized;
 using System.Web.Mvc;
 using Web.Models.PageModels;
@@ -51,7 +49,7 @@ namespace Web.Controllers
             var user = userInteractor.GetUserByUsername( formValues["username"] );
             if( authenticator.Authenticate( formValues["password"], user.Salt, user.PasswordDigest, 5000 ) )
             {
-                Response.Cookies.Add( authenticator.GenerateAuthenticationCookie( user.Id, user.Salt, Session ));
+                Response.Cookies.Add( authenticator.GenerateAuthenticationCookie( user.Id, user.Salt ) );
                 return RedirectToLocal( model.ReturnUrl );
             }
             else

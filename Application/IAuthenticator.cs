@@ -10,7 +10,7 @@ namespace Application
         byte[] GeneratePasswordDigest( string password, byte[] salt, int iterations );
         void SendNewUserVerificationEmail( User user );
         bool Authenticate( string password, byte[] salt, byte[] passwordDigest, int iterations );
-        HttpCookie GenerateAuthenticationCookie( Guid id, byte[] salt, HttpSessionStateBase session );
+        HttpCookie GenerateAuthenticationCookie( Guid id, byte[] salt );
         HttpCookie DecryptAuthenticationCookie( HttpCookie encryptedCookie );
     }
 }
