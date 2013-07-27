@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Web.Mvc;
-using System.Configuration;
 using Web.Filters;
 using Web.Models.PageModels;
 using Application.Posts.Interactors;
@@ -26,10 +25,11 @@ namespace Web.Controllers
             return View( newPostPage );
         }
 
-        [ValidateInput(false)]
-        public void Create(Post post)
+        [AuthorizeUser]
+        [ValidateInput( false )]
+        public void Create( Post post )
         {
-            if( LoggedIn() && ModelState.IsValid )
+            if( ModelState.IsValid )
             {
                 postInteractor.CreatePost( post );
                 Response.Redirect( "Manage" );
@@ -40,66 +40,40 @@ namespace Web.Controllers
             }
         }
 
-        public ActionResult ShowPost(string author, string blogTitle)
+        public ActionResult ShowPost( string author, string blogTitle )
         {
             var showPostPage = new ShowPostPage( postInteractor, author, blogTitle );
             return View( "Show", showPostPage );
         }
 
-        public void DeletePost(string author, string blogTitle, DateTime date)
+        [AuthorizeUser]
+        public void DeletePost( string author, string blogTitle, DateTime date )
         {
             postInteractor.DeletePost( author, date, blogTitle );
             Response.Redirect( "Manage" );
         }
 
+        [AuthorizeUser]
         public ActionResult Manage()
         {
-            if( LoggedIn() )
-            {
-                var manageBlogPage = new ManageBlogPage( postInteractor );
-                return View( "Manage", manageBlogPage );
-            }
-            else
-            {
-                var loginPage = new LoginPage { ReturnUrl = "Blog/New" };
-                return View( "Login", loginPage );
-            }
+            var manageBlogPage = new ManageBlogPage( postInteractor );
+            return View( "Manage", manageBlogPage );
         }
 
-        public ActionResult EditPost(string author, string blogTitle)
+        [AuthorizeUser]
+        public ActionResult EditPost( string author, string blogTitle )
         {
-            if( LoggedIn() )
-            {
-                var editPostPage = new EditPostPage( postInteractor, author, blogTitle );
-                return View( "Edit", editPostPage );
-            }
-            else
-            {
-                var loginPage = new LoginPage { ReturnUrl = "Blog/New" };
-                return View( "Login", loginPage );
-            }
+            var editPostPage = new EditPostPage( postInteractor, author, blogTitle );
+            return View( "Edit", editPostPage );
         }
 
         [HttpPost]
+        [AuthorizeUser]
         [ValidateInput( false )]
         public void Edit( Post post )
         {
-            if( LoggedIn() )
-            {
-                postInteractor.EditPost( post );
-                Response.Redirect( "Manage" );
-            }
-            else
-            {
-                Response.Redirect( "/" );
-            }
-        }
-
-        private bool LoggedIn()
-        {
-            return (string)Session["id_1"] == ConfigurationManager.AppSettings["SessionValue1"] &&
-                (string)Session["id_2"] == ConfigurationManager.AppSettings["SessionValue2"] &&
-                (string)Session["id_3"] == ConfigurationManager.AppSettings["SessionValue3"];
+            postInteractor.EditPost( post );
+            Response.Redirect( "Manage" );
         }
     }
 }

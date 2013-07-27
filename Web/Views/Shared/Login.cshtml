@@ -1,10 +1,10 @@
 ﻿@model Web.Models.PageModels.LoginPage
 
 @{ ViewBag.Title = "Login"; }
-                
+               
 <h2>Login</h2>
 <div>
-  @using( Html.BeginForm( "Login", "Account", FormMethod.Post, new { ReturnUrl = "Blog/New" } ) )
+  @using( Html.BeginForm( "Login", "Account", FormMethod.Post ) )
   {
     @Html.AntiForgeryToken()
     <div>@Html.LabelFor( x => x.UserName )</div>

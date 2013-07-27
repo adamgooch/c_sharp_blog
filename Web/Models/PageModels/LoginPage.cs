@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Web.Models.PageModels
 {
@@ -16,7 +12,5 @@ namespace Web.Models.PageModels
         [DataType( DataType.Password )]
         [Display( Name = "Password" )]
         public string Password { get; set; }
-
-        public string ReturnUrl { get; set; }
     }
 }

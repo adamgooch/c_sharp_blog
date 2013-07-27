@@ -8,13 +8,6 @@ namespace Web.Filters
 {
     public class AuthorizeUser : AuthorizeAttribute
     {
-
-        protected override bool AuthorizeCore( System.Web.HttpContextBase httpContext )
-        {
-            var whatever = 1;
-            return true;
-        }
-
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             var request = filterContext.HttpContext.Request;
@@ -31,13 +24,7 @@ namespace Web.Filters
             else
             {
                 filterContext.Result = new RedirectResult("/account/login");
-
             }
-    }
-
-        protected override void HandleUnauthorizedRequest( AuthorizationContext filterContext )
-        {
-            var somethingElse = 3;
         }
     }
 }

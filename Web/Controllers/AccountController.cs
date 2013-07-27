@@ -49,6 +49,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login( LoginPage model, string ReturnUrl )
         {
             NameValueCollection formValues = Request.Form;
@@ -56,19 +57,10 @@ namespace Web.Controllers
             if( authenticator.Authenticate( formValues["password"], user.Salt, user.PasswordDigest, 5000 ) )
             {
                 Response.Cookies.Add( authenticator.GenerateAuthenticationCookie( user.Id, user.Salt ) );
-                return RedirectToLocal( model.ReturnUrl );
+                return RedirectToAction( "Index", "Home" );
             }
             else
                 return View( model );
-        }
-
-        private ActionResult RedirectToLocal( string returnUrl )
-        {
-            if( Url.IsLocalUrl( returnUrl ) )
-            {
-                return Redirect( returnUrl );
-            }
-            return RedirectToAction( "Manage", "Blog" );
         }
     }
 }
