@@ -11,10 +11,9 @@ namespace Web.Filters
         {
             var request = filterContext.HttpContext.Request;
             var cookie = request.Cookies[Authenticator.AuthenticationCookie];
-            var authenticator = new Authenticator();
             if( cookie != null )
             {
-                var userInteractor = new UserInteractor( new SQLServerUserRepository(), authenticator );
+                var userInteractor = new UserInteractor( new SQLServerUserRepository(), new Authenticator() );
                 var user = userInteractor.GetUserByCookie( cookie );
                 if( user != null ) SetCurrentUser( filterContext, user );
                 else RedirectToLogin( filterContext );
