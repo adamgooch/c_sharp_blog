@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Web;
 
 namespace Application.Users
 {
@@ -7,7 +8,7 @@ namespace Application.Users
     {
         private readonly IUserRepository repository;
         private readonly IAuthenticator authenticator;
-        private const int ITERATIONS = 5000;
+        private const int Iterations = 5000;
 
         public UserInteractor( IUserRepository userRepository, IAuthenticator authenticator )
         {
@@ -22,7 +23,7 @@ namespace Application.Users
                 {
                     Email = email,
                     Salt = salt,
-                    PasswordDigest = authenticator.GeneratePasswordDigest( password, salt, ITERATIONS ),
+                    PasswordDigest = authenticator.GeneratePasswordDigest( password, salt, Iterations ),
                     Role = Roles.Default(),
                     VerifiedToken = Guid.NewGuid()
                 };
@@ -58,6 +59,16 @@ namespace Application.Users
             var users = repository.GetAllUsers();
             var user = users.Where( u => u.Id == id );
             return user.First();
+        }
+
+        public User GetUserByCookie( HttpCookie cookie )
+        {
+            var decryptedCookie = authenticator.DecryptAuthenticationCookie( cookie );
+            var userId = new Guid( decryptedCookie.Values["Id"] );
+            var userSalt = System.Text.Encoding.Default.GetBytes( decryptedCookie.Values["Salt"] );
+            var user = GetUserById( userId );
+            if( user != null && userSalt.SequenceEqual( user.Salt ) ) return user;
+            return null;
         }
     }
 }

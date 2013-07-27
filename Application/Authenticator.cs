@@ -86,6 +86,18 @@ namespace Application
             return cookie;
         }
 
+        public Guid GetId( HttpCookie encryptedCookie )
+        {
+            var decryptedCookie = DecryptAuthenticationCookie( encryptedCookie );
+            return new Guid( decryptedCookie.Values["Id"] );
+        }
+
+        public byte[] GetSalt( HttpCookie encryptedCookie )
+        {
+            var decryptedCookie = DecryptAuthenticationCookie( encryptedCookie );
+            return System.Text.Encoding.Default.GetBytes( decryptedCookie.Values["Salt"] );
+        }
+
         public HttpCookie DecryptAuthenticationCookie( HttpCookie cookie )
         {
             cookie.Value = Decrypt( Convert.FromBase64String( cookie.Value ) );
