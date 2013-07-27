@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[EditUser]
 	@Id uniqueidentifier,
 	@Email nvarchar(max),
-	@Salt varbinary(50),
+	@Salt varbinary(max),
 	@PasswordDigest varbinary(max),
 	@ModifiedDateTime datetime,
 	@Role int,

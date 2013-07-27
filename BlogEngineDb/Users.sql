@@ -2,7 +2,7 @@
 (
 	[Id] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
     [Email] NVARCHAR(50) NOT NULL, 
-    [Salt] VARBINARY(50) NOT NULL, 
+    [Salt] VARBINARY(MAX) NOT NULL, 
     [PasswordDigest] VARBINARY(MAX) NOT NULL, 
     [CreatedDateTime] DATETIME NOT NULL, 
     [UserRole] INT NOT NULL, 

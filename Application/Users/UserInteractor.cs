@@ -31,7 +31,7 @@ namespace Application.Users
                 authenticator.SendNewUserVerificationEmail( user );
                 repository.CreateUser( user );
             }
-            catch (Exception)
+            catch( Exception )
             {
                 throw;
             }
@@ -46,10 +46,17 @@ namespace Application.Users
             repository.SaveUser( theUser );
         }
 
-        public User GetUserByUsername(string username)
+        public User GetUserByUsername( string username )
         {
             var users = repository.GetAllUsers();
             var user = users.Where( x => x.Email == username );
+            return user.First();
+        }
+
+        public User GetUserById( Guid id )
+        {
+            var users = repository.GetAllUsers();
+            var user = users.Where( u => u.Id == id );
             return user.First();
         }
     }

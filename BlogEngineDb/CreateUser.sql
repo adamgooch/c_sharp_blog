@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[CreateUser]
 	@Email nvarchar(max),
-	@Salt varbinary(50),
+	@Salt varbinary(max),
 	@PasswordDigest varbinary(max),
 	@CreatedDateTime datetime,
 	@Role int,

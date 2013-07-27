@@ -1,9 +1,6 @@
 ﻿using Application.Posts.Entities;
 using Application.Posts.Interactors;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Web.Models.PageModels
 {

@@ -12,9 +12,9 @@ namespace Application
 {
     public class Authenticator : IAuthenticator
     {
-        private const int SALT_BYTE_LENGTH = 16;
-        private const int DIGEST_BYTE_LENGTH = 32;
-        private const string AUTHENTICATION_COOKIE = "ae23";
+        private const int SaltByteLength = 16;
+        private const int DigestByteLength = 32;
+        public static readonly string AuthenticationCookie = "ae23";
         private readonly string rootDirectory = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "keys";
         private readonly string keyFile;
         private readonly string ivFile;
@@ -27,7 +27,7 @@ namespace Application
 
         public byte[] GenerateSalt()
         {
-            var salt = new byte[SALT_BYTE_LENGTH];
+            var salt = new byte[SaltByteLength];
             using( var rngCsp = new RNGCryptoServiceProvider() )
             {
                 rngCsp.GetBytes( salt );
@@ -38,7 +38,7 @@ namespace Application
         public byte[] GeneratePasswordDigest( string password, byte[] salt, int iterations )
         {
             var key = new Rfc2898DeriveBytes( password, salt, iterations );
-            return key.GetBytes( DIGEST_BYTE_LENGTH );
+            return key.GetBytes( DigestByteLength );
         }
 
         public void SendNewUserVerificationEmail( User user )
@@ -78,9 +78,9 @@ namespace Application
         public HttpCookie GenerateAuthenticationCookie( Guid id, byte[] salt )
         {
             var value = System.Text.Encoding.Default.GetString( salt ) + id.ToString();
-            var cookie = new HttpCookie( AUTHENTICATION_COOKIE )
+            var cookie = new HttpCookie( AuthenticationCookie )
                 {
-                    Value = System.Text.Encoding.Default.GetString( Encrypt( value ) ),
+                    Value = Convert.ToBase64String( Encrypt( value ) ),
                     HttpOnly = true
                 };
             return cookie;
@@ -88,9 +88,9 @@ namespace Application
 
         public HttpCookie DecryptAuthenticationCookie( HttpCookie cookie )
         {
-            cookie.Value = Decrypt( System.Text.Encoding.Default.GetBytes( cookie.Value ) );
-            var salt = cookie.Value.Substring( 0, SALT_BYTE_LENGTH );
-            var id = cookie.Value.Substring( SALT_BYTE_LENGTH );
+            cookie.Value = Decrypt( Convert.FromBase64String( cookie.Value ) );
+            var salt = cookie.Value.Substring( 0, SaltByteLength );
+            var id = cookie.Value.Substring( SaltByteLength );
             cookie.Values["Salt"] = salt;
             cookie.Values["Id"] = id;
             return cookie;

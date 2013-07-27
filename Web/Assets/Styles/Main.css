@@ -73,3 +73,6 @@ input.input-validation-error {
 input {
   margin: 5px;
 }
+#username {
+  padding-top: 15px;
+}
