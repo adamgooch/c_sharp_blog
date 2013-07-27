@@ -42,7 +42,13 @@ namespace Web.Controllers
             return RedirectToAction( "Index", "Home" );
         }
 
-        [ValidateAntiForgeryToken]
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult Login( LoginPage model, string ReturnUrl )
         {
             NameValueCollection formValues = Request.Form;

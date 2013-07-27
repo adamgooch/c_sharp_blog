@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 using System.Configuration;
+using Web.Filters;
 using Web.Models.PageModels;
 using Application.Posts.Interactors;
 using Application.Posts.Entities;
@@ -18,18 +19,11 @@ namespace Web.Controllers
             postInteractor = new PostInteractor( postRepository );
         }
 
+        [AuthorizeUser]
         public ActionResult New()
         {
-            if( LoggedIn() )
-            {
-                var newPostPage = new NewPostPage();
-                return View( newPostPage );
-            }
-            else
-            {
-                var loginPage = new LoginPage { ReturnUrl = "Blog/New" };
-                return View( "Login", loginPage );
-            }
+            var newPostPage = new NewPostPage();
+            return View( newPostPage );
         }
 
         [ValidateInput(false)]
