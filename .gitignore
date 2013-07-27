@@ -79,8 +79,11 @@ UpgradeLog.XML
 # NUnit playlists - I am just playing with these for the moment
 *.playlist
 
-# my blog post directory
+# the blog post directory
 site_posts/
+
+# the encryption key directory
+Web/keys
 
 # Database project publish profiles
 *.publish.xml
