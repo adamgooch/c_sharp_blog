@@ -100,6 +100,25 @@ namespace Data.Repositories
             }
         }
 
+        public void DeleteById( Guid id )
+        {
+            using( var conn = new SqlConnection( connection ) )
+            {
+                try
+                {
+                    conn.Open();
+                    var sqlCommand = new SqlCommand( "dbo.DeleteUserById", conn );
+                    sqlCommand.CommandType = CommandType.StoredProcedure;
+                    sqlCommand.Parameters.Add( "@Id", SqlDbType.UniqueIdentifier ).Value = id;
+                    sqlCommand.ExecuteNonQuery();
+                }
+                catch( Exception e )
+                {
+                    Console.WriteLine( e.ToString() );
+                }
+            }
+        }
+
         private IEnumerable<User> MapToUsers( SqlDataReader reader )
         {
             var users = new List<User>();

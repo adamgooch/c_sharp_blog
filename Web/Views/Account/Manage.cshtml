@@ -7,21 +7,29 @@
 <h2>@Model.PageHeader</h2>
 <div class="bottom-space">
     <table>
-    @foreach( var user in Model.AllUsers )
-    {
-        Model.CurrentUser = user;
         <tr>
-            <td>@user.Id </td>
-            <td>@user.Email </td>
-            <td>@Html.DropDownListFor( m => m.CurrentUser.Role, new SelectList( Enum.GetValues( typeof( Application.Role ) ) ) )</td>
-            <td>@Html.ActionLink(
-                "Delete",
-                "Delete",
-                "Account",
-                new { @id = @user.Id, @email = @user.Email, @role = @user.Role },
-                new { }
-                )</td>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Verified</th>
+            <th></th>
         </tr>
-    }
+        @foreach( var user in Model.AllUsers )
+        {
+            Model.CurrentUser = user;
+            <tr>
+                <td>@user.Id </td>
+                <td>@user.Email </td>
+                <td>@Html.DropDownListFor( m => m.CurrentUser.Role, new SelectList( Enum.GetValues( typeof( Application.Role ) ) ) )</td>
+                <td>@user.VerifiedToken</td>
+                <td>@Html.ActionLink(
+                        "Delete",
+                        "Delete",
+                        "Account",
+                        new { @id = @user.Id },
+                        new { }
+                         )</td>
+            </tr>
+        }
     </table>
 </div>

@@ -216,6 +216,7 @@
     <Content Include="Assets\Images\Profile.jpg" />
     <Content Include="Assets\Scripts\bootstrap.min.js" />
     <Content Include="Assets\Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Assets\Scripts\manage-users.js" />
     <Content Include="Assets\Scripts\modernizr.custom.min.js" />
     <Content Include="Assets\Scripts\tinymce\license.txt" />
     <Content Include="Assets\Scripts\tinymce\plugins\advlist\plugin.min.js" />

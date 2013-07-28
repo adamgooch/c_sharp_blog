@@ -76,5 +76,10 @@ namespace Application.Users
         {
             return repository.GetAllUsers();
         }
+
+        public void DeleteById( Guid id )
+        {
+            repository.DeleteById( id );
+        }
     }
 }

@@ -12,5 +12,6 @@ namespace Application.Users
         User GetUserById( Guid id );
         User GetUserByCookie( HttpCookie cookie );
         IEnumerable<User> GetAllUsers();
+        void DeleteById( Guid id );
     }
 }

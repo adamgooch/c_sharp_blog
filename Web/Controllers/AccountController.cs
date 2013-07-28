@@ -4,6 +4,7 @@ using Application.Users;
 using Data.Repositories;
 using System.Collections.Specialized;
 using System.Web.Mvc;
+using Web.Filters;
 using Web.Models.PageModels;
 
 namespace Web.Controllers
@@ -63,15 +64,18 @@ namespace Web.Controllers
                 return View( model );
         }
 
+        [AuthorizeUser]
         public ActionResult Manage()
         {
             var pageModel = new ManageAccountsPage( userInteractor );
             return View( pageModel );
         }
 
-        [HttpPost]
-        public void Delete()
+        [HttpGet]
+        [AuthorizeUser]
+        public void Delete( string id )
         {
+            userInteractor.DeleteById( new Guid( id ) );
             Response.Redirect( "Manage" );
         }
     }
