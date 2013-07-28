@@ -12,5 +12,6 @@ namespace Application
         bool Authenticate( string password, byte[] salt, byte[] passwordDigest, int iterations );
         HttpCookie GenerateAuthenticationCookie( Guid id, byte[] salt );
         HttpCookie DecryptAuthenticationCookie( HttpCookie encryptedCookie );
+        bool LoggedIn( Guid id, HttpCookie cookie );
     }
 }

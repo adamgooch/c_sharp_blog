@@ -75,8 +75,10 @@ namespace Web.Controllers
         [AuthorizeUser]
         public void Delete( string id )
         {
-            userInteractor.DeleteById( new Guid( id ) );
-            Response.Redirect( "Manage" );
+            var userId = new Guid( id );
+            if( !authenticator.LoggedIn( userId, Request.Cookies[Authenticator.AuthenticationCookie] ) )
+                userInteractor.DeleteById( userId );
+            Response.Redirect( "/account/manage" );
         }
     }
 }

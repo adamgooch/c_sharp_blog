@@ -108,6 +108,13 @@ namespace Application
             return cookie;
         }
 
+        public bool LoggedIn( Guid id, HttpCookie decryptedCookie )
+        {
+            //var decryptedCookie = DecryptAuthenticationCookie( encryptedCookie );
+            var cookieId = decryptedCookie.Values["Id"];
+            return id == new Guid( cookieId );
+        }
+
         private byte[] Encrypt( string plainText )
         {
             byte[] encrypted;
