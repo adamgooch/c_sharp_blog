@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using Application;
 using Application.Users;
 
 namespace Data.Repositories
@@ -112,7 +113,7 @@ namespace Data.Repositories
                     PasswordDigest = (byte[]) reader["PasswordDigest"],
                     Salt = (byte[]) reader["Salt"],
                     VerifiedToken = new Guid( reader["VerifiedToken"].ToString() ),
-                    Role = (int) reader["UserRole"]
+                    Role = (Role) reader["UserRole"]
                 };
                 users.Add( user );
             }

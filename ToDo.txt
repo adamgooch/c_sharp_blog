@@ -6,5 +6,7 @@ To Do:
 - Duplication in HomeController/Index and Filters/AuthorizeUser
 - Write tests for Authenticator
 - Write tests for UserInteractor
+- Manage Users Page
+- Make authorization cookie unique with every login
 
 Port 25 is allowed in Medium Trust environment. It is blocked by Fios, however.

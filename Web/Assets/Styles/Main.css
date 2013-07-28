@@ -17,6 +17,12 @@ header .row-fluid {
 ul {
   list-style-type: none;
 }
+td {
+  padding: 5px 15px;
+}
+select {
+  margin-bottom: 0;
+}
 #wrap {
   min-height: 100%;
   height: auto !important;

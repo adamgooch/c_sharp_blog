@@ -26,7 +26,7 @@ namespace Tests.Data
                 Salt = salt,
                 PasswordDigest = authenticator.GeneratePasswordDigest( "password", salt, 5000 ),
                 VerifiedToken = Guid.NewGuid(),
-                Role = Roles.Default()
+                Role = Role.Default
             };
         }
 

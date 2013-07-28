@@ -62,5 +62,17 @@ namespace Web.Controllers
             else
                 return View( model );
         }
+
+        public ActionResult Manage()
+        {
+            var pageModel = new ManageAccountsPage( userInteractor );
+            return View( pageModel );
+        }
+
+        [HttpPost]
+        public void Delete()
+        {
+            Response.Redirect( "Manage" );
+        }
     }
 }

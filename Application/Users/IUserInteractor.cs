@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
 
 namespace Application.Users
@@ -10,5 +11,6 @@ namespace Application.Users
         User GetUserByUsername( string username );
         User GetUserById( Guid id );
         User GetUserByCookie( HttpCookie cookie );
+        IEnumerable<User> GetAllUsers();
     }
 }

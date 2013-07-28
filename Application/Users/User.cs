@@ -9,7 +9,7 @@ namespace Application.Users
         public byte[] Salt { get; set; }
         public byte[] PasswordDigest { get; set; }
         public DateTime CreatedDate { get; set; }
-        public int Role { get; set; }
+        public Role Role { get; set; }
         public Guid VerifiedToken { get; set; }
     }
 }

@@ -4,6 +4,8 @@ header{padding:15px}
 header .login{padding-top:6px}
 header .row-fluid{margin-right:20em}
 ul{list-style-type:none}
+td{padding:5px 15px}
+select{margin-bottom:0}
 #wrap{min-height:100%;height:auto!important;margin:0 auto -40px}
 #content{padding-left:30px}
 #push,#footer{height:40px}

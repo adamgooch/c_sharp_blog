@@ -82,7 +82,7 @@ namespace Tests.Application.Interactors
                   .Setup( x => x.CreateUser( It.IsAny<User>() ) )
                   .Callback( ( User user ) => createdUser = user );
             sut.CreateUser( "test@example.com", "testPassword" );
-            Assert.AreEqual( Roles.Default(), createdUser.Role );
+            Assert.AreEqual( Role.Default, createdUser.Role );
         }
 
         [Test]

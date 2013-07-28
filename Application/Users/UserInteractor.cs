@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
@@ -24,7 +25,7 @@ namespace Application.Users
                     Email = email,
                     Salt = salt,
                     PasswordDigest = authenticator.GeneratePasswordDigest( password, salt, Iterations ),
-                    Role = Roles.Default(),
+                    Role = Role.Default,
                     VerifiedToken = Guid.NewGuid()
                 };
             try
@@ -69,6 +70,11 @@ namespace Application.Users
             var user = GetUserById( userId );
             if( user != null && userSalt.SequenceEqual( user.Salt ) ) return user;
             return null;
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return repository.GetAllUsers();
         }
     }
 }
