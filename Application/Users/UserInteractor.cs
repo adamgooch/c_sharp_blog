@@ -81,5 +81,12 @@ namespace Application.Users
         {
             repository.DeleteById( id );
         }
+
+        public void EditRole( Guid id, Role role )
+        {
+            var user = repository.GetAllUsers().Where( p => p.Id == id );
+            user.First().Role = role;
+            repository.SaveUser( user.First() );
+        }
     }
 }

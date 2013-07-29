@@ -80,5 +80,11 @@ namespace Web.Controllers
                 userInteractor.DeleteById( userId );
             Response.Redirect( "/account/manage" );
         }
+
+        [HttpPost]
+        public void EditRole( Guid id, Role role )
+        {
+            userInteractor.EditRole( id, role );
+        }
     }
 }

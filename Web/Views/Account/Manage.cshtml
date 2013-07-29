@@ -18,9 +18,9 @@
         {
             Model.CurrentUser = user;
             <tr>
-                <td>@user.Id </td>
+                <td class="userId">@user.Id </td>
                 <td>@user.Email </td>
-                <td>@Html.DropDownListFor( m => m.CurrentUser.Role, new SelectList( Enum.GetValues( typeof( Application.Role ) ) ) )</td>
+                <td>@Html.DropDownListFor( m => m.CurrentUser.Role, new SelectList( Enum.GetValues( typeof( Application.Role ) ) ), new { @class = "role-selector" } )</td>
                 <td>@user.VerifiedToken</td>
                 <td>@Html.ActionLink(
                         "Delete",
@@ -33,3 +33,4 @@
         }
     </table>
 </div>
+@section PageLevelJavascript { @Scripts.Render("~/assets/scripts/manage-users.js") }
