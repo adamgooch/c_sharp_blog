@@ -30,7 +30,7 @@ namespace Application.Users
                 };
             try
             {
-                authenticator.SendNewUserVerificationEmail( user );
+                authenticator.SendNewUserVerificationEmail( user.Email, user.VerifiedToken );
                 repository.CreateUser( user );
             }
             catch( Exception )

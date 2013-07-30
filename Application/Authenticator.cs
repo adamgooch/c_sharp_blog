@@ -6,7 +6,6 @@ using System.Net;
 using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Web;
-using Application.Users;
 
 namespace Application
 {
@@ -41,15 +40,15 @@ namespace Application
             return key.GetBytes( DigestByteLength );
         }
 
-        public void SendNewUserVerificationEmail( User user )
+        public void SendNewUserVerificationEmail( string email, Guid verificationToken )
         {
             var fromAddress = new MailAddress( ConfigurationManager.AppSettings["EmailFromAddress"], "Adam Gooch" );
-            var toAddress = new MailAddress( user.Email, user.Email );
+            var toAddress = new MailAddress( email, email );
             var fromPassword = ConfigurationManager.AppSettings["EmailPassword"];
             const string subject = "AdamGooch.me New User Verification";
             var body =
                 String.Format( "Follow this link to complete your registration: http://localhost:50508/verify_user/{0}",
-                              user.VerifiedToken );
+                              verificationToken );
             var smtp = new SmtpClient
                 {
                     Host = "smtp.live.com",

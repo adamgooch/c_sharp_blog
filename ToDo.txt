@@ -7,9 +7,9 @@ To Do:
 - Write tests for UserInteractor
 - Make authorization cookie unique with every login
 - Fix error on Login of non-existent account
-- Edit user role
 - Need logout button
 - Authorization filter needs to check role (ie. Author for blog creation, Admin for user managing, etc.)
+- Force authorization for Accout/EditRole action
 - Make Account/Delete action a post, preferrably with an authorized Ajax call if it can be done without sending cookies
 - Need flash messages (ie. delete user doesn't work)
 - Ensure there are no spaces in urls (ie. blog titles)
