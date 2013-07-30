@@ -9,12 +9,14 @@ namespace Application.Users
     {
         private readonly IUserRepository repository;
         private readonly IAuthenticator authenticator;
+        private readonly IMailer mailer;
         private const int Iterations = 5000;
 
-        public UserInteractor( IUserRepository userRepository, IAuthenticator authenticator )
+        public UserInteractor( IUserRepository userRepository, IAuthenticator authenticator, IMailer mailer )
         {
             repository = userRepository;
             this.authenticator = authenticator;
+            this.mailer = mailer;
         }
 
         public void CreateUser( string email, string password )
@@ -30,8 +32,8 @@ namespace Application.Users
                 };
             try
             {
-                authenticator.SendNewUserVerificationEmail( user.Email, user.VerifiedToken );
                 repository.CreateUser( user );
+                mailer.SendNewUserVerificationEmail( user.Email, user.VerifiedToken );
             }
             catch( Exception )
             {

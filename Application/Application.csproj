@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Authenticator.cs" />
     <Compile Include="IAuthenticator.cs" />
+    <Compile Include="IMailer.cs" />
+    <Compile Include="Mailer.cs" />
     <Compile Include="Posts\Entities\Post.cs" />
     <Compile Include="Posts\Interactors\IPostInteractor.cs" />
     <Compile Include="Posts\Interactors\PostInteractor.cs" />

@@ -11,14 +11,13 @@ namespace Web.Controllers
 {
     public class AccountController : Controller
     {
-        private IAuthenticator authenticator;
-        private IUserInteractor userInteractor;
+        private readonly IAuthenticator authenticator;
+        private readonly IUserInteractor userInteractor;
 
         public AccountController()
         {
             authenticator = new Authenticator();
-            var userRepository = new SQLServerUserRepository();
-            userInteractor = new UserInteractor( userRepository, authenticator );
+            userInteractor = new UserInteractor( new SQLServerUserRepository(), authenticator, new Mailer() );
         }
 
         [HttpGet]

@@ -11,9 +11,9 @@ namespace Application
 {
     public class Authenticator : IAuthenticator
     {
+        public const string AuthenticationCookie = "ae23";
         private const int SaltByteLength = 16;
         private const int DigestByteLength = 32;
-        public static readonly string AuthenticationCookie = "ae23";
         private readonly string rootDirectory = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "keys";
         private readonly string keyFile;
         private readonly string ivFile;
@@ -38,34 +38,6 @@ namespace Application
         {
             var key = new Rfc2898DeriveBytes( password, salt, iterations );
             return key.GetBytes( DigestByteLength );
-        }
-
-        public void SendNewUserVerificationEmail( string email, Guid verificationToken )
-        {
-            var fromAddress = new MailAddress( ConfigurationManager.AppSettings["EmailFromAddress"], "Adam Gooch" );
-            var toAddress = new MailAddress( email, email );
-            var fromPassword = ConfigurationManager.AppSettings["EmailPassword"];
-            const string subject = "AdamGooch.me New User Verification";
-            var body =
-                String.Format( "Follow this link to complete your registration: http://localhost:50508/verify_user/{0}",
-                              verificationToken );
-            var smtp = new SmtpClient
-                {
-                    Host = "smtp.live.com",
-                    Port = 587,
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential( fromAddress.Address, fromPassword )
-                };
-            using( var message = new MailMessage( fromAddress, toAddress )
-                {
-                    Subject = subject,
-                    Body = body
-                } )
-            {
-                smtp.Send( message );
-            }
         }
 
         public bool Authenticate( string password, byte[] salt, byte[] passwordDigest, int iterations )
