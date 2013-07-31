@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web.Mvc;
+using Application;
 using Web.Filters;
 using Web.Models.PageModels;
 using Application.Posts.Interactors;
@@ -18,7 +19,7 @@ namespace Web.Controllers
             postInteractor = new PostInteractor( postRepository );
         }
 
-        [AuthorizeUser]
+        [AuthorizeUser( Role = Role.Author )]
         public ActionResult New()
         {
             var newPostPage = new NewPostPage();

@@ -7,6 +7,8 @@ namespace Web.Filters
 {
     public class AuthorizeUser : AuthorizeAttribute
     {
+        public Role Role { get; set; }
+
         public override void OnAuthorization( AuthorizationContext filterContext )
         {
             var request = filterContext.HttpContext.Request;
@@ -15,7 +17,7 @@ namespace Web.Filters
             {
                 var userInteractor = new UserInteractor( new SQLServerUserRepository(), new Authenticator(), new Mailer() );
                 var user = userInteractor.GetUserByCookie( cookie );
-                if( user != null ) SetCurrentUser( filterContext, user );
+                if( user != null && user.Role >= Role ) SetCurrentUser( filterContext, user );
                 else RedirectToLogin( filterContext );
             }
             else
