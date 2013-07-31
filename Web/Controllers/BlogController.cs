@@ -26,7 +26,7 @@ namespace Web.Controllers
             return View( newPostPage );
         }
 
-        [AuthorizeUser]
+        [AuthorizeUser( Role = Role.Author )]
         [ValidateInput( false )]
         public void Create( Post post )
         {
@@ -47,21 +47,21 @@ namespace Web.Controllers
             return View( "Show", showPostPage );
         }
 
-        [AuthorizeUser]
+        [AuthorizeUser( Role = Role.Author )]
         public void DeletePost( string author, string blogTitle, DateTime date )
         {
             postInteractor.DeletePost( author, date, blogTitle );
             Response.Redirect( "Manage" );
         }
 
-        [AuthorizeUser]
+        [AuthorizeUser( Role = Role.Author )]
         public ActionResult Manage()
         {
             var manageBlogPage = new ManageBlogPage( postInteractor );
             return View( "Manage", manageBlogPage );
         }
 
-        [AuthorizeUser]
+        [AuthorizeUser( Role = Role.Author )]
         public ActionResult EditPost( string author, string blogTitle )
         {
             var editPostPage = new EditPostPage( postInteractor, author, blogTitle );
@@ -69,7 +69,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        [AuthorizeUser]
+        [AuthorizeUser( Role = Role.Author )]
         [ValidateInput( false )]
         public void Edit( Post post )
         {

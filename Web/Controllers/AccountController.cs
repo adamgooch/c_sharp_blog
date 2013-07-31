@@ -63,7 +63,7 @@ namespace Web.Controllers
                 return View( model );
         }
 
-        [AuthorizeUser]
+        [AuthorizeUser( Role = Role.Administrator )]
         public ActionResult Manage()
         {
             var pageModel = new ManageAccountsPage( userInteractor );
@@ -71,7 +71,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [AuthorizeUser]
+        [AuthorizeUser( Role = Role.Administrator )]
         public void Delete( string id )
         {
             var userId = new Guid( id );

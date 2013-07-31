@@ -13,16 +13,14 @@ namespace Web.Filters
         {
             var request = filterContext.HttpContext.Request;
             var cookie = request.Cookies[Authenticator.AuthenticationCookie];
-            if( cookie != null )
+            if( cookie == null ) RedirectToLogin( filterContext );
+            else
             {
                 var userInteractor = new UserInteractor( new SQLServerUserRepository(), new Authenticator(), new Mailer() );
                 var user = userInteractor.GetUserByCookie( cookie );
-                if( user != null && user.Role >= Role ) SetCurrentUser( filterContext, user );
-                else RedirectToLogin( filterContext );
-            }
-            else
-            {
-                RedirectToLogin( filterContext );
+                if( user == null ) RedirectToLogin( filterContext );
+                else if( user.Role < Role ) filterContext.Result = new RedirectResult( "/" );
+                else SetCurrentUser( filterContext, user );
             }
         }
 
