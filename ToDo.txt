@@ -16,3 +16,5 @@ To Do:
 - Add flash message to Ajax success and failure functions
 
 Port 25 is allowed in Medium Trust environment. It is blocked by Fios, however.
+
+- I don't like that I have to new up a Mailer everywhere I want to interact with the user. I don't always need to send the user an email.
