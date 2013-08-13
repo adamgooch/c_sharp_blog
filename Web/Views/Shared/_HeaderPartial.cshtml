@@ -5,7 +5,11 @@
                 @Html.ActionLink( "Adam Gooch", "Index", "Home", new { }, new { @id = "site-title-link" } )
             </div>
             <div class="span2">
-                <p id="username" class="pull-right">@ViewBag.Username</p>
+                @if( ViewBag.Username != null )
+                {
+                    <p id="username" class="pull-right">@ViewBag.Username</p>
+                    @Html.ActionLink( "Logout", "Logout", "Account", new { }, new { @id = "logout", @class = "pull-right" } )
+                }
             </div>
             <div class="row-fluid">
                 <div class="span12">

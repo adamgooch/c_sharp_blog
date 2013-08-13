@@ -54,13 +54,20 @@ namespace Web.Controllers
         {
             NameValueCollection formValues = Request.Form;
             var user = userInteractor.GetUserByUsername( formValues["username"] );
-            if( authenticator.Verified(user.VerifiedToken) && authenticator.Authenticate( formValues["password"], user.Salt, user.PasswordDigest, 5000 ) )
+            if( authenticator.Verified( user.VerifiedToken ) && authenticator.Authenticate( formValues["password"], user.Salt, user.PasswordDigest, 5000 ) )
             {
                 Response.Cookies.Add( authenticator.GenerateAuthenticationCookie( user.Id, user.Salt ) );
                 return RedirectToAction( "Index", "Home" );
             }
             else
                 return View( model );
+        }
+
+        public ActionResult Logout()
+        {
+            var cookie = Response.Cookies[Authenticator.AuthenticationCookie];
+            if( cookie != null ) cookie.Expires = DateTime.Now.AddDays(-1D);
+            return RedirectToAction( "Index", "Home" );
         }
 
         [AuthorizeUser( Role = Role.Administrator )]
