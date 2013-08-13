@@ -83,6 +83,11 @@ namespace Application
             return id == new Guid( cookieId );
         }
 
+        public bool Verified( Guid token )
+        {
+            return token == new Guid();
+        }
+
         private byte[] Encrypt( string plainText )
         {
             byte[] encrypted;

@@ -11,5 +11,6 @@ namespace Application
         HttpCookie GenerateAuthenticationCookie( Guid id, byte[] salt );
         HttpCookie DecryptAuthenticationCookie( HttpCookie encryptedCookie );
         bool LoggedIn( Guid id, HttpCookie cookie );
+        bool Verified( Guid token );
     }
 }

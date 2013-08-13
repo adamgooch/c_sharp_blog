@@ -54,7 +54,7 @@ namespace Web.Controllers
         {
             NameValueCollection formValues = Request.Form;
             var user = userInteractor.GetUserByUsername( formValues["username"] );
-            if( authenticator.Authenticate( formValues["password"], user.Salt, user.PasswordDigest, 5000 ) )
+            if( authenticator.Verified(user.VerifiedToken) && authenticator.Authenticate( formValues["password"], user.Salt, user.PasswordDigest, 5000 ) )
             {
                 Response.Cookies.Add( authenticator.GenerateAuthenticationCookie( user.Id, user.Salt ) );
                 return RedirectToAction( "Index", "Home" );
