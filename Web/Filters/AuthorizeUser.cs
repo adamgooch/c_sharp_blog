@@ -16,7 +16,7 @@ namespace Web.Filters
             if( cookie == null ) RedirectToLogin( filterContext );
             else
             {
-                var userInteractor = new UserInteractor( new SQLServerUserRepository(), new Authenticator(), new Mailer() );
+                var userInteractor = new UserInteractor( new SqlServerUserRepository(), new Authenticator(), new Mailer() );
                 var user = userInteractor.GetUserByCookie( cookie );
                 if( user == null ) RedirectToLogin( filterContext );
                 else if( user.Role < Role ) filterContext.Result = new RedirectResult( "/" );

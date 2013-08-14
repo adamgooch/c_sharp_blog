@@ -28,7 +28,7 @@ namespace Web.Controllers
             {
                 var decryptedCookie = authenticator.DecryptAuthenticationCookie( cookie );
                 var userId = decryptedCookie.Values["Id"];
-                var userInteractor = new UserInteractor( new SQLServerUserRepository(), authenticator, new Mailer() );
+                var userInteractor = new UserInteractor( new SqlServerUserRepository(), authenticator, new Mailer() );
                 var user = userInteractor.GetUserById( new Guid( userId ) );
                 ViewBag.Username = user.Email;
             

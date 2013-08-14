@@ -17,7 +17,7 @@ namespace Web.Controllers
         public AccountController()
         {
             authenticator = new Authenticator();
-            userInteractor = new UserInteractor( new SQLServerUserRepository(), authenticator, new Mailer() );
+            userInteractor = new UserInteractor( new SqlServerUserRepository(), authenticator, new Mailer() );
         }
 
         [HttpGet]

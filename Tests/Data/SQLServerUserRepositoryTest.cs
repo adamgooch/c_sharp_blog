@@ -8,21 +8,21 @@ using NUnit.Framework;
 namespace Tests.Data
 {
     [TestFixture]
-    public class SQLServerUserRepositoryTest
+    public class SqlServerUserRepositoryTest
     {
-        private SQLServerUserRepository sut;
-        private const string email = "test@example.com";
+        private SqlServerUserRepository sut;
+        private const string Email = "test@example.com";
         private User user;
 
         [SetUp]
         public void Setup()
         {
-            sut = new SQLServerUserRepository();
+            sut = new SqlServerUserRepository();
             var authenticator = new Authenticator();
             var salt = authenticator.GenerateSalt();
             user = new User
             {
-                Email = email,
+                Email = Email,
                 Salt = salt,
                 PasswordDigest = authenticator.GeneratePasswordDigest( "password", salt, 5000 ),
                 VerifiedToken = Guid.NewGuid(),
@@ -33,7 +33,7 @@ namespace Tests.Data
         [TearDown]
         public void TearDown()
         {
-            sut.DeleteByEmail( email );
+            sut.DeleteByEmail( Email );
         }
 
         [Test]
@@ -70,6 +70,15 @@ namespace Tests.Data
             Assert.AreEqual( 1, allUsers.Count() );
             Assert.AreEqual( createdUser.Id, savedUser.Id );
             Assert.AreEqual( createdUser.VerifiedToken, savedUser.VerifiedToken );
+        }
+
+        [Test]
+        public void it_deletes_by_id()
+        {
+            sut.CreateUser( user );
+            var createdUser = sut.GetAllUsers().First();
+            sut.DeleteById( createdUser.Id );
+            Assert.AreEqual( 0, sut.GetAllUsers().Count() );
         }
     }
 }
