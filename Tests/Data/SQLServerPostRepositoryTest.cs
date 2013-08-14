@@ -13,26 +13,25 @@ namespace Tests.Data
     {
         private int postNumber = 0;
         private int authorNumber = 1;
-        private readonly string testAuthor = "Test Author";
+        private const string TestAuthor = "Test Author";
         private readonly DateTime testDate = DateTime.Parse( "April 10, 2013" );
-        private readonly string testTitle = "Test... Post ";
-        private readonly string testBody = "Lorem ipsum dolor sit amet";
+        private const string TestTitle = "Test... Post ";
+        private const string TestBody = "Lorem ipsum dolor sit amet";
         private readonly string[] testTag = new string[] { "Test Tag" };
         private readonly string connection = ConfigurationManager.ConnectionStrings["blog"].ConnectionString;
 
-        private SQLServerPostRepository sut;
+        private SqlServerPostRepository sut;
 
         [SetUp]
         public void Setup()
         {
-            sut = new SQLServerPostRepository();
+            sut = new SqlServerPostRepository();
         }
 
         [TearDown]
         public void Teardown()
         {
-            var sql = "DELETE FROM [dbo].[Posts]";
-            SendCommand( sql );
+            SendCommand( "DELETE FROM [dbo].[Posts]" );
         }
 
         [Test]
@@ -47,7 +46,7 @@ namespace Tests.Data
             Assert.AreEqual( testPost.Author, posts.First().Author, "Wrong author" );
             Assert.AreEqual( testPost.Date, posts.First().Date, "Wrong date" );
             Assert.AreEqual( testPost.Tags, posts.First().Tags, "Wrong tags" );
-            sut.DeletePost( testAuthor + authorNumber, testDate, testTitle + postNumber );
+            sut.DeletePost( TestAuthor + authorNumber, testDate, TestTitle + postNumber );
             Assert.AreEqual( 0, sut.GetAllPosts().Count(), "Post was not deleted" );
         }
 
@@ -57,9 +56,9 @@ namespace Tests.Data
             sut.CreatePost( CreateTestPost( authorNumber ) );
             sut.CreatePost( CreateTestPost( ++authorNumber ) );
             sut.CreatePost( CreateTestPost( authorNumber ) );
-            var result = sut.GetAllPosts( testAuthor + authorNumber );
+            var result = sut.GetAllPosts( TestAuthor + authorNumber );
             Assert.AreEqual( 2, result.Count(), "Wrong number of posts returned" );
-            Assert.AreEqual( testAuthor + authorNumber, result.First().Author, "Wrong author" );
+            Assert.AreEqual( TestAuthor + authorNumber, result.First().Author, "Wrong author" );
         }
 
         private Post CreateTestPost( int localAuthorNumber )
@@ -67,10 +66,10 @@ namespace Tests.Data
             ++postNumber;
             var post = new Post
             {
-                Author = testAuthor + localAuthorNumber,
+                Author = TestAuthor + localAuthorNumber,
                 Date = testDate,
-                Title = testTitle + postNumber,
-                Body = testBody,
+                Title = TestTitle + postNumber,
+                Body = TestBody,
                 Tags = testTag
             };
             return post;

@@ -8,19 +8,15 @@ using Application.Posts.Entities;
 
 namespace Data.Repositories
 {
-    public class SQLServerPostRepository : IPostRepository
+    public class SqlServerPostRepository : IPostRepository
     {
-        private static readonly string tableName = "Posts";
+        private const string TableName = "Posts";
         private readonly string connection = ConfigurationManager.ConnectionStrings["blog"].ConnectionString;
-
-        public SQLServerPostRepository()
-        {
-        }
 
         public void CreatePost( Post post )
         {
             var sql = string.Format( "INSERT INTO dbo.{0} (Id, CreatedDateTime, ModifiedDateTime, Title, Body, Tags, Author) " +
-                "VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", tableName, Guid.NewGuid(),
+                "VALUES ('{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}')", TableName, Guid.NewGuid(),
                 post.Date, post.Date, post.Title, post.Body, post.Tags[0], post.Author );
             SendCommand( sql );
         }
@@ -28,12 +24,12 @@ namespace Data.Repositories
         public IEnumerable<Post> GetAllPosts( string author )
         {
             var posts = new List<Post>();
-            using( SqlConnection conn = new SqlConnection( connection ) )
+            using( var conn = new SqlConnection( connection ) )
             {
                 try
                 {
                     conn.Open();
-                    SqlCommand sqlCommand = new SqlCommand( "dbo.GetAllPostsByAuthor", conn );
+                    var sqlCommand = new SqlCommand( "dbo.GetAllPostsByAuthor", conn );
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.Add( "@Author", SqlDbType.NVarChar ).Value = author;
                     posts = (List<Post>)MapToPost( sqlCommand.ExecuteReader() );
@@ -50,12 +46,12 @@ namespace Data.Repositories
         {
 
             var posts = new List<Post>();
-            using( SqlConnection conn = new SqlConnection( connection ) )
+            using( var conn = new SqlConnection( connection ) )
             {
                 try
                 {
                     conn.Open();
-                    SqlCommand sqlCommand = new SqlCommand( "dbo.GetAllPosts", conn );
+                    var sqlCommand = new SqlCommand( "dbo.GetAllPosts", conn );
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     posts = (List<Post>)MapToPost( sqlCommand.ExecuteReader() );
                 }
@@ -67,7 +63,7 @@ namespace Data.Repositories
             return posts;
         }
 
-        private IEnumerable<Post> MapToPost( SqlDataReader reader )
+        private IEnumerable<Post> MapToPost( IDataReader reader )
         {
             var posts = new List<Post>();
             while( reader.Read() )
@@ -87,11 +83,11 @@ namespace Data.Repositories
 
         public void DeletePost( string author, DateTime date, string title )
         {
-            using( SqlConnection conn = new SqlConnection( connection ) )
+            using( var conn = new SqlConnection( connection ) )
             {
                 try
                 {
-                    SqlCommand sqlCommand = new SqlCommand( "dbo.DeletePostByAuthorDateTitle", conn );
+                    var sqlCommand = new SqlCommand( "dbo.DeletePostByAuthorDateTitle", conn );
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.Add( "@Author", SqlDbType.NVarChar ).Value = author;
                     sqlCommand.Parameters.Add( "@Date", SqlDbType.Date ).Value = date.ToString();
@@ -109,12 +105,12 @@ namespace Data.Repositories
         private int SendCommand( string command )
         {
             var rowsAffected = 0;
-            using( SqlConnection db = new SqlConnection( connection ) )
+            using( var db = new SqlConnection( connection ) )
             {
                 try
                 {
                     db.Open();
-                    SqlCommand myCommand = new SqlCommand( command, db );
+                    var myCommand = new SqlCommand( command, db );
                     rowsAffected = myCommand.ExecuteNonQuery();
                     db.Close();
                 }
