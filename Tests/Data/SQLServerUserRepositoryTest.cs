@@ -80,5 +80,14 @@ namespace Tests.Data
             sut.DeleteById( createdUser.Id );
             Assert.AreEqual( 0, sut.GetAllUsers().Count() );
         }
+
+        [Test]
+        public void it_deletes_by_email()
+        {
+            sut.CreateUser( user );
+            var createdUser = sut.GetAllUsers().First();
+            sut.DeleteByEmail( createdUser.Email );
+            Assert.AreEqual( 0, sut.GetAllUsers().Count() );
+        }
     }
 }

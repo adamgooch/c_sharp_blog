@@ -75,7 +75,7 @@ namespace Data.Repositories
                     Body = reader["Body"].ToString(),
                     Author = reader["Author"].ToString(),
                     Date = (DateTime) reader["CreatedDateTime"],
-                    Tags = new string[] { reader["Tags"].ToString() }
+                    Tags = new[] { reader["Tags"].ToString() }
                 };
                 posts.Add( post );
             }
