@@ -1,4 +1,5 @@
-﻿using Application.Posts.RepositoryContracts;
+﻿using System.Linq;
+using Application.Posts.RepositoryContracts;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -32,7 +33,7 @@ namespace Data.Repositories
                     var sqlCommand = new SqlCommand( "dbo.GetAllPostsByAuthor", conn );
                     sqlCommand.CommandType = CommandType.StoredProcedure;
                     sqlCommand.Parameters.Add( "@Author", SqlDbType.NVarChar ).Value = author;
-                    posts = (List<Post>)MapToPost( sqlCommand.ExecuteReader() );
+                    posts = MapToPost( sqlCommand.ExecuteReader() ).ToList();
                 }
                 catch( Exception e )
                 {
@@ -53,7 +54,7 @@ namespace Data.Repositories
                     conn.Open();
                     var sqlCommand = new SqlCommand( "dbo.GetAllPosts", conn );
                     sqlCommand.CommandType = CommandType.StoredProcedure;
-                    posts = (List<Post>)MapToPost( sqlCommand.ExecuteReader() );
+                    posts = MapToPost( sqlCommand.ExecuteReader() ).ToList();
                 }
                 catch( Exception e )
                 {
@@ -73,7 +74,7 @@ namespace Data.Repositories
                     Title = reader["Title"].ToString(),
                     Body = reader["Body"].ToString(),
                     Author = reader["Author"].ToString(),
-                    Date = (DateTime)reader["CreatedDateTime"],
+                    Date = (DateTime) reader["CreatedDateTime"],
                     Tags = new string[] { reader["Tags"].ToString() }
                 };
                 posts.Add( post );

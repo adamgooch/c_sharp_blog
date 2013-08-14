@@ -9,7 +9,7 @@ using System.Configuration;
 namespace Tests.Data
 {
     [TestFixture]
-    class SQLServerPostRepositoryTest
+    class SqlServerPostRepositoryTest
     {
         private int postNumber = 0;
         private int authorNumber = 1;
@@ -77,12 +77,12 @@ namespace Tests.Data
 
         private void SendCommand( string command )
         {
-            using( SqlConnection db = new SqlConnection( connection ) )
+            using( var db = new SqlConnection( connection ) )
             {
                 try
                 {
                     db.Open();
-                    SqlCommand myCommand = new SqlCommand( command, db );
+                    var myCommand = new SqlCommand( command, db );
                     myCommand.ExecuteNonQuery();
                     db.Close();
                 }

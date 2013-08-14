@@ -11,7 +11,7 @@ namespace Data.Repositories
 {
     public class FlatFilePostRepository : IPostRepository
     {
-        private string rootDirectory = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + 
+        private readonly string rootDirectory = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath +
             ConfigurationManager.AppSettings["PostRootDirectory"];
 
         public void CreatePost( Post post )
@@ -42,22 +42,22 @@ namespace Data.Repositories
 
         public string FileName( DateTime date, string title )
         {
-            var date_path = date.ToString( "yyyy_MM_dd" );
-            var title_path = title.Replace( " ", "_" );
-            var fileName = string.Format( "{0}_{1}.html", date_path, title_path );
+            var datePath = date.ToString( "yyyy_MM_dd" );
+            var titlePath = title.Replace( " ", "_" );
+            var fileName = string.Format( "{0}_{1}.html", datePath, titlePath );
             return fileName;
         }
 
-        private void WriteToFile( string fullFilePath, string[] tags, string body )
+        private void WriteToFile( string fullFilePath, IEnumerable<string> tags, string body )
         {
-            using ( var fileStream = File.Create( fullFilePath ) )
+            using( var fileStream = File.Create( fullFilePath ) )
             {
                 WriteTags( fileStream, tags );
                 WriteStringToFile( fileStream, body );
             }
         }
 
-        private void WriteTags( FileStream fileStream, string[] tags )
+        private void WriteTags( FileStream fileStream, IEnumerable<string> tags )
         {
             foreach( string tag in tags )
             {
@@ -69,56 +69,38 @@ namespace Data.Repositories
 
         private void WriteStringToFile( FileStream fileStream, string text )
         {
-            foreach( byte b in GetBytes( text ) )
+            foreach( var b in GetBytes( text ) )
                 fileStream.WriteByte( b );
         }
 
-        private byte[] GetBytes( string str )
+        private IEnumerable<byte> GetBytes( string str )
         {
-            byte[] bytes = new byte[str.Length * sizeof( char )];
-            System.Buffer.BlockCopy( str.ToCharArray(), 0, bytes, 0, bytes.Length );
+            var bytes = new byte[str.Length * sizeof( char )];
+            Buffer.BlockCopy( str.ToCharArray(), 0, bytes, 0, bytes.Length );
             return bytes;
         }
-        
+
         public IEnumerable<Post> GetAllPosts( string author )
         {
-            var posts = new List<Post>();
             var path = string.Format( "{0}\\{1}", rootDirectory, AuthorDirectory( author ) );
             var allPostPaths = Directory.GetFiles( path );
-            foreach( var postPath in allPostPaths )
-            {
-                posts.Add( MapFileToPost( postPath ) );
-            }
-            return posts;
+            return allPostPaths.Select( MapFileToPost );
         }
 
         public IEnumerable<Post> GetAllPosts()
         {
-            var allPosts = new List<Post>();
-            foreach( var postPath in GetAllFiles() )
-            {
-                allPosts.Add( MapFileToPost( postPath ) );
-            }
-            return allPosts;
+            return GetAllFiles().Select( MapFileToPost );
         }
 
-        private List<string> GetAllFiles()
+        private IEnumerable<string> GetAllFiles()
         {
-            var files = new List<string>();
             if( !Directory.Exists( rootDirectory ) ) Directory.CreateDirectory( rootDirectory );
-            foreach( string authors in Directory.GetDirectories( rootDirectory ) )
-            {
-                foreach( string file in Directory.GetFiles( authors ) )
-                {
-                    files.Add( file );
-                }
-            }
-            return files;
+            return Directory.GetDirectories( rootDirectory ).SelectMany( Directory.GetFiles );
         }
 
         public Post MapFileToPost( string filePath )
         {
-            byte[] readBuffer = File.ReadAllBytes( filePath );
+            var readBuffer = File.ReadAllBytes( filePath );
             var fileContents = GetString( readBuffer );
             var post = new Post
             {
@@ -133,8 +115,8 @@ namespace Data.Repositories
 
         private string GetString( byte[] bytes )
         {
-            char[] chars = new char[bytes.Length / sizeof( char )];
-            System.Buffer.BlockCopy( bytes, 0, chars, 0, bytes.Length );
+            var chars = new char[bytes.Length / sizeof( char )];
+            Buffer.BlockCopy( bytes, 0, chars, 0, bytes.Length );
             return new string( chars );
         }
 
@@ -167,7 +149,7 @@ namespace Data.Repositories
 
         private string GetBody( string fileContents )
         {
-            var tags = fileContents.Split( new string[]{ Environment.NewLine }, StringSplitOptions.None ).First();
+            var tags = fileContents.Split( new string[] { Environment.NewLine }, StringSplitOptions.None ).First();
             var body = fileContents.Remove( 0, tags.Length + ( 2 * Environment.NewLine.Length ) );
             return body;
         }
