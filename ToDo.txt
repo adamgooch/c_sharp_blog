@@ -4,7 +4,7 @@ To Do:
 - Do something better with the iteration count in the authenticator. Maybe some sort of struct for password, salt, and iteration count?
 - Duplication in HomeController/Index and Filters/AuthorizeUser
 - Write tests for Authenticator
-- Write tests for UserInteractor
+- Write tests for UserInteractor - WORKING
 - Make authorization cookie unique with every login
 - Fix error on Login of non-existent account
 - Flash reason login failed (ie. not authorized)
@@ -13,6 +13,7 @@ To Do:
 - Ensure there are no spaces in urls (ie. blog titles)
 - Add flash message to Ajax success and failure functions
 - Should logout be a Post? (idempotent requests)
+- Get rid of GetAllPosts( author ) in both post repositories
 
 
 Port 25 is allowed in Medium Trust environment. It is blocked by Fios, however.

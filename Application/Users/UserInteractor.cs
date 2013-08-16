@@ -30,31 +30,22 @@ namespace Application.Users
                     Role = Role.Default,
                     VerifiedToken = Guid.NewGuid()
                 };
-            try
-            {
-                repository.CreateUser( user );
-                mailer.SendNewUserVerificationEmail( user.Email, user.VerifiedToken );
-            }
-            catch( Exception )
-            {
-                throw;
-            }
+            repository.CreateUser( user );
+            mailer.SendNewUserVerificationEmail( user.Email, user.VerifiedToken );
         }
 
         public void VerifyUser( Guid token )
         {
             var users = repository.GetAllUsers();
-            var user = users.Where( u => u.VerifiedToken == token );
-            var theUser = user.First();
-            theUser.VerifiedToken = Guid.Empty;
-            repository.SaveUser( theUser );
+            var user = users.First(u => u.VerifiedToken == token);
+            user.VerifiedToken = Guid.Empty;
+            repository.SaveUser( user );
         }
 
         public User GetUserByUsername( string username )
         {
             var users = repository.GetAllUsers();
-            var user = users.Where( x => x.Email == username );
-            return user.First();
+            return users.First( x => x.Email == username );
         }
 
         public User GetUserById( Guid id )
