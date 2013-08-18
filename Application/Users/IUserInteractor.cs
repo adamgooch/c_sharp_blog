@@ -13,6 +13,6 @@ namespace Application.Users
         User GetUserByCookie( HttpCookie cookie );
         IEnumerable<User> GetAllUsers();
         void DeleteById( Guid id );
-        void EditRole( Guid id, Role role );
+        void EditRole( Guid id, Role newRole );
     }
 }

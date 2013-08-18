@@ -37,7 +37,7 @@ namespace Application.Users
         public void VerifyUser( Guid token )
         {
             var users = repository.GetAllUsers();
-            var user = users.First(u => u.VerifiedToken == token);
+            var user = users.First( u => u.VerifiedToken == token );
             user.VerifiedToken = Guid.Empty;
             repository.SaveUser( user );
         }
@@ -51,8 +51,7 @@ namespace Application.Users
         public User GetUserById( Guid id )
         {
             var users = repository.GetAllUsers();
-            var user = users.Where( u => u.Id == id );
-            return user.First();
+            return users.FirstOrDefault( u => u.Id == id );
         }
 
         public User GetUserByCookie( HttpCookie cookie )
@@ -75,11 +74,11 @@ namespace Application.Users
             repository.DeleteById( id );
         }
 
-        public void EditRole( Guid id, Role role )
+        public void EditRole( Guid id, Role newRole )
         {
-            var user = repository.GetAllUsers().Where( p => p.Id == id );
-            user.First().Role = role;
-            repository.SaveUser( user.First() );
+            var user = repository.GetAllUsers().First( p => p.Id == id );
+            user.Role = newRole;
+            repository.SaveUser( user );
         }
     }
 }

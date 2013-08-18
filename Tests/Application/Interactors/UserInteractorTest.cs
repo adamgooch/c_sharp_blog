@@ -10,7 +10,7 @@ using Tests;
 namespace UserInteractorTests
 {
     [TestFixture]
-    [Category("Interactors > User > Creation")]
+    [Category( "Interactors > User > Creation" )]
     public class When_creating_a_user
         : TestBase<UserInteractor>
     {
@@ -79,9 +79,9 @@ namespace UserInteractorTests
             Assert.AreNotEqual( Guid.Empty, mockCreatedUser.VerifiedToken );
         }
     }
-    
+
     [TestFixture]
-    [Category("Interactors > User > Verification")]
+    [Category( "Interactors > User > Verification" )]
     public class When_verifying_a_user
         : TestBase<UserInteractor>
     {
@@ -99,13 +99,13 @@ namespace UserInteractorTests
 
         public override void Act()
         {
-            ClassUnderTest.VerifyUser(testVerifiedToken);
+            ClassUnderTest.VerifyUser( testVerifiedToken );
         }
 
         [Test]
         public void it_clears_the_users_verified_token()
         {
-            
+
             Assert.AreEqual( Guid.Empty, testUser.VerifiedToken );
         }
 
@@ -118,14 +118,14 @@ namespace UserInteractorTests
     }
 
     [TestFixture]
-    [Category("Interactors > User > GetByUsername")]
+    [Category( "Interactors > User > GetByUsername" )]
     public class When_getting_a_user_by_username
         : TestBase<UserInteractor>
     {
         private const string TestUserEmail = "text@example.com";
         private readonly byte[] testUserSalt = new byte[16];
         private User returnedUser;
-        
+
         public override void Arrange()
         {
             var testUser = new User { Salt = testUserSalt, Email = TestUserEmail };
@@ -143,38 +143,53 @@ namespace UserInteractorTests
         [Test]
         public void it_gets_a_user_by_username()
         {
-            Assert.AreEqual(testUserSalt, returnedUser.Salt);
+            Assert.AreEqual( testUserSalt, returnedUser.Salt );
         }
     }
-    
+
     [TestFixture]
     [Category( "Interactors > User > GetById" )]
     public class When_getting_a_user_by_id
         : TestBase<UserInteractor>
     {
         private User returnedUser;
+        private User testUser;
+        private User wrongUser;
+        private IEnumerable<User> allUsers;
         private readonly Guid testUserId = Guid.NewGuid();
-        private readonly byte[] testUserSalt = new byte[16];
+        private readonly byte[] testUserSalt = new byte[] { 1, 2 };
 
         public override void Arrange()
         {
-            var testUser = new User { Salt = testUserSalt, Id = testUserId };
-            var allUsers = new List<User> { testUser };
-            Mocks.GetMock<IUserRepository>()
-                  .Setup( x => x.GetAllUsers() )
-                  .Returns( allUsers );
-        }
-
-        public override void Act()
-        {
-            returnedUser = ClassUnderTest.GetUserById( testUserId );
+            testUser = new User { Salt = testUserSalt, Id = testUserId };
+            wrongUser = new User { Salt = new byte[] { 3, 4 } };
         }
 
         [Test]
         public void it_gets_a_user_by_id()
         {
-            Assert.AreEqual(testUserSalt, returnedUser.Salt);
+            allUsers = new List<User> { wrongUser, testUser };
+            Mocks.GetMock<IUserRepository>()
+                  .Setup( x => x.GetAllUsers() )
+                  .Returns( allUsers );
+
+            returnedUser = ClassUnderTest.GetUserById( testUserId );
+
+            Assert.AreEqual( testUserSalt, returnedUser.Salt );
             Assert.AreEqual( testUserId, returnedUser.Id );
+        }
+
+        [Test]
+        public void it_returns_null_if_no_user_is_found_with_the_given_id()
+        {
+            allUsers = new List<User> { wrongUser };
+            Mocks.GetMock<IUserRepository>()
+                  .Setup( x => x.GetAllUsers() )
+                  .Returns( allUsers );
+
+            returnedUser = ClassUnderTest.GetUserById( testUserId );
+
+            Assert.IsNull( returnedUser );
         }
     }
 
@@ -186,32 +201,152 @@ namespace UserInteractorTests
         private User returnedUser;
         private readonly HttpCookie TestCookie = new HttpCookie( "TestCookie" );
         private readonly Guid testUserId = Guid.NewGuid();
-        private readonly byte[] testUserSalt = new byte[16];
+        private readonly byte[] testUserSalt = new byte[] { 1, 2 };
+        private readonly byte[] wrongSalt = new byte[] { 3, 4 };
+        private IEnumerable<User> allUsers;
+        private User wrongUser;
 
         public override void Arrange()
         {
             TestCookie.Values["Id"] = testUserId.ToString();
-            TestCookie.Values["Salt"] = System.Text.Encoding.Default.GetString( testUserSalt );
             var testUser = new User { Salt = testUserSalt, Id = testUserId };
-            var allUsers = new List<User> { testUser };
-            Mocks.GetMock<IUserRepository>()
-                    .Setup( x => x.GetAllUsers() )
-                    .Returns( allUsers );
+            wrongUser = new User { Salt = wrongSalt, Id = Guid.NewGuid() };
+            allUsers = new List<User> { wrongUser, testUser };
             Mocks.GetMock<IAuthenticator>()
                     .Setup( x => x.DecryptAuthenticationCookie( TestCookie ) )
                     .Returns( TestCookie );
         }
 
-        public override void Act()
-        {
-            returnedUser = ClassUnderTest.GetUserByCookie( TestCookie );
-        }
-
         [Test]
         public void it_gets_a_user_by_cookie()
         {
-            Assert.AreEqual(testUserSalt, returnedUser.Salt);
-            Assert.AreEqual(testUserId, returnedUser.Id);
+            TestCookie.Values["Salt"] = System.Text.Encoding.Default.GetString( testUserSalt );
+            Mocks.GetMock<IUserRepository>()
+                    .Setup( x => x.GetAllUsers() )
+                    .Returns( allUsers );
+
+            returnedUser = ClassUnderTest.GetUserByCookie( TestCookie );
+
+            Assert.AreEqual( testUserSalt, returnedUser.Salt );
+            Assert.AreEqual( testUserId, returnedUser.Id );
+        }
+
+        [Test]
+        public void it_returns_null_if_no_user_is_found_that_matches_the_cookie()
+        {
+            TestCookie.Values["Salt"] = System.Text.Encoding.Default.GetString( testUserSalt );
+            Mocks.GetMock<IUserRepository>()
+                    .Setup( x => x.GetAllUsers() )
+                    .Returns( new List<User>() { wrongUser } );
+
+            returnedUser = ClassUnderTest.GetUserByCookie( TestCookie );
+
+            Assert.IsNull( returnedUser );
+        }
+
+        [Test]
+        public void it_returns_null_if_the_salt_in_the_cookie_does_not_match_the_id()
+        {
+            TestCookie.Values["Salt"] = System.Text.Encoding.Default.GetString( wrongSalt );
+            Mocks.GetMock<IUserRepository>()
+                    .Setup( x => x.GetAllUsers() )
+                    .Returns( allUsers );
+
+            returnedUser = ClassUnderTest.GetUserByCookie( TestCookie );
+
+            Assert.IsNull( returnedUser );
+        }
+    }
+
+    [TestFixture]
+    [Category( "Interactors > User > GetAll" )]
+    public class When_getting_all_users
+        : TestBase<UserInteractor>
+    {
+        private IEnumerable<User> returnedUsers;
+        private IEnumerable<User> testUsers;
+
+        public override void Arrange()
+        {
+            var user1 = new User();
+            var user2 = new User();
+            testUsers = new List<User> { user1, user2 };
+            Mocks.GetMock<IUserRepository>()
+                 .Setup( x => x.GetAllUsers() )
+                 .Returns( testUsers );
+        }
+
+        public override void Act()
+        {
+            returnedUsers = ClassUnderTest.GetAllUsers();
+        }
+
+        [Test]
+        public void it_gets_all_users()
+        {
+            Assert.AreEqual( testUsers, returnedUsers );
+        }
+    }
+
+    [TestFixture]
+    [Category( "Interactors > User > DeleteById" )]
+    public class When_deleting_a_user_by_id
+        : TestBase<UserInteractor>
+    {
+        private Guid id;
+
+        public override void Arrange()
+        {
+            id = Guid.NewGuid();
+        }
+
+        public override void Act()
+        {
+            ClassUnderTest.DeleteById( id );
+        }
+
+        [Test]
+        public void it_gets_all_users()
+        {
+            Mocks.GetMock<IUserRepository>()
+                .Verify( x => x.DeleteById( id ) );
+        }
+    }
+
+    [TestFixture]
+    [Category( "Interactors > User > EditRole" )]
+    public class When_editing_a_users_role
+        : TestBase<UserInteractor>
+    {
+        private Guid id;
+        private Role newRole;
+        private User savedUser;
+
+        public override void Arrange()
+        {
+            id = Guid.NewGuid();
+            newRole = Role.Author;
+            var originalUser = new User() { Id = id, Role = Role.Default };
+            var wrongUser = new User() { Id = Guid.NewGuid() };
+            var allUsers = new List<User>() { wrongUser, originalUser };
+            Mocks.GetMock<IUserRepository>()
+                 .Setup( x => x.GetAllUsers() )
+                 .Returns( allUsers );
+            Mocks.GetMock<IUserRepository>()
+                 .Setup( x => x.SaveUser( It.IsAny<User>() ) )
+                 .Callback( ( User user ) => savedUser = user );
+        }
+
+        public override void Act()
+        {
+            ClassUnderTest.EditRole( id, newRole );
+        }
+
+        [Test]
+        public void it_gets_all_users()
+        {
+            Assert.AreEqual( newRole, savedUser.Role, "The role was set incorrectly" );
+            Assert.AreEqual( id, savedUser.Id, "The role was changed on the wrong user" );
         }
     }
 }
