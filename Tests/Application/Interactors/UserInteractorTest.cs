@@ -86,25 +86,25 @@ namespace UserInteractorTests
         : TestBase<UserInteractor>
     {
         private User testUser;
+        private User wrongUser;
         private readonly Guid testVerifiedToken = Guid.NewGuid();
 
-        public override void Arrange()
+        [SetUp]
+        public void Setup()
         {
             testUser = new User { VerifiedToken = testVerifiedToken };
-            var allUsers = new List<User> { testUser };
-            Mocks.GetMock<IUserRepository>()
-                  .Setup( x => x.GetAllUsers() )
-                  .Returns( allUsers );
-        }
-
-        public override void Act()
-        {
-            ClassUnderTest.VerifyUser( testVerifiedToken );
+            wrongUser = new User { VerifiedToken = Guid.NewGuid() };
         }
 
         [Test]
         public void it_clears_the_users_verified_token()
         {
+            var allUsers = new List<User> { wrongUser, testUser };
+            Mocks.GetMock<IUserRepository>()
+                  .Setup( x => x.GetAllUsers() )
+                  .Returns( allUsers );
+
+            ClassUnderTest.VerifyUser( testVerifiedToken );
 
             Assert.AreEqual( Guid.Empty, testUser.VerifiedToken );
         }
@@ -112,8 +112,26 @@ namespace UserInteractorTests
         [Test]
         public void it_saves_the_user_when_verified()
         {
+            var allUsers = new List<User> { wrongUser, testUser };
+            Mocks.GetMock<IUserRepository>()
+                  .Setup( x => x.GetAllUsers() )
+                  .Returns( allUsers );
+
+            ClassUnderTest.VerifyUser( testVerifiedToken );
+
             Mocks.GetMock<IUserRepository>()
                   .Verify( x => x.SaveUser( testUser ), Times.Once() );
+        }
+
+        [Test]
+        public void it_throws_an_exception_when_given_an_invalid_token()
+        {
+            var allUsers = new List<User> { wrongUser };
+            Mocks.GetMock<IUserRepository>()
+                  .Setup( x => x.GetAllUsers() )
+                  .Returns( allUsers );
+
+            Assert.Throws<InvalidTokenException>( () => ClassUnderTest.VerifyUser( testVerifiedToken ) );
         }
     }
 
@@ -129,7 +147,8 @@ namespace UserInteractorTests
         private User testUser;
         private User wrongUser;
 
-        public override void Arrange()
+        [SetUp]
+        public void Setup()
         {
             testUser = new User { Salt = testUserSalt, Email = TestUserEmail };
             wrongUser = new User { Salt = wrongUserSalt, Email = WrongUserEmail };
@@ -174,7 +193,8 @@ namespace UserInteractorTests
         private readonly Guid testUserId = Guid.NewGuid();
         private readonly byte[] testUserSalt = new byte[] { 1, 2 };
 
-        public override void Arrange()
+        [SetUp]
+        public void Setup()
         {
             testUser = new User { Salt = testUserSalt, Id = testUserId };
             wrongUser = new User { Salt = new byte[] { 3, 4 } };
@@ -221,7 +241,8 @@ namespace UserInteractorTests
         private IEnumerable<User> allUsers;
         private User wrongUser;
 
-        public override void Arrange()
+        [SetUp]
+        public void Setup()
         {
             TestCookie.Values["Id"] = testUserId.ToString();
             var testUser = new User { Salt = testUserSalt, Id = testUserId };

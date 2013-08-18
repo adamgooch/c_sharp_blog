@@ -38,7 +38,8 @@ namespace Application.Users
         public void VerifyUser( Guid token )
         {
             var users = repository.GetAllUsers();
-            var user = users.First( u => u.VerifiedToken == token );
+            var user = users.FirstOrDefault( u => u.VerifiedToken == token );
+            if( user == null ) throw new InvalidTokenException();
             user.VerifiedToken = Guid.Empty;
             repository.SaveUser( user );
         }
@@ -81,31 +82,6 @@ namespace Application.Users
             if( user == null ) throw new InvalidUserIdException();
             user.Role = newRole;
             repository.SaveUser( user );
-        }
-    }
-
-    [Serializable]
-    public class InvalidUserIdException : Exception
-    {
-        public InvalidUserIdException()
-        {
-        }
-
-        public InvalidUserIdException( string message )
-            : base( message )
-        {
-        }
-
-        public InvalidUserIdException( string message, Exception inner )
-            : base( message, inner )
-        {
-        }
-
-        protected InvalidUserIdException(
-            SerializationInfo info,
-            StreamingContext context )
-            : base( info, context )
-        {
         }
     }
 }
