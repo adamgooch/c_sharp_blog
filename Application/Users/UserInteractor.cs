@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace Application.Users
@@ -45,7 +46,7 @@ namespace Application.Users
         public User GetUserByUsername( string username )
         {
             var users = repository.GetAllUsers();
-            return users.First( x => x.Email == username );
+            return users.FirstOrDefault( x => x.Email == username );
         }
 
         public User GetUserById( Guid id )
@@ -76,9 +77,35 @@ namespace Application.Users
 
         public void EditRole( Guid id, Role newRole )
         {
-            var user = repository.GetAllUsers().First( p => p.Id == id );
+            var user = GetUserById( id );
+            if( user == null ) throw new InvalidUserIdException();
             user.Role = newRole;
             repository.SaveUser( user );
+        }
+    }
+
+    [Serializable]
+    public class InvalidUserIdException : Exception
+    {
+        public InvalidUserIdException()
+        {
+        }
+
+        public InvalidUserIdException( string message )
+            : base( message )
+        {
+        }
+
+        public InvalidUserIdException( string message, Exception inner )
+            : base( message, inner )
+        {
+        }
+
+        protected InvalidUserIdException(
+            SerializationInfo info,
+            StreamingContext context )
+            : base( info, context )
+        {
         }
     }
 }

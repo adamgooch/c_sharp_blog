@@ -123,27 +123,42 @@ namespace UserInteractorTests
         : TestBase<UserInteractor>
     {
         private const string TestUserEmail = "text@example.com";
-        private readonly byte[] testUserSalt = new byte[16];
-        private User returnedUser;
+        private const string WrongUserEmail = "wrong@example.com";
+        private readonly byte[] testUserSalt = new byte[] { 1, 2 };
+        private readonly byte[] wrongUserSalt = new byte[] { 3, 4 };
+        private User testUser;
+        private User wrongUser;
 
         public override void Arrange()
         {
-            var testUser = new User { Salt = testUserSalt, Email = TestUserEmail };
-            var allUsers = new List<User> { testUser };
-            Mocks.GetMock<IUserRepository>()
-                  .Setup( x => x.GetAllUsers() )
-                  .Returns( allUsers );
-        }
-
-        public override void Act()
-        {
-            returnedUser = ClassUnderTest.GetUserByUsername( TestUserEmail );
+            testUser = new User { Salt = testUserSalt, Email = TestUserEmail };
+            wrongUser = new User { Salt = wrongUserSalt, Email = WrongUserEmail };
         }
 
         [Test]
         public void it_gets_a_user_by_username()
         {
+            var allUsers = new List<User> { wrongUser, testUser };
+            Mocks.GetMock<IUserRepository>()
+                  .Setup( x => x.GetAllUsers() )
+                  .Returns( allUsers );
+
+            var returnedUser = ClassUnderTest.GetUserByUsername( TestUserEmail );
+
             Assert.AreEqual( testUserSalt, returnedUser.Salt );
+        }
+
+        [Test]
+        public void it_returns_null_if_no_user_is_found_with_the_given_username()
+        {
+            var allUsers = new List<User> { wrongUser };
+            Mocks.GetMock<IUserRepository>()
+                  .Setup( x => x.GetAllUsers() )
+                  .Returns( allUsers );
+
+            var returnedUser = ClassUnderTest.GetUserByUsername( TestUserEmail );
+
+            Assert.IsNull( returnedUser );
         }
     }
 
@@ -306,7 +321,7 @@ namespace UserInteractorTests
         }
 
         [Test]
-        public void it_gets_all_users()
+        public void it_deletes_the_user_with_the_given_id()
         {
             Mocks.GetMock<IUserRepository>()
                 .Verify( x => x.DeleteById( id ) );
@@ -318,14 +333,12 @@ namespace UserInteractorTests
     public class When_editing_a_users_role
         : TestBase<UserInteractor>
     {
-        private Guid id;
-        private Role newRole;
+        private readonly Guid id = Guid.NewGuid();
+        private const Role NewRole = Role.Author;
         private User savedUser;
 
         public override void Arrange()
         {
-            id = Guid.NewGuid();
-            newRole = Role.Author;
             var originalUser = new User() { Id = id, Role = Role.Default };
             var wrongUser = new User() { Id = Guid.NewGuid() };
             var allUsers = new List<User>() { wrongUser, originalUser };
@@ -337,16 +350,18 @@ namespace UserInteractorTests
                  .Callback( ( User user ) => savedUser = user );
         }
 
-        public override void Act()
+        [Test]
+        public void it_edits_the_users_role()
         {
-            ClassUnderTest.EditRole( id, newRole );
+            ClassUnderTest.EditRole( id, NewRole );
+            Assert.AreEqual( NewRole, savedUser.Role, "The role was set incorrectly" );
+            Assert.AreEqual( id, savedUser.Id, "The role was changed on the wrong user" );
         }
 
         [Test]
-        public void it_gets_all_users()
+        public void it_throws_an_error_when_given_an_invalid_id()
         {
-            Assert.AreEqual( newRole, savedUser.Role, "The role was set incorrectly" );
-            Assert.AreEqual( id, savedUser.Id, "The role was changed on the wrong user" );
+            Assert.Throws<InvalidUserIdException>( () => ClassUnderTest.EditRole( Guid.NewGuid(), NewRole ) );
         }
     }
 }
