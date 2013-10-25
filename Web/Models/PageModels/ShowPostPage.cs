@@ -12,7 +12,7 @@ namespace Web.Models.PageModels
 
         public ShowPostPage( IPostInteractor postInteractor, string author, string title )
         {
-            var posts = (List<Post>)postInteractor.GetAllPosts( author );
+            var posts = postInteractor.GetAllPosts( author ).ToList();
             post = posts.Find( p => p.Title == title.Replace('_', ' ' ) );
             AllPosts = postInteractor.GetAllPosts().OrderByDescending( x => x.Date );
         }

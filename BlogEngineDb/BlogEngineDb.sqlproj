@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{6895a409-2a96-4e1d-9349-2daf527e1a4b}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql100DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -65,11 +65,8 @@
     <Build Include="Posts.sql" />
     <Build Include="GetAllPostsByAuthor.sql" />
     <Build Include="Users.sql" />
-    <Build Include="CreateUser.sql" />
-    <Build Include="GetAllUsers.sql" />
-    <Build Include="DeleteUserByEmail.sql" />
-    <Build Include="EditUser.sql" />
-    <Build Include="DeleteUserById.sql" />
+    <Build Include="UserRoles.sql" />
+    <Build Include="Roles.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BlogEngineDb.publish.xml" />

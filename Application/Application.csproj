@@ -41,21 +41,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authenticator.cs" />
-    <Compile Include="Exceptions.cs" />
-    <Compile Include="IAuthenticator.cs" />
-    <Compile Include="IMailer.cs" />
-    <Compile Include="Mailer.cs" />
+    <Compile Include="Authentication\Authenticator.cs" />
+    <Compile Include="Utility\AesEncryption.cs" />
+    <Compile Include="Utility\Exceptions.cs" />
+    <Compile Include="Authentication\IAuthenticate.cs" />
+    <Compile Include="Utility\IMailer.cs" />
+    <Compile Include="Utility\KeyGenerator.cs" />
+    <Compile Include="Utility\Mailer.cs" />
     <Compile Include="Posts\Entities\Post.cs" />
     <Compile Include="Posts\Interactors\IPostInteractor.cs" />
     <Compile Include="Posts\Interactors\PostInteractor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Posts\RepositoryContracts\IPostRepository.cs" />
-    <Compile Include="Role.cs" />
     <Compile Include="Users\IUserInteractor.cs" />
     <Compile Include="Users\IUserRepository.cs" />
     <Compile Include="Users\User.cs" />
     <Compile Include="Users\UserInteractor.cs" />
+    <Compile Include="Utility\StringConversion.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

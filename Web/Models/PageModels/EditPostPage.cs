@@ -14,7 +14,7 @@ namespace Web.Models.PageModels
         public EditPostPage( IPostInteractor postInteractor, string author, string title )
         {
             Post = new EditPostPageForm();
-            var posts = (List<Post>)postInteractor.GetAllPosts( author );
+            var posts = postInteractor.GetAllPosts( author ).ToList();
             var post = posts.Find( p => p.Title == title.Replace( '_', ' ' ) );
             Post.Title = post.Title;
             Post.Body = post.Body;

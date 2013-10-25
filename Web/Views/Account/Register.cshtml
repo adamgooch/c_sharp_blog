@@ -1,0 +1,24 @@
+﻿@model Web.Models.PageModels.RegisterPage
+
+@{ ViewBag.Title = "Register"; }
+
+<h2>Register</h2>
+<p>Passwords must be at least 8 characters long.</p>
+
+@using( Html.BeginForm( "Register", "Account", FormMethod.Post, new { ReturnUrl = "/" } ) )
+{
+    @Html.AntiForgeryToken()
+    <div>
+        @Html.TextBoxFor( x => x.Email, new { @Required = true, @Placeholder = "Email" } )
+        @Html.ValidationMessageFor( x => x.Email )
+    </div>
+    <div>
+        @Html.Password( "Password", null, new { @Required = true, @Placeholder = "Password" } )
+        @Html.ValidationMessageFor( x => x.Password )
+    </div>
+    <div>
+        @Html.Password( "PasswordConfirmation", null, new { @Required = true, @Placeholder = "Password Confirmation" } )
+        @Html.ValidationMessageFor( x => x.PasswordConfirmation )
+    </div>
+    <input type="submit" />
+}

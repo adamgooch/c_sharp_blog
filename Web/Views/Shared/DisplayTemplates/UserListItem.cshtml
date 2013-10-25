@@ -1,0 +1,14 @@
+﻿@model Web.Models.UserListItem
+
+<tr>
+  <td class="account-id">@Model.Id</td>
+  <td class="account-email">@Model.Email</td>
+  <td class="account-roles">@Html.DropDownListFor(u => u.Id, new SelectList( @Model.RolesList, "Value", "Text" ) )</td>
+  <td>@Html.CheckBoxFor(x => x.Active, new { @checked = @Model.Active, @class="account-active" })</td>
+  <td>
+    <a class="delete-account" href="#">Delete</a>
+  </td>
+  <td>
+    <a class="edit-roles" href="#">Edit Roles</a>
+  </td>
+</tr>

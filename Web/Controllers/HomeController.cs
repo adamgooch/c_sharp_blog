@@ -22,18 +22,12 @@ namespace Web.Controllers
         {
             var homePage = new HomePage( postInteractor );
             homePage.PageTitle = "Adam Gooch";
-            var authenticator = new Authenticator();
-            var cookie = Request.Cookies[Authenticator.AuthenticationCookie];
-            if (cookie != null)
-            {
-                var decryptedCookie = authenticator.DecryptAuthenticationCookie( cookie );
-                var userId = decryptedCookie.Values["Id"];
-                var userInteractor = new UserInteractor( new SqlServerUserRepository(), authenticator, new Mailer() );
-                var user = userInteractor.GetUserById( new Guid( userId ) );
-                ViewBag.Username = user.Email;
-            
-            }
             return View( "Index", homePage );
+        }
+
+        public ActionResult Failure()
+        {
+            return View();
         }
     }
 }

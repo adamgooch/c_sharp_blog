@@ -189,6 +189,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionFilters\LoggedOnUser.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -196,18 +197,21 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Filters\AuthorizeUser.cs" />
+    <Compile Include="ActionFilters\RoleAuthorization.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\PageModels\EditPostPage.cs" />
+    <Compile Include="Models\PageModels\ForgotPasswordPage.cs" />
     <Compile Include="Models\PageModels\HomePage.cs" />
     <Compile Include="Models\PageModels\LoginPage.cs" />
     <Compile Include="Models\PageModels\ManageBlogPage.cs" />
     <Compile Include="Models\PageModels\ManageAccountsPage.cs" />
     <Compile Include="Models\PageModels\NewPostPage.cs" />
     <Compile Include="Models\PageModels\RegisterPage.cs" />
+    <Compile Include="Models\PageModels\ResetPasswordPage.cs" />
     <Compile Include="Models\PageModels\ShowPostPage.cs" />
+    <Compile Include="Models\UserListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -294,14 +298,11 @@
     <Content Include="Assets\Scripts\tinymce\skins\lightgray\skin.min.css" />
     <Content Include="Assets\Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Assets\Scripts\tinymce\tinymce.min.js" />
+    <Content Include="Assets\Scripts\toastr.min.js" />
     <Content Include="Assets\Styles\bootstrap-responsive.min.css" />
     <Content Include="Assets\Styles\bootstrap.min.css" />
-    <Content Include="Assets\Styles\Main.css">
-      <DependentUpon>Main.chirp.less</DependentUpon>
-    </Content>
-    <Content Include="Assets\Styles\Main.min.css">
-      <DependentUpon>Main.chirp.less</DependentUpon>
-    </Content>
+    <Content Include="Assets\Styles\main.css" />
+    <Content Include="Assets\Styles\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
@@ -334,13 +335,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Templates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\Styles\Main.chirp.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj">
@@ -375,7 +372,7 @@
     <Content Include="Views\Blog\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Shared\Login.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Shared\_SidebarPartial.cshtml" />
@@ -386,8 +383,13 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\GoDaddy.pubxml" />
     <None Include="Properties\PublishProfiles\LocalFile.pubxml" />
-    <Content Include="Views\Shared\Register.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ManageAll.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\UserListItem.cshtml" />
+    <Content Include="Views\Account\Activate.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Home\Failure.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

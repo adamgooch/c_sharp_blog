@@ -1,0 +1,31 @@
+﻿@model Web.Models.PageModels.LoginPage
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Login</h2>
+@using( Html.BeginForm( "Login", "Account", FormMethod.Post, new { ReturnUrl = "/" } ) )
+{
+    @Html.AntiForgeryToken()
+    <div>
+        @Html.TextBoxFor( x => x.Email, new { @Required = true, @Placeholder = "Email" } )
+        @Html.ValidationMessageFor( x => x.Email )
+    </div>
+    <div>
+        @Html.Password( "Password", null, new { @Required = true, @Placeholder = "Password" } )
+        @Html.ValidationMessageFor( x => x.Password )
+    </div>
+    <div>
+      <label>
+        @Html.CheckBox( "RememberMe", false )
+        Remember Me
+      </label>
+      
+    </div>
+    <input type="submit" />
+}
+<div>
+  @Html.ActionLink("I forgot my password.", "ForgotPassword", "Account")
+</div>

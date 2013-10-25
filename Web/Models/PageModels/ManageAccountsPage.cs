@@ -6,13 +6,27 @@ namespace Web.Models.PageModels
 {
     public class ManageAccountsPage
     {
-        public List<User> AllUsers { get; set; }
-        public User CurrentUser { get; set; }
+        public int AllRolesId { get; set; }
+        public List<UserListItem> AllUsers { get; set; }
+        public List<string> AllRoles { get; set; }
         public string PageHeader = "Manage";
 
         public ManageAccountsPage( IUserInteractor userInteractor )
         {
-            AllUsers = userInteractor.GetAllUsers().ToList();
+            var allUsers = userInteractor.GetAllUsers();
+            AllRoles = userInteractor.GetAllRoles().ToList();
+            AllUsers = new List<UserListItem>();
+            foreach( var user in allUsers )
+            {
+                var userView = new UserListItem
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Roles = user.Roles,
+                    Active = user.Active
+                };
+                AllUsers.Add( userView );
+            }
         }
     }
 }

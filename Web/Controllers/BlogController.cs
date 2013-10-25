@@ -19,14 +19,14 @@ namespace Web.Controllers
             postInteractor = new PostInteractor( postRepository );
         }
 
-        [AuthorizeUser( Role = Role.Author )]
+        [RoleAuthorization( Roles = new[] { "Author" } )]
         public ActionResult New()
         {
             var newPostPage = new NewPostPage();
             return View( newPostPage );
         }
 
-        [AuthorizeUser( Role = Role.Author )]
+        [RoleAuthorization( Roles = new[] { "Author" } )]
         [ValidateInput( false )]
         public void Create( Post post )
         {
@@ -47,29 +47,28 @@ namespace Web.Controllers
             return View( "Show", showPostPage );
         }
 
-        [AuthorizeUser( Role = Role.Author )]
+        [RoleAuthorization( Roles = new[] { "Author" } )]
         public void DeletePost( string author, string blogTitle, DateTime date )
         {
             postInteractor.DeletePost( author, date, blogTitle );
             Response.Redirect( "Manage" );
         }
 
-        [AuthorizeUser( Role = Role.Author )]
+        [RoleAuthorization( Roles = new[] { "Author" } )]
         public ActionResult Manage()
         {
             var manageBlogPage = new ManageBlogPage( postInteractor );
             return View( "Manage", manageBlogPage );
         }
 
-        [AuthorizeUser( Role = Role.Author )]
         public ActionResult EditPost( string author, string blogTitle )
         {
             var editPostPage = new EditPostPage( postInteractor, author, blogTitle );
             return View( "Edit", editPostPage );
         }
 
+        [RoleAuthorization( Roles = new[] { "Author" } )]
         [HttpPost]
-        [AuthorizeUser( Role = Role.Author )]
         [ValidateInput( false )]
         public void Edit( Post post )
         {

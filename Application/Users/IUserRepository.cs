@@ -5,9 +5,16 @@ namespace Application.Users
 {
     public interface IUserRepository
     {
-        void CreateUser( User user );
+        bool CreateUser( string email, byte[] passwordDigest, byte[] salt, Guid verificationToken );
+        bool DeleteUser( Guid id );
+        bool ActivateUser( Guid token );
+        bool SetActive( Guid userId, bool active );
+        bool AddRole( Guid userId, string role );
+        bool RemoveRole( Guid userId, string role );
+        bool SetUserResetPasswordToken( string email, byte[] resetToken );
+        bool ResetPassword( byte[] passwordDigest, byte[] salt, byte[] token );
+        User GetUser( string email );
         IEnumerable<User> GetAllUsers();
-        void SaveUser( User user );
-        void DeleteById( Guid id );
+        IEnumerable<string> GetAllRoles();
     }
 }

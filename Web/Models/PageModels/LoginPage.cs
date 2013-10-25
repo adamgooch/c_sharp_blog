@@ -4,13 +4,8 @@ namespace Web.Models.PageModels
 {
     public class LoginPage
     {
-        [Required]
-        [Display( Name = "Username" )]
-        public string UserName { get; set; }
-
-        [Required]
-        [DataType( DataType.Password )]
-        [Display( Name = "Password" )]
+        public string Email { get; set; }
         public string Password { get; set; }
+        public bool RememberMe { get; set; }
     }
 }

@@ -11,35 +11,47 @@ namespace Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IAuthenticator authenticator;
-        private readonly IUserInteractor userInteractor;
+        IAuthenticate authenticator;
+        IUserInteractor userInteractor;
 
         public AccountController()
         {
-            authenticator = new Authenticator();
-            userInteractor = new UserInteractor( new SqlServerUserRepository(), authenticator, new Mailer() );
+            var mailer = new Mailer();
+            var userRepository = new SqlServerUserRepository();
+            userInteractor = new UserInteractor( userRepository );
+            authenticator = new Authenticator( userRepository, mailer );
         }
 
         [HttpGet]
         public ActionResult Register()
         {
-            var registerPage = new RegisterPage();
-            return View( registerPage );
-        }
-
-        public ActionResult VerifyUser( Guid token )
-        {
-            userInteractor.VerifyUser( token );
-            return RedirectToAction( "Index", "Home" );
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Register( RegisterPage model )
+        public ActionResult Register( string email, string password, string passwordConfirmation, RegisterPage model )
         {
-            NameValueCollection formValues = Request.Form;
-            if( !ModelState.IsValid ) return View( model );
-            userInteractor.CreateUser( formValues["email"], formValues["password"] );
-            return RedirectToAction( "Index", "Home" );
+            if( ModelState.IsValid && authenticator.CreateUser( email, password, passwordConfirmation ) )
+            {
+                return RedirectToAction( "Index", "Home" );
+            }
+            else
+            {
+                return View( model );
+            }
+        }
+
+        [HttpGet]
+        public ActionResult Activate( Guid token )
+        {
+            if( authenticator.ActivateUser( token ) )
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction( "Failure", "Home" );
+            }
         }
 
         [HttpGet]
@@ -49,48 +61,123 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Login( LoginPage model, string ReturnUrl )
+        public ActionResult Login( string email, string password, bool rememberMe )
         {
-            NameValueCollection formValues = Request.Form;
-            var user = userInteractor.GetUserByUsername( formValues["username"] );
-            if( authenticator.Verified( user.VerifiedToken ) && authenticator.Authenticate( formValues["password"], user.Salt, user.PasswordDigest, 5000 ) )
+            if( authenticator.Authenticate( email, password ) )
             {
-                Response.Cookies.Add( authenticator.GenerateAuthenticationCookie( user.Id, user.Salt ) );
+                Response.Cookies.Add( authenticator.GenerateAuthCookie( email, rememberMe ) );
                 return RedirectToAction( "Index", "Home" );
             }
             else
-                return View( model );
-        }
-
-        public ActionResult Logout()
-        {
-            var cookie = Response.Cookies[Authenticator.AuthenticationCookie];
-            if( cookie != null ) cookie.Expires = DateTime.Now.AddDays(-1D);
-            return RedirectToAction( "Index", "Home" );
-        }
-
-        [AuthorizeUser( Role = Role.Administrator )]
-        public ActionResult Manage()
-        {
-            var pageModel = new ManageAccountsPage( userInteractor );
-            return View( pageModel );
+            {
+                return RedirectToAction( "Failure", "Home" );
+            }
         }
 
         [HttpGet]
-        [AuthorizeUser( Role = Role.Administrator )]
-        public void Delete( string id )
+        public ActionResult Logout()
         {
-            var userId = new Guid( id );
-            if( !authenticator.LoggedIn( userId, Request.Cookies[Authenticator.AuthenticationCookie] ) )
-                userInteractor.DeleteById( userId );
-            Response.Redirect( "/account/manage" );
+            var cookie = Response.Cookies[Authenticator.AuthenticationCookie];
+            if( cookie != null ) cookie.Expires = DateTime.Now.AddDays( -1D );
+            return RedirectToAction( "Index", "Home" );
+        }
+
+        [HttpGet]
+        public ActionResult ForgotPassword()
+        {
+            return View();
         }
 
         [HttpPost]
-        public void EditRole( Guid id, Role role )
+        public ActionResult ForgotPassword( string email )
         {
-            userInteractor.EditRole( id, role );
+            /*
+             * There is some controversy about password reset security. This email method is prone
+             * to man in the middle attackers and inherent email insecurities. Security questions
+             * is another method that is prone to targeted attacks. My belief is to let the user
+             * choose which vulnerability they would prefer to be susceptible to. Therefore, I will
+             * default to email since I have collected that information for login anyway, then allow
+             * the user to add security questions if they prefer to reset their password that way.
+             * */
+            if( authenticator.SendPasswordResetEmail( email ) )
+            {
+                return RedirectToAction( "Index", "Home" );
+            }
+            else
+            {
+                return RedirectToAction( "Failure", "Home" );
+            }
+        }
+
+        [HttpGet]
+        public ActionResult ResetPassword( string token )
+        {
+            Session["reset_token"] = token;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword( string password, string passwordConfirmation )
+        {
+            var token = Session["reset_token"];
+            if( token == null )
+            {
+                return RedirectToAction( "Failure", "Home" );
+            }
+            else
+            {
+                if( authenticator.ResetPassword( password, passwordConfirmation, (string)token ) )
+                {
+                    return RedirectToAction( "Index", "Home" );
+                }
+                else
+                {
+                    return RedirectToAction( "Failure", "Home" );
+                }
+            }
+        }
+
+        [RoleAuthorization( Roles = new[] { "Admin" } )]
+        [HttpGet]
+        public ActionResult ManageAll()
+        {
+            var model = new ManageAccountsPage( userInteractor );
+            return View( model );
+        }
+
+        [RoleAuthorization( Roles = new[] { "Admin" } )]
+        [HttpPost]
+        public bool Delete( string accountId )
+        {
+            return userInteractor.DeleteUser( new Guid( accountId ) );
+        }
+
+        [RoleAuthorization( Roles = new[] { "Admin" } )]
+        [HttpPost]
+        public bool AddRole( string accountId, string newRole )
+        {
+            return userInteractor.AddRole( new Guid( accountId ), newRole );
+        }
+
+        [RoleAuthorization( Roles = new[] { "Admin" } )]
+        [HttpPost]
+        public bool RemoveRole( string accountId, string roleToRemove )
+        {
+            return userInteractor.RemoveRole( new Guid( accountId ), roleToRemove );
+        }
+
+        [RoleAuthorization( Roles = new[] { "Admin" } )]
+        [HttpPost]
+        public bool Activate( string accountId )
+        {
+            return userInteractor.SetActive( new Guid( accountId ), true );
+        }
+
+        [RoleAuthorization( Roles = new[] { "Admin" } )]
+        [HttpPost]
+        public bool Deactivate( string accountId )
+        {
+            return userInteractor.SetActive( new Guid( accountId ), false );
         }
     }
 }

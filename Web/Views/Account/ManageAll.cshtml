@@ -1,0 +1,33 @@
+﻿@model Web.Models.PageModels.ManageAccountsPage
+@{
+  ViewBag.Title = "ManageAccounts";
+  Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ManageAccounts</h2>
+<div id="open-modal" class="modal-dialog">
+  @Html.Hidden("selected-user")
+	<div>
+		<a href="#" title="Close" id="close-modal" class="close">X</a>
+    <h3 id="edit-account-name"></h3>
+    <div id="role-selection">
+      @foreach (var role in @Model.AllRoles)
+      {
+        <span class="all-roles">
+          <label><input id=@String.Format("role-{0}", System.Text.RegularExpressions.Regex.Replace(role, @"\s+", "")) class="role-selector" type="checkbox" />@role</label>
+        </span>
+      }
+    </div>
+	</div>
+</div>
+
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Email</th>
+    <th>Role</th>
+    <th>Active</th>
+  </tr>
+  @Html.DisplayFor(x => x.AllUsers)
+</table>
+@section PageLevelJavascript { @Scripts.Render( "~/assets/scripts/toastr.min.js" ), @Scripts.Render( "~/assets/scripts/manage-users.js" ) }

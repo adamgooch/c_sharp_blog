@@ -5,9 +5,9 @@
                 @Html.ActionLink( "Adam Gooch", "Index", "Home", new { }, new { @id = "site-title-link" } )
             </div>
             <div class="span2">
-                @if( ViewBag.Username != null )
+                @if( ViewBag.User != null )
                 {
-                    <p id="username" class="pull-right">@ViewBag.Username</p>
+                    <p id="username" class="pull-right">@ViewBag.User.Email</p>
                     @Html.ActionLink( "Logout", "Logout", "Account", new { }, new { @id = "logout", @class = "pull-right" } )
                 }
             </div>

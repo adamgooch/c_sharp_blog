@@ -1,6 +1,7 @@
 ﻿using Application.Posts.Entities;
 using Application.Posts.Interactors;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Web.Models.PageModels
 {
@@ -11,7 +12,7 @@ namespace Web.Models.PageModels
 
         public ManageBlogPage( IPostInteractor postInteractor )
         {
-            AllPosts = (List<Post>)postInteractor.GetAllPosts();
+            AllPosts = postInteractor.GetAllPosts().ToList();
         }
     }
 }

@@ -6,13 +6,11 @@ namespace Application.Users
 {
     public interface IUserInteractor
     {
-        void CreateUser( string email, string password );
-        void VerifyUser( Guid token );
-        User GetUserByUsername( string username );
-        User GetUserById( Guid id );
-        User GetUserByCookie( HttpCookie cookie );
+        bool DeleteUser( Guid id );
+        bool SetActive( Guid userId, bool active );
+        bool AddRole( Guid userId, string role );
+        bool RemoveRole( Guid userId, string role );
         IEnumerable<User> GetAllUsers();
-        void DeleteById( Guid id );
-        void EditRole( Guid id, Role newRole );
+        IEnumerable<string> GetAllRoles();
     }
 }
