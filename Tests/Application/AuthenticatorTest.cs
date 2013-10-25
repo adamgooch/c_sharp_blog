@@ -81,9 +81,7 @@ namespace AuthenticatorTests
         {
             sut.CreateUser( "john@example.com", "password", "password" );
             var mailFolder = new DirectoryInfo( EmailDirectory );
-            var email = mailFolder.GetFiles().First();
-            var fullPath = email.FullName;
-            var emailContents = File.ReadAllText( fullPath );
+            var emailContents = GetEmailContents();
             Assert.IsTrue( emailContents.Contains( "To: john@example.com" ), "The email was not sent to the right address" );
             Assert.IsTrue( emailContents.Contains( @"account/activate?token=" ), "The email had the wrong activation url" );
         }
@@ -119,11 +117,12 @@ namespace AuthenticatorTests
         }
 
         [Test]
-        public void When_generating_an_auth_cookie_it_is_http_only()
+        public void When_generating_an_auth_cookie_it_is_http_only_and_secure()
         {
             sut.CreateUser( "john@example.com", "password", "password" );
             var authCookie = sut.GenerateAuthCookie( "john@example.com", false );
             Assert.IsTrue( authCookie.HttpOnly, "The auth cookie was not httponly" );
+            Assert.IsTrue( authCookie.Secure, "The auth cookie was not secure" );
         }
 
         [Test]
@@ -154,7 +153,8 @@ namespace AuthenticatorTests
         }
 
         /*
-         * making this pass and the previous one pass is a challenge I have yet to solve
+         * This test is to mitigate the replay attack.
+         * Making this pass and the previous one pass is a challenge I have yet to solve
         [Test]
         public void When_generating_an_auth_cookie_the_value_is_different_every_time()
         {
@@ -207,19 +207,21 @@ namespace AuthenticatorTests
         [Test]
         public void When_resetting_a_password_it_fails_if_the_confirmation_does_not_match_the_password()
         {
-            var success = sut.ResetPassword( "password", "Password", "" );
+            //This has the full setup because we need to make sure it isn't failing due to the token
+            sut.CreateUser( "john@example.com", "password", "password" );
+            DeleteEmails();
+            var emailSent = sut.SendPasswordResetEmail( "john@example.com" );
+            Assert.IsTrue( emailSent, "Password reset email was not sent" );
+            var token = GetTokenFromEmail();
+            var success = sut.ResetPassword( "newPassword", "newpassword", token );
             Assert.IsFalse( success, "it should have failed" );
         }
 
         [Test]
-        public void it_replaces_the_delimeter()
+        public void When_resetting_a_password_it_fails_if_the_token_doesnt_exist()
         {
-            var firstArray = new byte[] { 0xFF, Authenticator.CookieDelimeter, 0x00 };
-            var result = sut.ReplaceDelimeter( firstArray );
-            Assert.IsFalse( firstArray.SequenceEqual( result ) );
-            Assert.AreEqual( firstArray[0], result[0] );
-            Assert.AreNotEqual( firstArray[1], result[1] );
-            Assert.AreEqual( firstArray[2], result[2] );
+            var success = sut.ResetPassword( "newPassword", "newPassword", "" );
+            Assert.IsFalse( success, "it should have failed" );
         }
 
         private User GetCreatedUser()

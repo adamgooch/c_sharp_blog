@@ -46,7 +46,7 @@
     <Compile Include="Utility\Exceptions.cs" />
     <Compile Include="Authentication\IAuthenticate.cs" />
     <Compile Include="Utility\IMailer.cs" />
-    <Compile Include="Utility\KeyGenerator.cs" />
+    <Compile Include="Utility\PBKDF2Helper.cs" />
     <Compile Include="Utility\Mailer.cs" />
     <Compile Include="Posts\Entities\Post.cs" />
     <Compile Include="Posts\Interactors\IPostInteractor.cs" />

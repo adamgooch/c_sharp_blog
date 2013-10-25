@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Application.Utility
 {
-    public class KeyGenerator
+    public class PBKDF2Helper
     {
-        private const int SaltByteLength = 64;
+        public const int SaltByteLength = 64;
         private const int IterationCount = 3000;
         private const int DerivedKeyLength = 256;
 
@@ -31,8 +31,7 @@ namespace Application.Utility
         }
 
         /*
-         * This implementation is borrowed from
-         * http://stackoverflow.com/questions/18648084/rfc2898-pbkdf2-with-sha256-as-digest-in-c-sharp
+         * This implementation is borrowed from http://sourceforge.net/projects/pwdtknet/
          * because I want to use SHA512 instead of Microsoft's implementation of SHA1
          * */
         private static Byte[] GetDerivedKeyBytes_PBKDF2_HMACSHA512( string password, byte[] salt )

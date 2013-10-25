@@ -29,8 +29,8 @@ namespace Tests.Data
         [Test]
         public void it_creates_a_user()
         {
-            var salt = KeyGenerator.GenerateSalt();
-            var passDigest = KeyGenerator.GeneratePasswordDigest( "password", salt );
+            var salt = PBKDF2Helper.GenerateSalt();
+            var passDigest = PBKDF2Helper.GeneratePasswordDigest( "password", salt );
             var success = sut.CreateUser( Email, passDigest, salt, Guid.NewGuid()  );
             var allUsers = sut.GetAllUsers();
             id = allUsers.FirstOrDefault().Id;
@@ -41,8 +41,8 @@ namespace Tests.Data
         [Test]
         public void it_maps_a_user_correctly()
         {
-            var salt = KeyGenerator.GenerateSalt();
-            var passDigest = KeyGenerator.GeneratePasswordDigest( "password", salt );
+            var salt = PBKDF2Helper.GenerateSalt();
+            var passDigest = PBKDF2Helper.GeneratePasswordDigest( "password", salt );
             var success = sut.CreateUser( Email, passDigest, salt, Guid.NewGuid() );
             var allUsers = sut.GetAllUsers();
             var mappedUser = allUsers.First();

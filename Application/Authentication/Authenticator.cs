@@ -11,22 +11,23 @@ namespace Application
     public class Authenticator : IAuthenticate
     {
         public const string AuthenticationCookie = "ae23";
-        public const byte CookieDelimeter = 0x7C;
-
+        
         private IUserRepository userRepository;
         private IMailer mailer;
+        private AesEncryption encryptor;
 
         public Authenticator( IUserRepository userRepository, IMailer mailer )
         {
             this.userRepository = userRepository;
             this.mailer = mailer;
+            encryptor = new AesEncryption();
         }
 
         public bool CreateUser( string email, string password, string passwordConfirmation )
         {
             if( !password.Equals( passwordConfirmation ) ) return false;
-            var salt = ReplaceDelimeter( KeyGenerator.GenerateSalt() );
-            var passwordDigest = KeyGenerator.GeneratePasswordDigest( password, salt );
+            var salt = PBKDF2Helper.GenerateSalt();
+            var passwordDigest = PBKDF2Helper.GeneratePasswordDigest( password, salt );
             var verificationToken = Guid.NewGuid();
             var userCreated = userRepository.CreateUser( email, passwordDigest, salt, verificationToken );
             if( userCreated )
@@ -44,20 +45,18 @@ namespace Application
         {
             var user = userRepository.GetUser( email );
             if( user == null ) return false;
-            var passwordDigest = KeyGenerator.GeneratePasswordDigest( password, user.Salt );
+            var passwordDigest = PBKDF2Helper.GeneratePasswordDigest( password, user.Salt );
             return passwordDigest.SequenceEqual( user.PasswordDigest ) && user.Active;
         }
 
         public HttpCookie GenerateAuthCookie( string email, bool rememberMe )
         {
             var user = userRepository.GetUser( email );
-            var saltAsString = StringConversion.GetString( user.Salt );
-            var value = String.Format( "{0}{1}{2}", user.Email, Convert.ToChar( CookieDelimeter ), saltAsString );
-            var valueAsBytes = StringConversion.GetBytes( value );
-            var encryptedValue = AesEncryption.EncryptBytes( valueAsBytes );
+            var value = System.Text.Encoding.Default.GetString( user.Salt ) + user.Email;
             var cookie = new HttpCookie( AuthenticationCookie )
             {
-                Value = HttpServerUtility.UrlTokenEncode( encryptedValue ),
+                Value = Convert.ToBase64String( encryptor.Encrypt( value ) ),
+                Secure = true,
                 HttpOnly = true
             };
             if( rememberMe ) cookie.Expires = DateTime.Now.AddDays( 7d );
@@ -66,26 +65,23 @@ namespace Application
 
         public User GetUser( HttpCookie authenticationCookie )
         {
-            var cypherText = authenticationCookie.Value;
-            var valueAsBytes = HttpServerUtility.UrlTokenDecode( cypherText );
-            var value = AesEncryption.DecryptToBytes( valueAsBytes );
-            var valueAsString = StringConversion.GetString( value );
-            var valueParts = valueAsString.Split( new char[] { Convert.ToChar( CookieDelimeter ) } );
-            var cookieEmail = valueParts[0];
-            var cookieSalt = valueParts[1];
-            var user = userRepository.GetUser( cookieEmail );
-            var saltAsString = StringConversion.GetString( user.Salt );
-            if( cookieSalt.Equals( saltAsString ) ) return user;
+            var decryptedValue = encryptor.Decrypt( Convert.FromBase64String( authenticationCookie.Value ) );
+            var salt = decryptedValue.Substring( 0, PBKDF2Helper.SaltByteLength );
+            var saltAsBytes = System.Text.Encoding.Default.GetBytes( salt );
+            var email = decryptedValue.Substring( PBKDF2Helper.SaltByteLength );
+            var user = userRepository.GetUser( email );
+            if( user.Salt.SequenceEqual( saltAsBytes ) ) return user;
             return null;
         }
 
         public bool SendPasswordResetEmail( string email )
         {
-            var resetToken = KeyGenerator.GenerateSalt();
+            var resetToken = PBKDF2Helper.GenerateSalt();
             var success = userRepository.SetUserResetPasswordToken( email, resetToken );
             if( success )
             {
-                var encryptedToken = AesEncryption.EncryptBytes( resetToken );
+                var tokenAsString = System.Text.Encoding.Default.GetString( resetToken );
+                var encryptedToken = encryptor.Encrypt( tokenAsString );
                 var encryptedTokenAsString = HttpServerUtility.UrlTokenEncode( encryptedToken );
                 success = mailer.SendPasswordResetEmail( email, encryptedTokenAsString );
             }
@@ -100,24 +96,13 @@ namespace Application
         public bool ResetPassword( string password, string passwordConfirmation, string token )
         {
             if( !password.Equals( passwordConfirmation ) ) return false;
-            var salt = ReplaceDelimeter( KeyGenerator.GenerateSalt() );
-            var passwordDigest = KeyGenerator.GeneratePasswordDigest( password, salt );
+            var salt = PBKDF2Helper.GenerateSalt();
+            var passwordDigest = PBKDF2Helper.GeneratePasswordDigest( password, salt );
             var decodedToken = HttpServerUtility.UrlTokenDecode( token );
-            var decryptedToken = AesEncryption.DecryptToBytes( decodedToken );
-            if( userRepository.ResetPassword( passwordDigest, salt, decryptedToken ) ) return true;
+            var decryptedToken = encryptor.Decrypt( decodedToken );
+            var decryptedTokenAsBytes = System.Text.Encoding.Default.GetBytes( decryptedToken );
+            if( userRepository.ResetPassword( passwordDigest, salt, decryptedTokenAsBytes ) ) return true;
             return false;
-        }
-
-        //made public to test
-        public byte[] ReplaceDelimeter( byte[] array )
-        {
-            byte[] newArray = new byte[array.Length];
-            for( int i = 0; i < array.Length; i++ )
-            {
-                if( array[i] == CookieDelimeter ) newArray[i] = 0xFF;
-                else newArray[i] = array[i];
-            }
-            return newArray;
         }
     }
 }

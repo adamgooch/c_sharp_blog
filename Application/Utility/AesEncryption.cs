@@ -10,57 +10,83 @@ namespace Application.Utility
 {
     class AesEncryption
     {
-        private static readonly byte[] Key = { 151, 226, 32, 113, 4, 157, 85, 45, 114, 184, 27, 162, 37, 112, 222, 209, 241, 24, 175, 144, 156, 53, 196, 29, 24, 26, 17, 218, 131, 236, 53, 209 };
-        private static readonly byte[] Vector = { 142, 64, 191, 167, 23, 3, 104, 119, 231, 121, 251, 112, 79, 43, 114, 201 };
+        private readonly string keyFile;
+        private readonly string ivFile;
+        private readonly string rootDirectory = System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath + "keys";
 
-        public static byte[] EncryptBytes( byte[] clearText )
+        public AesEncryption()
         {
-            RijndaelManaged rijndael = new RijndaelManaged();
-            ICryptoTransform encryptorTransform = rijndael.CreateEncryptor( Key, Vector );
-            MemoryStream memoryStream = new MemoryStream();
+            keyFile = String.Format( "{0}\\key", rootDirectory );
+            ivFile = String.Format( "{0}\\iv", rootDirectory );
+        }
 
-            CryptoStream cs = new CryptoStream( memoryStream, encryptorTransform, CryptoStreamMode.Write );
-            cs.Write( clearText, 0, clearText.Length );
-            cs.FlushFinalBlock();
+        public byte[] Encrypt( string plainText )
+        {
+            byte[] encrypted;
+            using( var aesAlg = new AesCryptoServiceProvider() )
+            {
+                GenerateAesKeyIfNoneExists( aesAlg );
+                var encryptor = aesAlg.CreateEncryptor( GetKey(), GetIv() );
+                aesAlg.Padding = PaddingMode.PKCS7;
 
-            memoryStream.Position = 0;
-            byte[] encrypted = new byte[memoryStream.Length];
-            memoryStream.Read( encrypted, 0, encrypted.Length );
-
-            cs.Close();
-            memoryStream.Close();
+                using( var msEncrypt = new MemoryStream() )
+                {
+                    using( var csEncrypt = new CryptoStream( msEncrypt, encryptor, CryptoStreamMode.Write ) )
+                    {
+                        using( var swEncrypt = new StreamWriter( csEncrypt ) )
+                        {
+                            swEncrypt.Write( plainText );
+                        }
+                    }
+                    encrypted = msEncrypt.ToArray();
+                }
+            }
             return encrypted;
         }
 
-        public static byte[] DecryptToBytes( byte[] EncryptedValue )
+        public string Decrypt( byte[] cipherText )
         {
-            RijndaelManaged rijndael = new RijndaelManaged();
-            ICryptoTransform decryptorTransform = rijndael.CreateDecryptor( Key, Vector );
+            string plaintext = null;
+            using( var aesAlg = Aes.Create() )
+            {
+                aesAlg.Key = GetKey();
+                aesAlg.IV = GetIv();
+                aesAlg.Padding = PaddingMode.PKCS7;
 
-            MemoryStream encryptedStream = new MemoryStream();
-            CryptoStream decryptStream = new CryptoStream( encryptedStream, decryptorTransform, CryptoStreamMode.Write );
-            decryptStream.Write( EncryptedValue, 0, EncryptedValue.Length );
-            decryptStream.FlushFinalBlock();
+                var decryptor = aesAlg.CreateDecryptor( aesAlg.Key, aesAlg.IV );
 
-            encryptedStream.Position = 0;
-            Byte[] decryptedBytes = new Byte[encryptedStream.Length];
-            encryptedStream.Read( decryptedBytes, 0, decryptedBytes.Length );
-            encryptedStream.Close();
-            return decryptedBytes;
+                using( var msDecrypt = new MemoryStream( cipherText ) )
+                {
+                    using( var csDecrypt = new CryptoStream( msDecrypt, decryptor, CryptoStreamMode.Read ) )
+                    {
+                        using( var srDecrypt = new StreamReader( csDecrypt ) )
+                        {
+                            plaintext = srDecrypt.ReadToEnd();
+                        }
+                    }
+                }
+            }
+            return plaintext;
         }
 
-        static public byte[] GenerateEncryptionKey()
+        private byte[] GetKey()
         {
-            RijndaelManaged rm = new RijndaelManaged();
-            rm.GenerateKey();
-            return rm.Key;
+            var key = File.ReadAllBytes( keyFile );
+            return key;
         }
 
-        static public byte[] GenerateEncryptionVector()
+        private byte[] GetIv()
         {
-            RijndaelManaged rm = new RijndaelManaged();
-            rm.GenerateIV();
-            return rm.IV;
+            var iv = File.ReadAllBytes( ivFile );
+            return iv;
+        }
+
+        private void GenerateAesKeyIfNoneExists( AesCryptoServiceProvider aesAlg )
+        {
+            if( !Directory.Exists( rootDirectory ) ) Directory.CreateDirectory( rootDirectory );
+            if( File.Exists( keyFile ) ) return;
+            File.WriteAllBytes( ivFile, aesAlg.IV );
+            File.WriteAllBytes( keyFile, aesAlg.Key );
         }
     }
 }
