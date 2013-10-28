@@ -1,7 +1,7 @@
 ﻿@model Web.Models.PageModels.ManageBlogPage
 
 @{ ViewBag.Title = "Manage Blog"; }
-                
+
 <h2>@Model.PageHeader</h2>
 @Html.ActionLink( "New Post", "New", "Blog", new { }, new { @class = "btn bottom-space" } )
 <div class="bottom-space">
@@ -11,21 +11,21 @@
       <span class="post-section">@post.Date.ToString( "MMM dd, yyyy" ) </span>
       <span class="post-section">@post.Author </span>
       <span class="post-section">@post.Title</span>
-    
-      @Html.ActionLink( 
+
+      @Html.ActionLink(
           "Edit",
           "EditPost",
           "Blog",
-          new { @author = @post.Author, @blogTitle = @post.Title },
+          new { @author = @post.Author.Replace( " ", "_" ), @blogTitle = @post.Title.Replace( " ", "_" ) },
           new { @class = "right-bar" }
       )
-      @Html.ActionLink( 
+      @Html.ActionLink(
           "Delete",
           "DeletePost",
           "Blog",
           new { @author = @post.Author, @blogTitle = @post.Title, @date = @post.Date },
-          new {}
+          new { }
       )
     </div>
-}
+  }
 </div>
