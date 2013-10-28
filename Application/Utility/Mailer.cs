@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
@@ -7,11 +8,13 @@ namespace Application
 {
     public class Mailer : IMailer
     {
+        private static readonly string hostName = ConfigurationManager.AppSettings["HostName"];
+
         public bool SendVerificationEmail( string email, Guid verificationToken )
         {
             try
             {
-                var verificationUrl = "localhost:60079/account/activate?token=" + verificationToken;
+                var verificationUrl = hostName + "/account/activate?token=" + verificationToken;
                 var mailMessage = new MailMessage();
                 mailMessage.IsBodyHtml = true;
                 mailMessage.From = new MailAddress( "adamgooch@outlook.com" );
@@ -25,6 +28,7 @@ namespace Application
             }
             catch( Exception e )
             {
+                Elmah.ErrorSignal.FromCurrentContext().Raise( e );
                 return false;
             }
         }
@@ -33,20 +37,21 @@ namespace Application
         {
             try
             {
-                var passwordResetUrl = "localhost:60079/account/ResetPassword?token=" + resetToken;
+                var passwordResetUrl = hostName + "/account/ResetPassword?token=" + resetToken;
                 var mailMessage = new MailMessage();
                 mailMessage.IsBodyHtml = true;
                 mailMessage.From = new MailAddress( "adamgooch@outlook.com" );
                 mailMessage.To.Add( new MailAddress( email ) );
                 mailMessage.Subject = "Password Reset";
                 mailMessage.Body = "To reset your password, please go to the following URL.<br /><br /><a href=\"" +
-                  passwordResetUrl + "\">" + passwordResetUrl + "</a>";
+                    passwordResetUrl + "\">" + passwordResetUrl + "</a>";
                 var smtpClient = new SmtpClient();
                 smtpClient.Send( mailMessage );
                 return true;
             }
             catch( Exception e )
             {
+                Elmah.ErrorSignal.FromCurrentContext().Raise( e );
                 return false;
             }
         }

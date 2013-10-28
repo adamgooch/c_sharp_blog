@@ -56,7 +56,7 @@ namespace Application
             var cookie = new HttpCookie( AuthenticationCookie )
             {
                 Value = Convert.ToBase64String( encryptor.Encrypt( value ) ),
-                Secure = true,
+                //Secure = true,
                 HttpOnly = true
             };
             if( rememberMe ) cookie.Expires = DateTime.Now.AddDays( 7d );

@@ -319,8 +319,9 @@ namespace Data.Repositories
                 }
                 return rowsAffected > 0 ? true : false;
             }
-            catch
+            catch( Exception e )
             {
+                Elmah.ErrorSignal.FromCurrentContext().Raise( e );
                 return false;
             }
         }
