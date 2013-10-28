@@ -146,3 +146,9 @@ td {
 	box-shadow: 1px 1px 3px #000;
 }
 .close:hover { background: #00d9ff; }
+.invalid-field-label {
+  color: #f00;
+}
+input[type="text"].invalid-field {
+  border: 1px solid #f00;
+}

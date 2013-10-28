@@ -12,5 +12,7 @@ namespace Application.Users
         bool RemoveRole( Guid userId, string role );
         IEnumerable<User> GetAllUsers();
         IEnumerable<string> GetAllRoles();
+        User GetUser( string email );
+        bool UsernameExists( string email );
     }
 }

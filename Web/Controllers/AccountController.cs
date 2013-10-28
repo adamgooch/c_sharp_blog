@@ -42,6 +42,12 @@ namespace Web.Controllers
         }
 
         [HttpGet]
+        public bool UsernameExists( string email )
+        {
+            return userInteractor.UsernameExists( email );
+        }
+
+        [HttpGet]
         public ActionResult Activate( Guid token )
         {
             if( authenticator.ActivateUser( token ) )

@@ -213,6 +213,7 @@
     <Compile Include="Models\PageModels\ShowPostPage.cs" />
     <Compile Include="Models\UserListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validations\UniqueEmail.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Images\glyphicons-halflings-white.png" />
@@ -222,6 +223,7 @@
     <Content Include="Assets\Scripts\jquery-1.9.1.min.js" />
     <Content Include="Assets\Scripts\manage-users.js" />
     <Content Include="Assets\Scripts\modernizr.custom.min.js" />
+    <Content Include="Assets\Scripts\register.js" />
     <Content Include="Assets\Scripts\tinymce\license.txt" />
     <Content Include="Assets\Scripts\tinymce\plugins\advlist\plugin.min.js" />
     <Content Include="Assets\Scripts\tinymce\plugins\anchor\plugin.min.js" />

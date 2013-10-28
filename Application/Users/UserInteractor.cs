@@ -39,9 +39,19 @@ namespace Application.Users
             return userRepository.GetAllUsers();
         }
 
+        public User GetUser( string email )
+        {
+            return userRepository.GetUser( email );
+        }
+
         public IEnumerable<string> GetAllRoles()
         {
             return userRepository.GetAllRoles();
+        }
+
+        public bool UsernameExists( string email )
+        {
+            return true;
         }
     }
 }
