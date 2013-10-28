@@ -51,7 +51,8 @@ namespace Application.Users
 
         public bool UsernameExists( string email )
         {
-            return true;
+            var user = userRepository.GetUser( email );
+            return user != null;
         }
     }
 }
