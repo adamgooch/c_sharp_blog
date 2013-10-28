@@ -70,8 +70,25 @@ input {
 }
 #username {
   padding-top: 15px;
-  margin: 0;
+  padding-bottom: 5px;
+  cursor: default;
 }
+#username:hover + #user-menu {
+  display: block;
+}
+#user-menu:hover {
+  display: block;
+}
+#user-menu {
+  display: none;
+  position: absolute;
+  top: 52px;
+  float: right;
+  width: 100px;
+  background: #ddd;
+  padding: 15px;
+}
+
 input[type='checkbox'] {
   margin: 0px 5px;
   top: -3px;

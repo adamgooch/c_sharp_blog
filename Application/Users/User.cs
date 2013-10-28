@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Application.Users
 {
@@ -11,5 +12,15 @@ namespace Application.Users
         public byte[] PasswordDigest { get; set; }
         public bool Active { get; set; }
         public IEnumerable<string> Roles { get; set; }
+
+        public bool IsAuthor()
+        {
+            return Roles.Contains( "Author" );
+        }
+
+        public bool IsAdmin()
+        {
+            return Roles.Contains( "Admin" );
+        }
     }
 }

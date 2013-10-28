@@ -201,16 +201,16 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\PageModels\EditPostPage.cs" />
-    <Compile Include="Models\PageModels\ForgotPasswordPage.cs" />
+    <Compile Include="Models\PageModels\Blog\EditPostPage.cs" />
+    <Compile Include="Models\PageModels\Account\ForgotPasswordPage.cs" />
     <Compile Include="Models\PageModels\HomePage.cs" />
-    <Compile Include="Models\PageModels\LoginPage.cs" />
-    <Compile Include="Models\PageModels\ManageBlogPage.cs" />
-    <Compile Include="Models\PageModels\ManageAccountsPage.cs" />
-    <Compile Include="Models\PageModels\NewPostPage.cs" />
-    <Compile Include="Models\PageModels\RegisterPage.cs" />
-    <Compile Include="Models\PageModels\ResetPasswordPage.cs" />
-    <Compile Include="Models\PageModels\ShowPostPage.cs" />
+    <Compile Include="Models\PageModels\Account\LoginPage.cs" />
+    <Compile Include="Models\PageModels\Blog\ManageBlogPage.cs" />
+    <Compile Include="Models\PageModels\Account\ManageAccountsPage.cs" />
+    <Compile Include="Models\PageModels\Blog\NewPostPage.cs" />
+    <Compile Include="Models\PageModels\Account\RegisterPage.cs" />
+    <Compile Include="Models\PageModels\Account\ResetPasswordPage.cs" />
+    <Compile Include="Models\PageModels\Blog\ShowPostPage.cs" />
     <Compile Include="Models\UserListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validations\UniqueEmail.cs" />
