@@ -14,21 +14,20 @@
         <div>@Html.TextBoxFor( x => x.Post.Tags, new { @Required = true, placeholder = "comma separated list" }  )</div>
         <div>@Html.LabelFor( x => x.Post.Body )</div>
         <div>@Html.TextAreaFor( x => x.Post.Body, new { @Required = true }  )</div>
-        <input type="submit" value="submit" />
     }
 </div>
 
 @section PageLevelJavascript
 {
-    @Scripts.Render("~/assets/scripts/tinymce/tinymce.min.js")
+    <script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: "textarea",
             height: 300,
-            plugins: "save",
+            plugins: ["save"],
             toolbar: "save",
-            save_enablewhendirty: true,
-            save_onsavecallback: function () { console.log("Save"); }
+            style_formats: [{title : 'Code', inline : 'code'}],
+            save_enablewhendirty: true
         });
     </script>
 }

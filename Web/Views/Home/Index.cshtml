@@ -6,7 +6,7 @@
   @if( @Model.LatestPost != null )
   {
     <h1>@Model.LatestPost.Title</h1>
-    <div>@Model.LatestPost.Date.ToString( "MMM dd, yyyy" )</div>
+    <div><p id="blog-date">@Model.LatestPost.Date.ToString( "MMM dd, yyyy" )</p></div>
     @Html.Raw( @Model.LatestPost.Body )
   }
   else

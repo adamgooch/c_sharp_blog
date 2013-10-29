@@ -4,7 +4,7 @@
 
 <div class="main-content span8">
   <h1>@Model.post.Title</h1>
-  <div>@Model.post.Date.ToString( "MMM dd, yyyy" )</div>
+  <div><p id="blog-date">@Model.post.Date.ToString( "MMM dd, yyyy" )</p></div>
   @Html.Raw( @Model.post.Body )
 </div>
 <div class="side-bar span3 offset1">

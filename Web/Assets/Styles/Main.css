@@ -1,4 +1,5 @@
-﻿html, body {
+﻿html { overflow-y: scroll; }
+html, body {
   height: 100%;
 }
 body {
@@ -88,7 +89,10 @@ input {
   background: #ddd;
   padding: 15px;
 }
-
+#blog-date {
+  margin-bottom: 10px;
+  font-style: oblique;
+}
 input[type='checkbox'] {
   margin: 0px 5px;
   top: -3px;
@@ -114,6 +118,11 @@ input.input-validation-error {
 }
 .field-validation-error {
   color: #f00;
+}
+pre {
+  overflow-x: scroll;
+  white-space: pre;
+  word-wrap: normal;
 }
 
 /* Dialog Form */

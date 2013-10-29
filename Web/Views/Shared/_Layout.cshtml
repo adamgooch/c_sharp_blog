@@ -12,7 +12,9 @@
     @Styles.Render("~/assets/styles/bootstrap-responsive.min.css")
     @Styles.Render("~/assets/styles/main.css")
     @Styles.Render("~/assets/styles/toastr.min.css")
+    @Styles.Render("~/assets/styles/prettify.css")
     @Scripts.Render("~/assets/scripts/modernizr.custom.min.js")
+    
   </head>
   <body>
     <div id="wrap">
@@ -29,9 +31,10 @@
     <div id="footer">
       <p class="muted footer">&copy; @DateTime.Now.Year - All Rights Reserved</p>
     </div>
-    
     @Scripts.Render("~/assets/scripts/jquery-1.9.1.min.js")
     @Scripts.Render("~/assets/scripts/bootstrap.min.js")
+    @Scripts.Render("~/assets/scripts/google-code-prettify/prettify.js")
     @RenderSection("PageLevelJavascript", required: false)
+    <script>prettyPrint();</script>
   </body>
 </html>

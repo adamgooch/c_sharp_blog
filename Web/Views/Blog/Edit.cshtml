@@ -14,7 +14,6 @@
         <div>@Html.TextBoxFor( x => x.Post.Tags, new { @Required = true, placeholder = "comma separated list" }  )</div>
         <div>@Html.LabelFor( x => x.Post.Body )</div>
         <div>@Html.TextAreaFor( x => x.Post.Body, new { @Required = true }  )</div>
-        <input type="submit" value="submit" />
     }
 </div>
 
@@ -22,13 +21,13 @@
 {
     @Scripts.Render("~/assets/scripts/tinymce/tinymce.min.js")
     <script type="text/javascript">
-        tinymce.init({
-            selector: "textarea",
-            height: 300,
-            plugins: "save",
-            toolbar: "save",
-            save_enablewhendirty: true,
-            save_onsavecallback: function () { console.log("Save"); }
-        });
+      tinymce.init({
+        selector: "textarea",
+        height: 300,
+        plugins: "save code link image",
+        toolbar: "save code link image",
+        extended_valid_elements: "pre[class]",
+        save_enablewhendirty: true
+      });
     </script>
 }
