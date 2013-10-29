@@ -1,33 +1,33 @@
 ﻿@model Web.Models.PageModels.EditPostPage
 
 @{ ViewBag.Title = "Edit Post"; }
-                
+
 <h1>@Model.PageHeader</h1>
 <div>
-    @using( Html.BeginForm( "Edit", "Blog", FormMethod.Post ) )
-    {
-        @Html.HiddenFor( x => x.Post.Author )
-        @Html.HiddenFor( x => x.Post.Date )
-        <div>@Html.LabelFor( x => x.Post.Title )</div>
-        <div>@Html.TextBoxFor( x => x.Post.Title, new { @Required = true }  )</div>
-        <div>@Html.LabelFor( x => x.Post.Tags )</div>
-        <div>@Html.TextBoxFor( x => x.Post.Tags, new { @Required = true, placeholder = "comma separated list" }  )</div>
-        <div>@Html.LabelFor( x => x.Post.Body )</div>
-        <div>@Html.TextAreaFor( x => x.Post.Body, new { @Required = true }  )</div>
-    }
+  @using( Html.BeginForm( "Edit", "Blog", FormMethod.Post ) )
+  {
+    @Html.HiddenFor( x => x.Post.Author )
+    @Html.HiddenFor( x => x.Post.Date )
+    <div>@Html.LabelFor( x => x.Post.Title )</div>
+    <div>@Html.TextBoxFor( x => x.Post.Title, new { @Required = true } )</div>
+    <div>@Html.LabelFor( x => x.Post.Tags )</div>
+    <div>@Html.TextBoxFor( x => x.Post.Tags, new { @Required = true, placeholder = "comma separated list" } )</div>
+    <div>@Html.LabelFor( x => x.Post.Body )</div>
+    <div>@Html.TextAreaFor( x => x.Post.Body, new { @Required = true } )</div>
+  }
 </div>
 
 @section PageLevelJavascript
 {
-    @Scripts.Render("~/assets/scripts/tinymce/tinymce.min.js")
-    <script type="text/javascript">
-      tinymce.init({
-        selector: "textarea",
-        height: 300,
-        plugins: "save code link image",
-        toolbar: "save code link image",
-        extended_valid_elements: "pre[class]",
-        save_enablewhendirty: true
-      });
-    </script>
+  @Scripts.Render( "~/assets/scripts/tinymce/tinymce.min.js" )
+  <script type="text/javascript">
+    tinymce.init({
+      selector: "textarea",
+      height: 300,
+      plugins: "save code link image",
+      toolbar: "save code link image",
+      extended_valid_elements: "pre[class]",
+      save_enablewhendirty: true
+    });
+  </script>
 }

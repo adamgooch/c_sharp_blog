@@ -120,7 +120,7 @@ input.input-validation-error {
   color: #f00;
 }
 pre {
-  overflow-x: scroll;
+  overflow-x: auto;
   white-space: pre;
   word-wrap: normal;
 }
