@@ -301,7 +301,6 @@
     <Content Include="Assets\Scripts\tinymce\plugins\pagebreak\plugin.min.js" />
     <Content Include="Assets\Scripts\tinymce\plugins\paste\plugin.min.js" />
     <Content Include="Assets\Scripts\tinymce\plugins\preview\plugin.min.js" />
-    <Content Include="Assets\Scripts\tinymce\plugins\pre\plugin.min.js" />
     <Content Include="Assets\Scripts\tinymce\plugins\print\plugin.min.js" />
     <Content Include="Assets\Scripts\tinymce\plugins\save\plugin.min.js" />
     <Content Include="Assets\Scripts\tinymce\plugins\searchreplace\plugin.min.js" />
